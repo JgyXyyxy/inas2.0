@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <th:block th:include="fragments/head1 :: header"></th:block>
+    <h2>Search Result</h2>
+    <div class="row text-center" th:if="${not #lists.isEmpty(entities)}">
+        <table class="table table-striped">
+            <tr th:each="entity : ${entities}">
+                <td th:text="${entity.objectId}">Id</td>
+                <td><a th:href="${ '/search/'+entity.objectId}">Detailed</a></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+</body>
+</html>

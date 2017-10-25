@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>INAS</title>
+    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div class="container">
+    <th:block th:include="fragments/head1 :: header"></th:block>
+
+    <div th:if="${not #lists.isEmpty(timeline)}">
+        <h2 th:text="${objectId}"></h2> <h2>  TimeLine</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Time</th>
+                <th>location</th>
+                <th>Description</th>
+                <th>Result</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="timenode : ${timeline}">
+                <td th:text="${timenode.timePoint}">Id</td>
+                <td th:text="${timenode.info.location}">Location</td>
+                <td th:text="${timenode.info.description}">Descirption</td>
+                <td th:text="${timenode.info.result}">Result</td>
+                <td><a th:href="${'/entity/'+objectId+'plus'+timenode.timePoint}">View</a></td>
+                <td><a th:href="${'/'}">Edit</a></td>
+                <td><a th:href="${'/'}" >Delete</a></td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="container">
+        <a th:href="${'/newtimenode/'+objectId}">Add New Timnode</a>
+    </div>
+
+</div>
+
+</body>
+</html>

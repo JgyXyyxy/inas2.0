@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html" charset="UTF-8"/>
+    <title>INAS</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div class="container">
+    <th:block th:include="fragments/head1 :: header"></th:block>
+</div>
+
+<div class="row text-center">
+    <form class="form-inline" th:action="@{/search}" th:method="post">
+        <div class="form-group">
+            <label for="keyword">Keyword</label>
+            <input name="keyBegin" type="text" class="form-control" id="keyword" placeholder="Michael Jackson"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+</body>
+</html>
