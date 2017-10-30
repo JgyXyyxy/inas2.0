@@ -26,6 +26,16 @@ public class HbaseDao {
     private final String encoding = "utf-8";
 
 
+
+    /**
+     * insert cell according to tableName,rowKey,familyName,qualifer,value
+     * @param tableName 表名
+     * @param rowKey 行键
+     * @param familyName 列蔟
+     * @param qualifier 列名
+     * @param value 列值
+     * @return boolean
+     */
     public Boolean insertData(String tableName, String rowKey, String familyName,String qualifier,String value,TableCallback<Boolean> action) {
         return hbaseTemplate.execute(tableName, table -> {
             boolean flag = false;
@@ -42,7 +52,31 @@ public class HbaseDao {
         });
     }
 
+    /**
+     * get result according to tableName,rowKey
+     * @param tableName 表名
+     * @param rowKey 行键
+     * @return 对应列值的一行数据
+     */
+    public Result getDataFromRowkey(String tableName, String rowKey) {
+        return hbaseTemplate.execute(tableName, new TableCallback<Result>() {
+            @Override
+            public Result doInTable(HTableInterface table) throws Throwable {
+                Get get = new Get(rowKey.getBytes(encoding));
+                return table.get(get);
+            }
 
+        });
+    }
+
+    /**
+     * get value of cell according to tableName,rowKey,familyName,qualifer
+     * @param tableName 表名
+     * @param rowName 行键
+     * @param familyName 列蔟
+     * @param qualifier 列名
+     * @return string 列值
+     */
     public String getDataFromQualifier(String tableName ,String rowName, String familyName, String qualifier) {
         return hbaseTemplate.get(tableName, rowName,familyName,qualifier , (result, rowNum) -> {
             List<Cell> ceList =   result.listCells();
@@ -56,18 +90,14 @@ public class HbaseDao {
         });
     }
 
-    public Result getDataFromRowkey(String tableName, String rowKey) {
-        return hbaseTemplate.execute(tableName, new TableCallback<Result>() {
-            @Override
-            public Result doInTable(HTableInterface table) throws Throwable {
-                Get get = new Get(rowKey.getBytes(encoding));
-                return table.get(get);
-            }
-
-        });
-    }
 
 
+    /**
+     * get results according to tableName,begin part of rowKey,
+     * @param tableName 表名
+     * @param keyBegin 行键的前缀
+     * @return 符合要求的多行结果
+     */
 
     public List<Result> getDataWithSameBegining(String tableName,String keyBegin){
         return hbaseTemplate.execute(tableName, new TableCallback<List<Result>>() {
@@ -86,5 +116,25 @@ public class HbaseDao {
         });
     }
 
+    /**
+     * delete column according to tableName,rowKey,familyName,qualifier,
+     * @param tableName 表名
+     * @param rowKey 行键
+     * @param cf 列蔟
+     * @param qualifier 列名
+     */
+    public void delColumnByQualifier(String tableName,String rowKey,String cf,String qualifier) {
+        hbaseTemplate.execute(tableName, new TableCallback<String>() {
+            @Override
+            public String doInTable(HTableInterface table) throws Throwable {
+                Delete deleteColumn = new Delete(Bytes.toBytes(rowKey));
+                deleteColumn.deleteColumns(Bytes.toBytes(cf),
+                        Bytes.toBytes(qualifier));
+                table.delete(deleteColumn);
+                return "ok";
+            }
+
+        });
+    }
 
 }

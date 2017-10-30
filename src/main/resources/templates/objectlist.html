@@ -13,11 +13,15 @@
         <table class="table table-striped">
             <tr th:each="entity : ${entities}">
                 <td th:text="${entity.objectId}">Id</td>
-                <td><a th:href="${ '/search/'+entity.objectId}">Detailed</a></td>
+                <td><a th:href="${ '/object/'+entity.objectId}">Detailed</a></td>
             </tr>
         </table>
 
     </div>
+
 </div>
+
 </body>
+    <script type="text/javascript" src="/js/objectlist.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
 </html>

@@ -22,6 +22,6 @@ public class IndexController {
 
     @RequestMapping(value = "/search",method = RequestMethod.GET)
     String search(){
-        return "search";
+        return "searchbypre";
     }
 }

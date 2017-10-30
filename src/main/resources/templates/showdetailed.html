@@ -27,9 +27,9 @@
                 <td th:text="${timenode.info.location}">Location</td>
                 <td th:text="${timenode.info.description}">Descirption</td>
                 <td th:text="${timenode.info.result}">Result</td>
-                <td><a th:href="${'/entity/'+objectId+'plus'+timenode.timePoint}">View</a></td>
-                <td><a th:href="${'/'}">Edit</a></td>
-                <td><a th:href="${'/'}" >Delete</a></td>
+                <td><a th:href="${'/timenode/'+objectId+'plus'+timenode.timePoint}">View</a></td>
+                <td><a th:href="${'/edittimenode/'+objectId+'plus'+timenode.timePoint}">Edit</a></td>
+                <td><a th:href="${'/deletenode/'+objectId+'plus'+timenode.timePoint}" >Delete</a></td>
             </tr>
         </table>
 
