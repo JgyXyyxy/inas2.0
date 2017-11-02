@@ -34,6 +34,30 @@
     </div>
 
     <h3>Connection List</h3>
+    <div th:if="${not #lists.isEmpty(connections)}">
+        <table class="table table-striped">
+            <tr>
+                <th>No.</th>
+                <th>ConnectedId</th>
+                <th>TimePoint</th>
+                <th>Influence</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="connection : ${connections}">
+                <td th:text="${connection.connNo}">No</td>
+                <td th:text="${connection.connObjectId}">Id</td>
+                <td th:text="${connection.conntimePoint}">TimePoint</td>
+                <td th:text="${connection.influence}">Influence</td>
+                <td><a th:href="${'/editconnection/'+objectId+'plus'+timePoint+'plus'+connection.connNo}">Edit</a></td>
+                <td><a th:href="${'/deleteconnection/'+objectId+'plus'+timePoint+'plus'+connection.connNo}" >Delete</a></td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="container">
+        <a th:href="${'/newconnection/'+objectId+'plus'+timePoint}">Add New Connection</a>
+    </div>
 </div>
 
 </body>

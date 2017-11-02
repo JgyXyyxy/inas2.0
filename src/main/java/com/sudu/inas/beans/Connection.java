@@ -3,10 +3,17 @@ package com.sudu.inas.beans;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
+
+/**
+ * Created by J on  17-10-30.
+ */
+
 @Data
 @XStreamAlias("connection")
 public class Connection {
 
+    @XStreamAlias("No")
+    private int connNo;
     @XStreamAlias("connId")
     private String connObjectId;
     @XStreamAlias("connTime")

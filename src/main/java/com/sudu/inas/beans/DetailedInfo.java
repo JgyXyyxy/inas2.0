@@ -39,11 +39,5 @@ public class DetailedInfo {
                 .toString();
     }
 
-    public static void main(String[] args) {
-        DetailedInfo detailedInfo = new DetailedInfo("beijing","Olympic","success");
-        String s = XStreamHandle.toXml(detailedInfo);
-        System.out.println(s);
-        DetailedInfo detailedInfo1 = XStreamHandle.toBean(s, DetailedInfo.class);
-        System.out.println(detailedInfo1.toString());
-    }
+
 }

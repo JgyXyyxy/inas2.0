@@ -4,6 +4,10 @@ import com.sudu.inas.beans.HbaseModel;
 import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.util.Bytes;
 
+/**
+ * Created by J on  17-10-27.
+ */
+
 public class HbaseModelUtil {
 
     public static final String BASICTABLE ="Object";

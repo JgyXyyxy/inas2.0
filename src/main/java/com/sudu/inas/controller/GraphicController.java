@@ -37,7 +37,12 @@ public class GraphicController {
     @RequestMapping(value = "/graphic.do",method = RequestMethod.GET)
     public @ResponseBody Map<String,ArrayList> getGraphy(){
         String objectId = "LiBaiFQ82S8BT";
-        Entity entity = objectService.findObjectById(objectId);
+        Entity entity = null;
+        try {
+            entity = objectService.findObjectById(objectId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ArrayList<Timenode> timeLine = entity.getTimeLine();
         ArrayList<Node> nodes = new ArrayList<>();
         ArrayList<Edge> edges = new ArrayList<>();

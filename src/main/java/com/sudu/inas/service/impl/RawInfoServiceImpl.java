@@ -5,6 +5,10 @@ import com.sudu.inas.service.RawinfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Created by J on  17-10-27.
+ */
+
 @Service("RawinfoService")
 public class RawInfoServiceImpl implements RawinfoService{
 

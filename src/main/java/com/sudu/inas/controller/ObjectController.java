@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by J on  17-10-27.
+ */
 @Controller
 public class ObjectController {
 
@@ -23,17 +26,28 @@ public class ObjectController {
 
     @RequestMapping(value = "/objectlist",method = RequestMethod.POST)
     public String getSimilarKey(String prefix, Model model){
-        List<Entity> entityList = objectService.findObjectsByPrefix(prefix);
+        List<Entity> entityList = null;
+        try {
+            entityList = objectService.findObjectsByPrefix(prefix);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         model.addAttribute("entities",entityList);
         return "objectlist";
     }
 
     @RequestMapping("/object/{objectId}")
     public String getDetailedInfo(@PathVariable String objectId, Model model){
-        Entity objectById = objectService.findObjectById(objectId);
-        model.addAttribute("objectId",objectId);
-        ArrayList<Timenode> timeLine = objectById.getTimeLine();
-        model.addAttribute("timeline",timeLine);
+        Entity objectById = null;
+        try {
+            objectById = objectService.findObjectById(objectId);
+            model.addAttribute("objectId",objectId);
+            ArrayList<Timenode> timeLine = objectById.getTimeLine();
+            model.addAttribute("timeline",timeLine);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return "showdetailed";
 
     }

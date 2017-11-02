@@ -4,9 +4,13 @@ import com.sudu.inas.beans.Entity;
 
 import java.util.List;
 
+/**
+ * Created by J on  17-10-27.
+ */
+
 public interface ObjectService {
 
-    Entity findObjectById(String objectId);
+    Entity findObjectById(String objectId) throws Exception;
 
-    List<Entity> findObjectsByPrefix(String prefix);
+    List<Entity> findObjectsByPrefix(String prefix) throws Exception;
 }
