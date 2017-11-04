@@ -32,11 +32,13 @@ public class DetailedInfo {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("location", location)
-                .add("description", description)
-                .add("result", result)
-                .toString();
+        String stringBuilder = location +
+                " " +
+                description +
+                " " +
+                result +
+                " ";
+        return stringBuilder;
     }
 
 

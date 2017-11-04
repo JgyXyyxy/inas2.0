@@ -98,12 +98,8 @@ public class ConnectionServiceImpl implements ConnectionService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Iterator<Connection> iterator = connections.iterator();
-        while (iterator.hasNext()){
-            Connection conn = iterator.next();
-            if (connNo == conn.getConnNo()){
-                connections.remove(conn);
-            }
+        if (connections != null) {
+            connections.removeIf(conn -> connNo == conn.getConnNo());
         }
         delConnectionListByTimePoint(objectId,timePoint);
         addConnectionListByTimePoint(connections,objectId,timePoint);

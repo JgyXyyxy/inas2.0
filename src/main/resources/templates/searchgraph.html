@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html" charset="UTF-8"/>
+    <title>INAS</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div class="container">
+    <th:block th:include="fragments/head1 :: header"></th:block>
+</div>
+
+<div class="row text-center">
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="objectId">ObjectID</label>
+            <input name="objectId" type="text" class="form-control" id="objectId" placeholder="Michael Jackson"/>
+        </div>
+    </form>
+    <p></p>
+    <button id="search" type="" class="btn btn-primary">Search Graph</button>
+</div>
+
+<div id="select_area" style="width: 1500px;height: 800px"></div>
+
+</body>
+    <script type="text/javascript" src="/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/graphic.js"></script>
+</html>

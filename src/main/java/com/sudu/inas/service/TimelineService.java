@@ -18,4 +18,5 @@ public interface TimelineService {
     void insetTimenode(String objectId,Timenode timenode);
 
     void delTimenodeByTimepoint(String objectId,String timePoint);
+
 }

@@ -18,4 +18,9 @@ public class SearchController {
 
     }
 
+    @RequestMapping(value = "/searchgraph",method = RequestMethod.GET)
+    public String searchGraph(){
+        return "searchgraph";
+
+    }
 }

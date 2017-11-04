@@ -2,7 +2,10 @@ package com.sudu.inas.controller;
 
 
 import com.sudu.inas.beans.Connection;
+import com.sudu.inas.beans.DetailedInfo;
+import com.sudu.inas.beans.Timenode;
 import com.sudu.inas.service.ConnectionService;
+import com.sudu.inas.service.TimelineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,9 @@ public class ConnectionController {
 
     @Autowired
     ConnectionService connectionService;
+
+    @Autowired
+    TimelineService timelineService;
 
     @RequestMapping(value = "/editconnection/{idPlusQua}",method = RequestMethod.GET)
     public String editConnection(@PathVariable String idPlusQua, Model model){
@@ -79,6 +85,22 @@ public class ConnectionController {
             connections.add(connection);
             connectionService.delConnectionListByTimePoint(objectId,timePoint);
             connectionService.addConnectionListByTimePoint(connections,objectId,timePoint);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            DetailedInfo detailinfoByTimepoint = timelineService.findDetailinfoByTimepoint(connId, connTime);
+            if (null == detailinfoByTimepoint){
+                DetailedInfo info = new DetailedInfo();
+                info.setLocation("default");
+                info.setDescription("default");
+                info.setResult("default");
+                Timenode timenode = new Timenode();
+                timenode.setTimePoint(connTime);
+                timenode.setInfo(info);
+                timelineService.insetTimenode(connId,timenode);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

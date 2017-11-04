@@ -30,6 +30,9 @@ public class TimelineServiceImpl implements TimelineService {
     @Override
     public DetailedInfo findDetailinfoByTimepoint(String objectId, String timePoint) {
         String info = hbaseDao.getDataFromQualifier(HbaseModelUtil.BASICTABLE, objectId, HbaseModelUtil.CF2, timePoint);
+        if ("".equals(info)){
+            return null;
+        }
         DetailedInfo detailedInfo = XStreamHandle.toBean(info, DetailedInfo.class);
         return detailedInfo;
     }
