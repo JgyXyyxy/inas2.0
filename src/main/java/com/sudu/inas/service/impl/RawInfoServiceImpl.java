@@ -1,7 +1,9 @@
 package com.sudu.inas.service.impl;
 
+import com.sudu.inas.beans.HbaseModel;
 import com.sudu.inas.repository.HbaseDao;
 import com.sudu.inas.service.RawinfoService;
+import com.sudu.inas.util.HbaseModelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,7 @@ public class RawInfoServiceImpl implements RawinfoService{
 
     @Override
     public void addRawText(String rawText, String objectId) {
+        hbaseDao.insertData(HbaseModelUtil.BASICTABLE,objectId, HbaseModelUtil.CF1,HbaseModelUtil.COLUMN2,rawText,null);
 
     }
 }

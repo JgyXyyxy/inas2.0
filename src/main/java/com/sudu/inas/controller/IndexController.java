@@ -15,9 +15,9 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping(value = "/recons",method = RequestMethod.GET)
+    @RequestMapping(value = "/rawinfo",method = RequestMethod.GET)
     String recons(){
-        return "recons";
+        return "searchrawinfo";
     }
 
     @RequestMapping(value = "/search",method = RequestMethod.GET)
