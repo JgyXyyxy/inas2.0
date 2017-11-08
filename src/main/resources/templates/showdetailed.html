@@ -9,9 +9,19 @@
 
 <div class="container">
     <th:block th:include="fragments/head1 :: header"></th:block>
-
+    <h2 th:text="${objectId}"></h2>
+    <input id="objectId" th:value="${objectId}" type="hidden"/>
+    <h2>  RawInfo </h2>
+    <div class="container">
+        <a id="show"> show</a>
+    </div>
+    <div class="row text-center"  id="rawtext" style="display: none">
+        <textarea id="textarea1" name = "news_content" rows = "20" cols = "160">... </textarea>
+        <p></p>
+    </div>
+    <h2>  TimeLine</h2>
     <div th:if="${not #lists.isEmpty(timeline)}">
-        <h2 th:text="${objectId}"></h2> <h2>  TimeLine</h2>
+
         <table class="table table-striped">
             <tr>
                 <th>Time</th>
@@ -37,8 +47,8 @@
     <div class="container">
         <a th:href="${'/newtimenode/'+objectId}">Add New Timnode</a>
     </div>
-
 </div>
-
 </body>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/showdetailed.js"></script>
 </html>

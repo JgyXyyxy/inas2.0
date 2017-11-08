@@ -4,6 +4,7 @@ package com.sudu.inas.controller;
 import com.sudu.inas.beans.Entity;
 import com.sudu.inas.beans.Timenode;
 import com.sudu.inas.service.ObjectService;
+import com.sudu.inas.service.RawinfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,9 @@ public class ObjectController {
 
     @Autowired
     ObjectService objectService;
+
+    @Autowired
+    RawinfoService rawinfoService;
 
 
     @RequestMapping(value = "/objectlist",method = RequestMethod.POST)
@@ -47,7 +51,8 @@ public class ObjectController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        String rawText = rawinfoService.findRawText(objectId);
+        model.addAttribute("rawtext",rawText);
         return "showdetailed";
 
     }

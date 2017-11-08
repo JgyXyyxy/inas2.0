@@ -20,16 +20,18 @@ public class RawInfoServiceImpl implements RawinfoService{
 
     @Override
     public String findRealName(String objectId) {
-        return null;
+        return hbaseDao.getDataFromQualifier(HbaseModelUtil.BASICTABLE,objectId,HbaseModelUtil.CF1,HbaseModelUtil.COLUMN1);
     }
 
     @Override
     public String findRawText(String objectId) {
-        return null;
+
+        return hbaseDao.getDataFromQualifier(HbaseModelUtil.BASICTABLE,objectId,HbaseModelUtil.CF1,HbaseModelUtil.COLUMN2);
     }
 
     @Override
     public void addRealName(String realName, String objectId) {
+        hbaseDao.insertData(HbaseModelUtil.BASICTABLE,objectId, HbaseModelUtil.CF1,HbaseModelUtil.COLUMN1,realName,null);
 
     }
 
