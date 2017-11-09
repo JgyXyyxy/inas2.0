@@ -16,7 +16,7 @@
         <a id="show"> show</a>
     </div>
     <div class="row text-center"  id="rawtext" style="display: none">
-        <textarea id="textarea1" name = "news_content" rows = "20" cols = "160">... </textarea>
+        <textarea  id="textarea1" name = "news_content" rows = "20" cols = "160">... </textarea>
         <p></p>
     </div>
     <h2>  TimeLine</h2>
@@ -45,7 +45,39 @@
 
     </div>
     <div class="container">
-        <a th:href="${'/newtimenode/'+objectId}">Add New Timnode</a>
+        <a id="add">Add New Timnode</a>
+    </div>
+    <div id="newtimenode" style="display: none">
+        <form class="form-horizontal" th:action="@{/recons}" method="post">
+            <input name="objectId" type="hidden" th:value="${objectId}"/>
+            <div class="form-group">
+                <label for="inputTime" class="col-sm-2 control-label">Time</label>
+                <div class="col-sm-2">
+                    <input name="time" type="text" class="form-control" id="inputTime" placeholder="Mc"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputLocation" class="col-sm-2 control-label">Location</label>
+                <div class="col-sm-2">
+                    <input name="location" type="text" class="form-control" id="inputLocation" placeholder="Beijing"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                    <input name="description" type="text" class="form-control" id="inputDescription" placeholder="description"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputResult" class="col-sm-2 control-label">Result</label>
+                <div class="col-sm-10">
+                    <input name="result" type="text" class="form-control" id="inputResult" placeholder="result"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
     </div>
 </div>
 </body>

@@ -68,7 +68,7 @@ public class ConnectionController {
         return "newconnection";
     }
 
-    @RequestMapping(value = "/newconnection/{idPlusQua}",method = RequestMethod.POST)
+    @RequestMapping(value = "/timenode/{idPlusQua}",method = RequestMethod.POST)
     public String addNewConnection(@PathVariable String idPlusQua,String connId,String connTime,String influence){
         String[] strings = idPlusQua.split("plus");
         String objectId = strings[0];

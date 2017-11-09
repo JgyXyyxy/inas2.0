@@ -27,7 +27,6 @@ public class GraphicController {
     public static int interval = 40;
 
 
-
     @RequestMapping(value = "/graph.do", method = RequestMethod.POST)
     public @ResponseBody
     Map<String, ArrayList> getGraphy(String objectId) throws Exception {
@@ -37,69 +36,67 @@ public class GraphicController {
         int tag = 0;
         int xBegin = 20;
         int yBegin = 20;
-        try {
-            entity = objectService.findObjectById(objectId);
-            ArrayList<Timenode> timeLine = entity.getTimeLine();
-            ArrayList<Node> nodes = new ArrayList<>();
-            ArrayList<Edge> edges = new ArrayList<>();
-            ArrayList<String> connectedIds = new ArrayList<>();
-
-            for (Timenode timenode : timeLine) {
-                Node node = transTimenodeToNode(objectId, timenode);
-                node.setColor("red");
-                node.setX(xBegin+tag*interval);
-                node.setY(yBegin);
-                tag++;
-                nodes.add(node);
-                List<Connection> conncetionListByTimePoint = connectionService.findConncetionListByTimePoint(objectId, timenode.getTimePoint());
-                if (conncetionListByTimePoint != null) {
-                    for (Connection connection : conncetionListByTimePoint) {
-                        Edge edge = transNodesToEdge(objectId, timenode.getTimePoint(), connection.getConnObjectId(), connection.getConntimePoint());
-                        edges.add(edge);
-                        if (!connectedIds.contains(connection.getConnObjectId())){
-                            Entity objectById = objectService.findObjectById(connection.getConnObjectId());
-                            ArrayList<Timenode> timeLine1 = objectById.getTimeLine();
-                            int num = 0;
-                            for (Timenode timenode1 : timeLine1) {
-                                Node node1 = transTimenodeToNode(connection.getConnObjectId(), timenode1);
-                                node1.setColor("blue");
-                                node1.setX(xBegin+num*interval/2);
-                                int objectNum = connectedIds.size()+1;
-                                node1.setY(yBegin+interval*objectNum/2);
-                                nodes.add(node1);
-                                num++;
-                            }
-                            connectedIds.add(connection.getConnObjectId());
-                        }
-
-                    }
-                }
-
-            }
-            connectedIds.add(objectId);
-            for (String id:connectedIds) {
-                Entity objectById = objectService.findObjectById(id);
-                ArrayList<Timenode> line = objectById.getTimeLine();
-                Iterator<Timenode> iterator = line.iterator();
-                Timenode next = iterator.next();
-                String tmp = next.getTimePoint();
-                while (iterator.hasNext()){
-                    Timenode nextNode = iterator.next();
-                    Edge edge = transNodesToEdge(id, tmp, id, nextNode.getTimePoint());
-                    edges.add(edge);
-                    tmp = nextNode.getTimePoint();
-                }
-
-            }
-            HashMap<String, ArrayList> map = new HashMap<>();
-            map.put("nodes", nodes);
-            map.put("edges", edges);
-            return map;
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        entity = objectService.findObjectById(objectId);
+        if (null == entity){
+            return null;
         }
-        return null;
+        ArrayList<Timenode> timeLine = entity.getTimeLine();
+        ArrayList<Node> nodes = new ArrayList<>();
+        ArrayList<Edge> edges = new ArrayList<>();
+        ArrayList<String> connectedIds = new ArrayList<>();
+
+        for (Timenode timenode : timeLine) {
+            Node node = transTimenodeToNode(objectId, timenode);
+            node.setColor("red");
+            node.setX(xBegin + tag * interval);
+            node.setY(yBegin);
+            tag++;
+            nodes.add(node);
+            List<Connection> conncetionListByTimePoint = connectionService.findConncetionListByTimePoint(objectId, timenode.getTimePoint());
+            if (conncetionListByTimePoint != null) {
+                for (Connection connection : conncetionListByTimePoint) {
+                    Edge edge = transNodesToEdge(objectId, timenode.getTimePoint(), connection.getConnObjectId(), connection.getConntimePoint());
+                    edges.add(edge);
+                    if (!connectedIds.contains(connection.getConnObjectId())) {
+                        Entity objectById = objectService.findObjectById(connection.getConnObjectId());
+                        ArrayList<Timenode> timeLine1 = objectById.getTimeLine();
+                        int num = 0;
+                        for (Timenode timenode1 : timeLine1) {
+                            Node node1 = transTimenodeToNode(connection.getConnObjectId(), timenode1);
+                            node1.setColor("blue");
+                            node1.setX(xBegin + num * interval / 2);
+                            int objectNum = connectedIds.size() + 1;
+                            node1.setY(yBegin + interval * objectNum / 2);
+                            nodes.add(node1);
+                            num++;
+                        }
+                        connectedIds.add(connection.getConnObjectId());
+                    }
+
+                }
+            }
+
+        }
+        connectedIds.add(objectId);
+        for (String id : connectedIds) {
+            Entity objectById = objectService.findObjectById(id);
+            ArrayList<Timenode> line = objectById.getTimeLine();
+            Iterator<Timenode> iterator = line.iterator();
+            Timenode next = iterator.next();
+            String tmp = next.getTimePoint();
+            while (iterator.hasNext()) {
+                Timenode nextNode = iterator.next();
+                Edge edge = transNodesToEdge(id, tmp, id, nextNode.getTimePoint());
+                edges.add(edge);
+                tmp = nextNode.getTimePoint();
+            }
+
+        }
+        HashMap<String, ArrayList> map = new HashMap<>();
+        map.put("nodes", nodes);
+        map.put("edges", edges);
+        return map;
+
     }
 
     public Node transTimenodeToNode(String objectId, Timenode timenode) {
@@ -110,10 +107,10 @@ public class GraphicController {
         return node;
     }
 
-    public Edge transNodesToEdge(String sourceId,String sourceTimepoint,String targetId,String targetTimepoint){
+    public Edge transNodesToEdge(String sourceId, String sourceTimepoint, String targetId, String targetTimepoint) {
         Edge edge = new Edge();
-        edge.setSourceID(sourceId+sourceTimepoint);
-        edge.setTargetID(targetId+targetTimepoint);
+        edge.setSourceID(sourceId + sourceTimepoint);
+        edge.setTargetID(targetId + targetTimepoint);
         return edge;
     }
 }

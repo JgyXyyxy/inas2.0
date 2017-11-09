@@ -10,8 +10,6 @@ $(function () {
             data: {objectId: $('#objectId').val()},
             dataType: "json",
             success: function (result) {
-                console.log('dsa');
-                console.log(result);
                 myChart.setOption({
                     title: {
                         text: '                                      Object Dependencies'

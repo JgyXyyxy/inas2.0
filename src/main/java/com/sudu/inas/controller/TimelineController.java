@@ -28,7 +28,7 @@ public class TimelineController {
     @Autowired
     ConnectionService connectionService;
 
-    @RequestMapping("/timenode/{idPlusQua}")
+    @RequestMapping(value = "/timenode/{idPlusQua}",method = RequestMethod.GET)
     public String getTimeNode(@PathVariable String idPlusQua, Model model)throws Exception{
         String[] strings = idPlusQua.split("plus");
         String objectId = strings[0];

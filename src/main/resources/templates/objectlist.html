@@ -16,12 +16,27 @@
                 <td><a th:href="${ '/object/'+entity.objectId}">Detailed</a></td>
             </tr>
         </table>
-
     </div>
-
+    <div class="container">
+        <a id="add">Add New Entity</a>
+    </div>
+    <div class="row text-center" id="newentity" style="display:none">
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" id="name" placeholder="Jane Doe"/>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input class="form-control" id="description" placeholder="clown"/>
+            </div>
+            <button id="savenew" type="submit" class="btn btn-primary">Save to New Entity</button>
+        </div>
+        <p></p><p></p><p></p>
+    </div>
 </div>
 
 </body>
-    <script type="text/javascript" src="/js/objectlist.js"></script>
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/objectlist.js"></script>
 </html>

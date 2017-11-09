@@ -75,7 +75,10 @@ public class RawinfoController {
 
 
     @RequestMapping(value = "/saverawinfo.do",method = RequestMethod.POST)
-    public @ResponseBody String saveRawinfo(String textarea1,String select){
+    public @ResponseBody String saveRawinfo(String textarea1,String select) {
+        if ("".equals(select)){
+            return "Please add new entity";
+        }
         String[] strings = select.split(":");
         String objectId = strings[0];
         String descrip = strings[1];
@@ -84,9 +87,17 @@ public class RawinfoController {
     }
 
     @RequestMapping(value = "/savenew.do",method = RequestMethod.POST)
-    public @ResponseBody String saveNew(String textarea1,String name,String description){
+    public @ResponseBody String saveNewWithRaw(String textarea1,String name,String description){
         String objectId = name + CommonUtil.genRandomNum();
         rawinfoService.addRawText(textarea1,objectId);
+        String realName = name+" "+description;
+        rawinfoService.addRealName(realName,objectId);
+        return "OK";
+    }
+
+    @RequestMapping(value = "/newentity.do",method = RequestMethod.POST)
+    public @ResponseBody String saveNewWithReal(String name,String description){
+        String objectId = name + CommonUtil.genRandomNum();
         String realName = name+" "+description;
         rawinfoService.addRealName(realName,objectId);
         return "OK";
