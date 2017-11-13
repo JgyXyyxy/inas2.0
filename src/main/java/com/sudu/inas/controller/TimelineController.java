@@ -74,7 +74,22 @@ public class TimelineController {
         String[] strings = idPlusQua.split("plus");
         String objectId = strings[0];
         String timePoint = strings[1];
+        try {
+            List<Connection> connectionList = connectionService.findConncetionListByTimePoint(objectId, timePoint);
+            if (null != connectionList){
+                for (Connection c:connectionList) {
+                    String connObjectId = c.getConnObjectId();
+                    String conntimePoint = c.getConntimePoint();
+                    Connection attached = connectionService.findConnectionByIdAndTime(connObjectId, conntimePoint, objectId, timePoint);
+                    connectionService.delConnectionByConnNo(connObjectId,conntimePoint,attached.getConnNo());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         timelineService.delTimenodeByTimepoint(objectId,timePoint);
+        connectionService.delConnectionListByTimePoint(objectId,timePoint);
         return "redirect:/object/"+objectId;
     }
 

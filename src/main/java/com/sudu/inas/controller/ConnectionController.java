@@ -73,47 +73,31 @@ public class ConnectionController {
         String[] strings = idPlusQua.split("plus");
         String objectId = strings[0];
         String timePoint = strings[1];
-        Connection connection = new Connection();
-        connection.setInfluence(influence);
-        connection.setConntimePoint(connTime);
-        connection.setConnObjectId(connId);
+        connectionService.addConnection(objectId,timePoint,new Connection(connId,connTime,influence));
         try {
-            List<Connection> connections = connectionService.findConncetionListByTimePoint(objectId, timePoint);
-            if (null == connections){
-                connections = new ArrayList();
+            DetailedInfo detailinfoByTimepoint = timelineService.findDetailinfoByTimepoint(connId, connTime);
+            if (null == detailinfoByTimepoint){
+                timelineService.insetTimenode(connId,new Timenode(connTime,new DetailedInfo("default","default","default")));
             }
-            connections.add(connection);
-            connectionService.delConnectionListByTimePoint(objectId,timePoint);
-            connectionService.addConnectionListByTimePoint(connections,objectId,timePoint);
+            connectionService.addConnection(connId,connTime,new Connection(objectId,timePoint,influence));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        try {
-            DetailedInfo detailinfoByTimepoint = timelineService.findDetailinfoByTimepoint(connId, connTime);
-            if (null == detailinfoByTimepoint){
-                DetailedInfo info = new DetailedInfo();
-                info.setLocation("default");
-                info.setDescription("default");
-                info.setResult("default");
-                Timenode timenode = new Timenode();
-                timenode.setTimePoint(connTime);
-                timenode.setInfo(info);
-                timelineService.insetTimenode(connId,timenode);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
         return "redirect:/timenode/"+objectId+"plus"+timePoint;
     }
 
     @RequestMapping("/deleteconnection/{idPlusQua}")
-    public String deleteConnection(@PathVariable String idPlusQua){
+    public String deleteConnection(@PathVariable String idPlusQua) throws Exception {
         String[] strings = idPlusQua.split("plus");
         String objectId = strings[0];
         String timePoint = strings[1];
         String connNo = strings[2];
+        Connection conncetion = connectionService.findConncetionByConnNo(objectId, timePoint, Integer.parseInt(connNo));
+        Connection attached = connectionService.findConnectionByIdAndTime(conncetion.getConnObjectId(), conncetion.getConntimePoint(), objectId, timePoint);
+        connectionService.delConnectionByConnNo(conncetion.getConnObjectId(),conncetion.getConntimePoint(),attached.getConnNo());
         connectionService.delConnectionByConnNo(objectId,timePoint,Integer.parseInt(connNo));
         return "redirect:/timenode/"+objectId+"plus"+timePoint;
     }

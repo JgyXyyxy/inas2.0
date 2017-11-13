@@ -15,9 +15,13 @@ public interface ConnectionService {
 
     Connection findConncetionByConnNo(String objectId, String timePoint,int connNo) throws Exception;
 
+    Connection findConnectionByIdAndTime(String objectId,String timePoint,String targetId,String targetTime) throws Exception;
+
     void editConnectionByConnNo(Connection connection,String objectId, String timePoint,int connNo);
 
     void addConnectionListByTimePoint(List<Connection> connections,String objectId, String timePoint);
+
+    void addConnection(String objectId,String timePoint,Connection connection);
 
     void delConnectionListByTimePoint(String objectId,String timePoint);
 

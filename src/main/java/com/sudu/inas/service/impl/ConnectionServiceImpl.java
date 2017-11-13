@@ -23,7 +23,9 @@ public class ConnectionServiceImpl implements ConnectionService {
     @Autowired
     HbaseDao hbaseDao;
 
-
+    /**
+     * ok
+     */
     @Override
     public ArrayList<Connection> findConncetionListByTimePoint(String objectId, String timePoint) throws Exception{
 
@@ -45,6 +47,20 @@ public class ConnectionServiceImpl implements ConnectionService {
         while (iterator.hasNext()){
             Connection connection = iterator.next();
             if (connNo == connection.getConnNo()){
+                return connection;
+            }
+
+        }
+        return null;
+    }
+
+    @Override
+    public Connection findConnectionByIdAndTime(String objectId, String timePoint, String targetId, String targetTime) throws Exception {
+        ArrayList<Connection> connections = findConncetionListByTimePoint(objectId, timePoint);
+        Iterator<Connection> iterator = connections.iterator();
+        while (iterator.hasNext()){
+            Connection connection = iterator.next();
+            if ((targetId.equals(connection.getConnObjectId())&&(targetTime.equals(connection.getConntimePoint())))){
                 return connection;
             }
 
@@ -82,6 +98,23 @@ public class ConnectionServiceImpl implements ConnectionService {
         connectionList.setConnections(sortConnections);
         hbaseDao.insertData(HbaseModelUtil.CONNTABLE,objectId,HbaseModelUtil.DEFAULT,timePoint,XStreamHandle.toXml(connectionList),null);
     }
+
+    @Override
+    public void addConnection(String objectId, String timePoint, Connection connection) {
+        try {
+            List<Connection> connections = findConncetionListByTimePoint(objectId, timePoint);
+            if (null == connections){
+                connections = new ArrayList();
+            }
+            connections.add(connection);
+            delConnectionListByTimePoint(objectId,timePoint);
+            addConnectionListByTimePoint(connections,objectId,timePoint);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Override
     public void delConnectionListByTimePoint(String objectId, String timePoint) {
