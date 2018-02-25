@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <th:block th:include="fragments/head1 :: header"></th:block>
+    <h2>Search Result</h2>
+    <!--<div class="row text-center" th:if="${not #lists.isEmpty(entities)}">-->
+        <!--<table class="table table-striped">-->
+            <!--<tr th:each="entity : ${entities}">-->
+                <!--<td th:text="${entity.realName}">Id</td>-->
+                <!--<td><a th:href="${ '/object/'+entity.objectId}">Detailed</a></td>-->
+            <!--</tr>-->
+        <!--</table>-->
+    <!--</div>-->
+
+    <div class="row text-center" th:if="${not #lists.isEmpty(entities)}">
+    <table class="table table-striped">
+        <tr th:each="entity : ${entities}">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <!--<p th:text="${entity.realName}" class="text-left"></p>-->
+                    <a th:href="${ '/object/'+entity.objectId}">
+                        <p th:text="${entity.realName}" class="text-left"></p>
+                    </a>
+                </div>
+                <form th:action="@{/analysis}">
+                    <div class="panel-body">
+                        <textarea id="rawinfo" name="rawinfo" th:text="${entity.rawInfo}" class="form-control" rows="5" readonly="readonly"></textarea>
+                        <div class="text-right">
+                            <a th:href="@{'/rawinfo/'+${entity.objectId}}">Edit</a>
+                            <a th:href="@{'/extract/'+${entity.objectId}}">Analysis</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </tr>
+    </table>
+    </div>
+    <div class="container">
+        <a id="add">Add New Entity</a>
+    </div>
+    <div class="row text-center" id="newentity" style="display:none">
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" id="name" placeholder="Jane Doe"/>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input class="form-control" id="description" placeholder="clown"/>
+            </div>
+            <button id="savenew" type="submit" class="btn btn-primary">Save to New Entity</button>
+        </div>
+        <p></p><p></p><p></p>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/js/objectlist.js"></script>
+</html>

@@ -20,8 +20,4 @@ public class IndexController {
         return "searchrawinfo";
     }
 
-    @RequestMapping(value = "/search",method = RequestMethod.GET)
-    String search(){
-        return "searchbypre";
-    }
 }

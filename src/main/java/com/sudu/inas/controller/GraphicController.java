@@ -113,4 +113,20 @@ public class GraphicController {
         edge.setTargetID(targetId + targetTimepoint);
         return edge;
     }
+
+    @RequestMapping(value = "/graphtest.do",method = RequestMethod.POST)
+    public @ResponseBody  Map<String, ArrayList> getGraph(String objectId){
+        Node node1 = new Node(10,10,"1","aaa",50,"red");
+        Node node2 = new Node(10,20,"2","aaa",50,"red");
+        Edge edge = new Edge("1","2");
+        ArrayList<Node> nodes = new ArrayList<>();
+        nodes.add(node1);
+        nodes.add(node2);
+        ArrayList<Edge> edges = new ArrayList<>();
+        edges.add(edge);
+        HashMap<String, ArrayList> map = new HashMap<>();
+        map.put("nodes", nodes);
+        map.put("edges", edges);
+        return map;
+    }
 }

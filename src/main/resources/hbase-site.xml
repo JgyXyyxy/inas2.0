@@ -2,11 +2,11 @@
 <configuration>
     <property>
         <name>hbase.rootdir</name>
-        <value>hdfs://192.168.9.199:9000/hbase</value>
+        <value>hdfs://192.168.11.206:9000/hbase</value>
     </property>
     <property>
         <name>hbase.zookeeper.property.dataDir</name>
-        <value>/usr/hbase/data/zookeeper</value>
+        <value>/usr/local/hbase/tmp/zookeeper</value>
     </property>
     <property>
         <name>hbase.cluster.distributed</name>
@@ -14,10 +14,10 @@
     </property>
     <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>192.168.9.199</value>
+        <value>192.168.11.206</value>
     </property>
     <property>
         <name>hbase.master.info.port</name>
-        <value>60010</value>
+        <value>16010</value>
     </property>
 </configuration>

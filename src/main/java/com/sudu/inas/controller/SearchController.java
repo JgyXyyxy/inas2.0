@@ -23,4 +23,11 @@ public class SearchController {
         return "searchgraph";
 
     }
+
+
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    public String search(){
+        return "search";
+
+    }
 }

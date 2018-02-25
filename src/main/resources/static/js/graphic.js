@@ -1,7 +1,4 @@
 var myChart = echarts.init(document.getElementById('select_area'));
-
-
-
 $(function () {
     $("#search").click(function () {
         $.ajax({

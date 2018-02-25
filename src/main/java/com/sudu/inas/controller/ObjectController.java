@@ -57,5 +57,19 @@ public class ObjectController {
 
     }
 
+    @RequestMapping(value = "/objects",method = RequestMethod.POST)
+    public String getObjectDes(String prefix, Model model){
+        List<Entity> entityList = null;
+        try {
+            entityList = objectService.findObjectsByPrefix(prefix);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("entities",entityList);
+        return "objectdeslist";
+    }
+
+
+
 
 }

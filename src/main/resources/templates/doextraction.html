@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>Extraction</title>
+    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}"/>
 </head>
 <body>
-
 <div class="container">
     <div th:fragment="header">
         <nav class="navbar navbar-default">
@@ -17,24 +17,28 @@
                         <li><a href="#" th:href="@{/searchbyprefix}">Reconsitution and Eidtor</a></li>
                         <li><a href="#" th:href="@{/searchgraph}">Graphic</a></li>
                         <li><a href="#" th:href="@{/extract}">Extraction</a></li>
-                        <li><a href="#" th:href="@{/search}">TTTTTTTTTT</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <div class="jumbotron" id="photo" style="display: block">
-            <div class="row text-center">
-                <div class="">
-                    <h2>Hbase information reconstruction</h2>
-                </div>
-            </div>
-            <div class="row text-center">
-                <img src="../../static/images/title.png" width="1000"
-                     th:src="@{/images/title.png}"/>
+    </div>
+
+    <div class="jumbotron" id="photo" style="display: block">
+        <div class="row text-center">
+            <div class="">
+                <h2>Hbase information reconstruction</h2>
             </div>
         </div>
+        <div class="row text-center">
+            <img src="../../static/images/title.png" width="1000"
+                 th:src="@{/images/title.png}"/>
+        </div>
+    </div>
 
+    <div class="panel panel-primary">
+        <div class="panel-heading">Raw Information Here</div>
     </div>
 </div>
 </body>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
 </html>

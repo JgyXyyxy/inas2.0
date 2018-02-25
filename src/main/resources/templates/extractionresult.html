@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Extraction</title>
+    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{../css/extract.css}"/>
+</head>
+<body>
+<div class="container">
+    <div th:fragment="header">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
+                    <ul class="nav navbar-nav">
+                        <li><a href="#" th:href="@{/rawinfo}">Search raw info</a></li>
+                        <li><a href="#" th:href="@{/searchbyprefix}">Reconsitution and Eidtor</a></li>
+                        <li><a href="#" th:href="@{/searchgraph}">Graphic</a></li>
+                        <li><a href="#" th:href="@{/extract}">Extraction</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <h2 th:text="${realName}" ></h2>
+    <input id="objectId" th:value="${objectId}" type="hidden"/>
+    <button type="button" class="btn btn-primary" id="showGraph" th:align="right">Graph</button>
+    <p></p>
+
+    <div class="panel panel-info">
+        <div class="panel-heading">Raw Information Here</div>
+        <div class="panel-body">
+            <textarea id="rawinfo" name="rawinfo" class="form-control" rows="5"></textarea>
+            <p>        </p>
+            <div class="text-right">
+                <button id="analysis" type="" class="btn btn-primary">Analysis</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="extractresult"></div>
+    <div id="select_area" style="width: 1500px;height: 600px"></div>
+    <div class="container" id="edit" style="display: none">
+        <div class="row">
+            <div class="panel panel-info col-xs-6">
+                <div class="panel-heading">添加实体</div>
+                <div class="panel-body"></div>
+            </div>
+            <div class="panel panel-info col-xs-6">
+                <div class="panel-heading">添加联系</div>
+                <div class="panel-body"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+    <script type="text/javascript" src="/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/extract.js"></script>
+</html>
