@@ -24,40 +24,88 @@
         </nav>
     </div>
 
-    <h2 th:text="${realName}" ></h2>
-    <input id="objectId" th:value="${objectId}" type="hidden"/>
+    <h2 id="realName" th:text="${realName}+'   '"></h2>
     <button type="button" class="btn btn-primary" id="showGraph" th:align="right">Graph</button>
+
+
+    <input id="objectId" th:value="${objectId}" type="hidden"/>
     <p></p>
 
     <div class="panel panel-info">
         <div class="panel-heading">Raw Information Here</div>
         <div class="panel-body">
             <textarea id="rawinfo" name="rawinfo" class="form-control" rows="5"></textarea>
-            <p>        </p>
+            <p></p>
             <div class="text-right">
                 <button id="analysis" type="" class="btn btn-primary">Analysis</button>
             </div>
         </div>
     </div>
 
+
     <div id="extractresult"></div>
-    <div id="select_area" style="width: 1500px;height: 600px"></div>
+    <div id="select_area" style="width: 1200px;height: 600px"></div>
+
     <div class="container" id="edit" style="display: none">
-        <div class="row">
-            <div class="panel panel-info col-xs-6">
-                <div class="panel-heading">添加实体</div>
-                <div class="panel-body"></div>
+        <div id="edit1" class="panel panel-info">
+            <div class="panel-heading">添加实体</div>
+            <div class="panel-body">
+                <div id="search">
+                    <H5 id="searchLabel">查询并添加相关实体</H5>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        SearchInHbase
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">查询想要添加的实体名</h4>
+                                </div>
+                                <div class="modal-body" id="modelBody">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="prefix">Keyword</label>
+                                            <input name="prefix" class="form-control" id="prefix" placeholder="Michael Jackson"/>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer" id="modelFooter">
+                                    <button type="button" id="toSearch" class="btn btn-primary">Search</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    已添加实体：
+                </div>
+                <p></p>
+                <div id="selectedEntities"></div>
             </div>
-            <div class="panel panel-info col-xs-6">
-                <div class="panel-heading">添加联系</div>
-                <div class="panel-body"></div>
+        </div>
+        <div id="blank"></div>
+        <div id="edit2" class="panel panel-info">
+            <div class="panel-heading">添加联系</div>
+            <div class="panel-body">
+                <select>
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                </select>
             </div>
         </div>
     </div>
 
 </div>
 </body>
-    <script type="text/javascript" src="/js/echarts.min.js"></script>
-    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="/js/extract.js"></script>
+<script type="text/javascript" src="/js/echarts.min.js"></script>
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/extract.js"></script>
 </html>
