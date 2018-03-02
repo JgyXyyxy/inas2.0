@@ -23,6 +23,14 @@ $(function () {
             }
         });
     });
+    $("#detail").click(function () {
+        window.location.href="/object/"+$("#objectId").val();
+    });
+    $("#reset").click(function () {
+        newNodes={};
+        newEdges={};
+        setGraphParas(initialNodes,initialEdges);
+    });
     $("#showGraph").click(function () {
         $.ajax({
             type: "post",
@@ -31,13 +39,14 @@ $(function () {
             dataType: "json",
             success: function (result) {
                 document.getElementById("edit").style.display = "block";
+                document.getElementById("buttonGroup").style.display = "block";
                 initialNodes = result.nodes;
                 allNodes = result.nodes;
                 allEdges = result.edges;
-                console.log(allEdges);
                 initialEdges = result.edges;
                 selectlist.push($('#objectId').val());
                 pointsForId[$('#objectId').val()]= result.nodes;
+                updateSelectList();
                 setGraphParas(allNodes, allEdges);
             }
         });
@@ -51,7 +60,6 @@ $(function () {
             data: {prefix: $('#prefix').val()},
             dataType: "json",
             success: function (result) {
-                console.log(result);
                 createDesTable(result)
 
             }
@@ -91,7 +99,6 @@ $(function () {
             data: {name: nameVal, description: desVal, prefix: prefix},
             // dataType: "json",
             success: function (result) {
-                console.log(result);
                 createDesTable(result);
             }
         });
@@ -136,7 +143,9 @@ $(function () {
                 pointsForId[id]= result.nodes;
                 allNodes = allNodes.concat(result.nodes);
                 allEdges = allEdges.concat(result.edges);
-                console.log(allEdges);
+                initialEdges = initialEdges.concat(result.edges);
+                initialNodes = initialNodes.concat(result.nodes);
+                updateSelectList();
                 setGraphParas(allNodes, allEdges);
             }
         });
@@ -194,8 +203,6 @@ $(function () {
                 }
                 allNodes = freshedNodes;
                 var a = pointsForId[id];
-                console.log(a);
-                console.log(allEdges);
                 if (insert === (pointsForId[id].length-1)){
                     allEdges.push({sourceID:pointsForId[id][insert-1].id,targetID:pointId})
                 } else{
@@ -211,6 +218,7 @@ $(function () {
                 }
                 console.log(allNodes);
                 console.log(allEdges);
+                updateSelectList();
                 setGraphParas(allNodes,allEdges);
 
             }else {
@@ -221,7 +229,15 @@ $(function () {
             alert("时间格式错误");
         }
     });
-
+    $("#addConn").click(function () {
+        var s1 = $('#select1 option:selected').text().split(":");
+        var s2 = $('#select2 option:selected').text().split(":");
+        var source = s1[0].concat(s1[1]);
+        var target = s2[0].concat(s2[1]);
+        allEdges.push({sourceID:source,targetID:target});
+        newEdges.push({sourceID:s1[0],sourceTime:s1[1],targetID:s2[0],targetTime:s2[1]});
+        setGraphParas(allNodes,allEdges);
+    });
 });
 
 function createSelectedTable() {
@@ -295,6 +311,36 @@ function createExtractTable(data) {
     tableStr = tableStr + "</table>" + addnew + "</div>" + "</form>" + "</div>";
     //添加到div中
     $("#extractresult").html(tableStr);
+}
+
+function updateSelectList(){
+    var idAndTime = {}
+    for (key in pointsForId){
+        var timelist = [];
+        for (var i = 0;i<pointsForId[key].length;i++){
+            var id =  pointsForId[key][i].id;
+            var time= id.substring(key.length,id.length);
+            if (time !=="0000-00-00"){
+                timelist.push(time);
+            }
+        }
+        idAndTime[key] = timelist;
+    }
+    var line="";
+    for (key in idAndTime){
+        var name = getNameFormId(key);
+        line = line + "<optgroup label="+ name +"/>"
+        for (var i = 0;i<idAndTime[key].length;i++){
+            var combine = key.concat(":",idAndTime[key][i]);
+            line = line+"<option>"+ combine +"</option>";
+        }
+        line = line +"</optgroup>";
+    }
+    console.log(line);
+    $("#select1").html(line);
+    $("#select1").selectpicker('refresh');
+    $("#select2").html(line);
+    $("#select2").selectpicker('refresh');
 }
 
 function getDays(year, month, day) {

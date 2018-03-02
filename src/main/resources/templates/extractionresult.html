@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <title>Extraction</title>
     <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{../css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" th:href="@{../css/extract.css}"/>
 </head>
 <body>
@@ -25,9 +26,8 @@
     </div>
 
     <h2 id="realName" th:text="${realName}+'   '"></h2>
-    <button type="button" class="btn btn-primary" id="showGraph" th:align="right">Graph</button>
-
-
+    <button type="button" class="btn btn-primary" id="showGraph" th:align="right">加载</button>
+    <button type="button" class="btn btn-success" id="detail" th:align="right">详细</button>
     <input id="objectId" th:value="${objectId}" type="hidden"/>
     <p></p>
 
@@ -37,7 +37,7 @@
             <textarea id="rawinfo" name="rawinfo" class="form-control" rows="5"></textarea>
             <p></p>
             <div class="text-right">
-                <button id="analysis" type="" class="btn btn-primary">Analysis</button>
+                <button id="analysis" type="" class="btn btn-primary">分析</button>
             </div>
         </div>
     </div>
@@ -45,7 +45,13 @@
 
     <div id="extractresult"></div>
     <div id="select_area" style="width: 1200px;height: 600px"></div>
-
+    <div class="container" id="buttonGroup" style="display: none">
+        <div class="text-right">
+            <button id="reset" type="" class="btn btn-danger">重置</button>
+            <button id="commit" type="" class="btn btn-success">提交</button>
+        </div>
+    </div>
+    <P></P>
     <div class="container" id="edit" style="display: none">
         <div id="edit1" class="panel panel-info">
             <div class="panel-heading">添加实体</div>
@@ -99,12 +105,18 @@
         <div id="edit2" class="panel panel-info">
             <div class="panel-heading">添加联系</div>
             <div class="panel-body">
-                <select>
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                </select>
+                <h5>起点</h5>
+                <div class="text-center">
+                    <select id="select1" class="form-control selectpicker" data-live-search="true"></select>
+                </div>
+                <h5>终点</h5>
+                <div class="text-center">
+                    <select id="select2" class="form-control selectpicker" data-live-search="true"></select>
+                </div>
+                <P></P>
+                <div class="text-right">
+                    <button id="addConn" type="" class="btn btn-primary">添加</button>
+                </div>
             </div>
         </div>
     </div>
@@ -114,5 +126,6 @@
 <script type="text/javascript" src="/js/echarts.min.js"></script>
 <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap-select.min.js"></script>
 <script type="text/javascript" src="/js/extract.js"></script>
 </html>
