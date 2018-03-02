@@ -5,6 +5,7 @@ import com.sudu.inas.beans.*;
 import com.sudu.inas.service.ConnectionService;
 import com.sudu.inas.service.ObjectService;
 import com.sudu.inas.service.RawinfoService;
+import com.sudu.inas.service.TimelineService;
 import com.sudu.inas.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,9 @@ public class TestController {
 
     @Autowired
     RawinfoService rawinfoService;
+
+    @Autowired
+    TimelineService timelineService;
 
 
     @RequestMapping(value = "/graphtest.do",method = RequestMethod.POST)
@@ -63,6 +67,7 @@ public class TestController {
         String objectId = name + CommonUtil.genRandomNum();
         String realName = name+" "+description;
         rawinfoService.addRealName(realName,objectId);
+        timelineService.insetTimenode(objectId,new Timenode("0000-00-00",new DetailedInfo("",realName,"")));
         HashMap<String, String> desList = new HashMap<>();
         List<Entity> objectsByPrefix = objectService.findObjectsByPrefix(prefix);
         for (Entity entity:objectsByPrefix){
@@ -94,6 +99,10 @@ public class TestController {
             }
             node.setSize(20);
             node.setLabel(timenode.getTimePoint()+timenode.getInfo());
+            if (timenode.getTimePoint().equals("0000-00-00")){
+                node.setLabel(entity.getRealName());
+            }
+            node.setSerial(CommonUtil.toDays(timenode.getTimePoint()));
             String id = objectId+timenode.getTimePoint();
             idList.add(id);
             node.setId(objectId+timenode.getTimePoint());
@@ -128,6 +137,9 @@ public class TestController {
         map.put("nodes", nodes);
         map.put("edges",edges);
         return map;
+    }
+
+    public static void main(String[] args) {
     }
 
 

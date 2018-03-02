@@ -1,5 +1,7 @@
 package com.sudu.inas.util;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 
@@ -28,12 +30,16 @@ public class CommonUtil {
         return pwd.toString();
     }
 
+    public static int toDays(String date){
+        String[] strings = date.split("-");
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(new Date(Integer.valueOf(strings[0]),Integer.valueOf(strings[1])-1,Integer.valueOf(strings[2])));
+        return Integer.valueOf(strings[0])*365 + ca.get(Calendar.DAY_OF_YEAR);
+    }
+
     public static void main(String[] args) {
 
-        for (int i=0;i<10;i++){
-            String genRandomNum = CommonUtil.genRandomNum();
-            System.out.println(genRandomNum);
-        }
+        System.out.println(toDays("1961-8-4"));
 
     }
 }

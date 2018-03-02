@@ -54,7 +54,7 @@
                     <H5 id="searchLabel">查询并添加相关实体</H5>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                        SearchInHbase
+                        Search In Hbase
                     </button>
                     <!-- Modal -->
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -85,7 +85,14 @@
                     已添加实体：
                 </div>
                 <p></p>
-                <div id="selectedEntities"></div>
+                <div id="selectedEntities">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>序号</th>
+                            <th>描述</th>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
         <div id="blank"></div>

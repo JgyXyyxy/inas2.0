@@ -1,9 +1,12 @@
 package com.sudu.inas.controller;
 
 
+import com.sudu.inas.beans.DetailedInfo;
 import com.sudu.inas.beans.Entity;
+import com.sudu.inas.beans.Timenode;
 import com.sudu.inas.service.ObjectService;
 import com.sudu.inas.service.RawinfoService;
+import com.sudu.inas.service.TimelineService;
 import com.sudu.inas.util.CommonUtil;
 import com.sudu.inas.util.CrawlerUtil;
 
@@ -34,6 +37,9 @@ public class RawinfoController {
 
     @Autowired
     ObjectService objectService;
+
+    @Autowired
+    TimelineService timelineService;
 
 
     @RequestMapping(value = "/rawinfo.do",method = RequestMethod.POST)
@@ -100,6 +106,7 @@ public class RawinfoController {
         String objectId = name + CommonUtil.genRandomNum();
         String realName = name+" "+description;
         rawinfoService.addRealName(realName,objectId);
+        timelineService.insetTimenode(objectId,new Timenode("0000-00-00",new DetailedInfo("",realName,"")));
         return "OK";
     }
 

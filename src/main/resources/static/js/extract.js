@@ -1,15 +1,16 @@
 var myChart = echarts.init(document.getElementById('select_area'));
-var initialNodes= [];
-var initialEdges= [];
+var initialNodes = [];
+var initialEdges = [];
 var allNodes = [];
-var allEdges= [];
-var newNodes= [];
-var newEdges= [];
+var allEdges = [];
+var newNodes = [];
+var newEdges = [];
 var selected = {}
 var deslist = {}
+var pointsForId = {}
 var selectedNum = 0;
 var pre = "dd";
-var selectlist  = [];
+var selectlist = [];
 $(function () {
 
     $("#analysis").click(function () {
@@ -33,12 +34,15 @@ $(function () {
                 initialNodes = result.nodes;
                 allNodes = result.nodes;
                 allEdges = result.edges;
+                console.log(allEdges);
                 initialEdges = result.edges;
-                setGraphParas(allNodes,allEdges);
+                selectlist.push($('#objectId').val());
+                pointsForId[$('#objectId').val()]= result.nodes;
+                setGraphParas(allNodes, allEdges);
             }
         });
     });
-    $("#modelFooter").on("click","#toSearch",function () {
+    $("#modelFooter").on("click", "#toSearch", function () {
         pre = $('#prefix').val();
         console.log(pre)
         $.ajax({
@@ -59,7 +63,7 @@ $(function () {
             + "<td class=\"col-md-2\">" + "<input  class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-1\">" + "<input  class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-6\">" + "<input  class=\"form-control\"/>" + "</td>"
-            + "<td class=\"col-md-2\">" + "<button class=\"addNewNode\">添加</button>" + "</td>"
+            + "<td class=\"col-md-2\">" + "<button type=\"button\" class=\"addNewNode\">添加</button>" + "</td>"
             + "</tr>";
         $("#resultTable").append(line);
     });
@@ -94,12 +98,12 @@ $(function () {
     });
     $('#myModal').on('hide.bs.modal', function () {
         var line =
-        "<form class=\"form-inline\">\n" +
-        "         <div class=\"form-group\">\n" +
-        "                <label for=\"prefix\">Keyword</label>\n" +
-        "                <input name=\"prefix\" class=\"form-control\" id=\"prefix\" placeholder=\"Michael Jackson\"/>\n" +
-        "         </div>\n" +
-        "</form>";
+            "<form class=\"form-inline\">\n" +
+            "         <div class=\"form-group\">\n" +
+            "                <label for=\"prefix\">Keyword</label>\n" +
+            "                <input name=\"prefix\" class=\"form-control\" id=\"prefix\" placeholder=\"Michael Jackson\"/>\n" +
+            "         </div>\n" +
+            "</form>";
         $("#modelBody").html(line);
         var line2 = "<button type=\"button\" id=\"toSearch\" class=\"btn btn-primary\">Search</button>\n" +
             "        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>";
@@ -120,7 +124,7 @@ $(function () {
         var des = single[1].innerText;
         selected[id] = des;
         deslist[selectedNum] = des;
-        selectedNum = selectedNum+1;
+        selectedNum = selectedNum + 1;
         selectlist.push(id);
         createSelectedTable();
         $.ajax({
@@ -129,21 +133,98 @@ $(function () {
             data: {objectId: $("#objectId").val(), selectedId: id, num: selectedNum},
             // dataType: "json",
             success: function (result) {
-                console.log(result);
+                pointsForId[id]= result.nodes;
                 allNodes = allNodes.concat(result.nodes);
                 allEdges = allEdges.concat(result.edges);
-                console.log(allNodes);
-                setGraphParas(allNodes,allEdges);
+                console.log(allEdges);
+                setGraphParas(allNodes, allEdges);
             }
         });
     });
+
     $("#extractresult").on("click", ".addNewNode", function () {
-            alert("aaaaa");
+        var lineMark = this.parentNode.parentNode;
+        var single = lineMark.childNodes;
+        var entityName = single[0].firstChild.value;
+        var timePoint = single[1].firstChild.value;
+        var location = single[2].firstChild.value;
+        var description = single[3].firstChild.value;
+        var r = new RegExp("^[1-2]\\d{3}-(0?[1-9]||1[0-2])-(0?[1-9]||[1-2][1-9]||3[0-1])$");
+        var bool = r.test(timePoint);
+        if (bool){
+            var time = timePoint.split("-");
+            var day = getDays(time[0],time[1],time[2]);
+            var days = time[0]*365+day;
+            var tag = false;
+            var id;
+            for (var i=0;i<selectlist.length;i++){
+                if (entityName === getNameFormId(selectlist[i])){
+                    tag = true
+                    id = selectlist[i];
+                    break;
+                }
+            }
+            if (tag){
+                var pointId = id.concat(timePoint);
+                var label = timePoint.concat(location,description);
+                var color = "blue";
+                if (id === $("#objectId").val()){
+                    color = "red"
+                }
+                pointsForId[id].push({x:1,y:1,id:pointId,label:label,size:20,color:color,serial:days})
+                newNodes.push({id:id,timepoint:timePoint,location:location,description:description})
+                pointsForId[id].sort(sortSerial);
+                var insert = 0;
+                for (var i=0; i<pointsForId[id].length;i++){
+                    if (pointsForId[id][i].x === 1){
+                        insert = i;
+                    }
+                }
+
+                var x1 = pointsForId[id][insert-1].x;
+                var y1 = pointsForId[id][insert-1].y;
+                for (var i=insert; i<pointsForId[id].length;i++){
+                    pointsForId[id][i].x = x1 + 10;
+                    pointsForId[id][i].y = y1;
+                    x1 = x1 + 10;
+                }
+                var freshedNodes = [];
+                for (key in pointsForId){
+                    freshedNodes = freshedNodes.concat(pointsForId[key]);
+                }
+                allNodes = freshedNodes;
+                var a = pointsForId[id];
+                console.log(a);
+                console.log(allEdges);
+                if (insert === (pointsForId[id].length-1)){
+                    allEdges.push({sourceID:pointsForId[id][insert-1].id,targetID:pointId})
+                } else{
+                    for (var i=0;i<allEdges.length;i++){
+                        if ((allEdges[i].sourceID === pointsForId[id][insert-1].id)&&(allEdges[i].targetID === pointsForId[id][insert+1].id)){
+                            allEdges.splice(i,1);
+                        }else if ((allEdges[i].targetID === pointsForId[id][insert-1].id)&&(allEdges[i].sourceID === pointsForId[id][insert+1].id)){
+                            allEdges.splice(i,1);
+                        }
+                    }
+                    allEdges.push({sourceID:pointsForId[id][insert-1].id,targetID:pointId});
+                    allEdges.push({sourceID:pointId,targetID:pointsForId[id][insert+1].id});
+                }
+                console.log(allNodes);
+                console.log(allEdges);
+                setGraphParas(allNodes,allEdges);
+
+            }else {
+                alert("未加载或添加相应实体");
+            }
+
+        }else {
+            alert("时间格式错误");
+        }
     });
 
 });
 
-function createSelectedTable(){
+function createSelectedTable() {
     var tableStr = "<table class=\"table table-striped\">";
     tableStr = tableStr
         + "<tr>"
@@ -153,7 +234,7 @@ function createSelectedTable(){
     for (var key in deslist) {
         tableStr = tableStr + "<tr>"
             + "<td class=\"col-md-2\">" + key + "</td>"
-            + "<td class=\"col-md-3\">" +deslist[key] + "</td>"
+            + "<td class=\"col-md-3\">" + deslist[key] + "</td>"
             + "</tr>"
     }
     tableStr = tableStr + "</table>";
@@ -208,7 +289,7 @@ function createExtractTable(data) {
             + "<td class=\"col-md-2\">" + "<input value=" + data[i].timepoint + " class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-1\">" + "<input value=" + data[i].location + " class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-6\">" + "<input value=" + data[i].description + " class=\"form-control\"/>" + "</td>"
-            + "<td class=\"col-md-2\">" + "<button class=\"addNewNode\">添加</button>" + "</td>"
+            + "<td class=\"col-md-2\">" + "<button type=\"button\" class=\"addNewNode\">添加</button>" + "</td>"
             + "</tr>";
     }
     tableStr = tableStr + "</table>" + addnew + "</div>" + "</form>" + "</div>";
@@ -216,7 +297,23 @@ function createExtractTable(data) {
     $("#extractresult").html(tableStr);
 }
 
-function setGraphParas(nodes,edges) {
+function getDays(year, month, day) {
+    // 构造1月1日
+    var date = new Date(year,month-1,day);
+    var lastDay = new Date(year, month, day);
+    lastDay.setMonth(0);
+    lastDay.setDate(1);
+
+    // 获取距离1月1日过去多少天
+    var days = (date - lastDay) / (1000 * 60 * 60 * 24) + 1;
+    return days;
+}
+
+function getNameFormId(id) {
+    return id.substring(0,id.length-8);
+}
+
+function setGraphParas(nodes, edges) {
     myChart.setOption({
         title: {
             text: '                                      Object Dependencies'
@@ -270,4 +367,8 @@ function setGraphParas(nodes,edges) {
             }
         ]
     }, true);
+}
+
+function sortSerial(a,b){
+    return a.serial-b.serial
 }

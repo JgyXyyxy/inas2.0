@@ -13,8 +13,9 @@ public class Node {
     private int y;
     private String id;
     private String label;
-    private  int size;
+    private int size;
     private String color;
+    private int serial;
 
     public Node() {
     }
