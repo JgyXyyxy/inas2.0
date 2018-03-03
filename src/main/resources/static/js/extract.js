@@ -8,6 +8,7 @@ var newEdges = [];
 var selected = {}
 var deslist = {}
 var pointsForId = {}
+var initialPointsForId = {}
 var selectedNum = 0;
 var pre = "dd";
 var selectlist = [];
@@ -26,10 +27,16 @@ $(function () {
     $("#detail").click(function () {
         window.location.href="/object/"+$("#objectId").val();
     });
-    $("#reset").click(function () {
-        newNodes={};
-        newEdges={};
-        setGraphParas(initialNodes,initialEdges);
+    $("#resetNode").click(function () {
+        console.log(initialNodes);
+        console.log(initialEdges);
+        newNodes=[];
+        newEdges=[];
+        allNodes=JSON.parse(JSON.stringify(initialNodes));
+        allEdges=JSON.parse(JSON.stringify(initialEdges));
+        pointsForId = JSON.parse(JSON.stringify(initialPointsForId));
+        updateSelectList();
+        setGraphParas(allNodes,allEdges);
     });
     $("#showGraph").click(function () {
         $.ajax({
@@ -40,12 +47,13 @@ $(function () {
             success: function (result) {
                 document.getElementById("edit").style.display = "block";
                 document.getElementById("buttonGroup").style.display = "block";
-                initialNodes = result.nodes;
                 allNodes = result.nodes;
                 allEdges = result.edges;
-                initialEdges = result.edges;
+                initialNodes = JSON.parse(JSON.stringify(result.nodes));
+                initialEdges = JSON.parse(JSON.stringify(result.edges));
                 selectlist.push($('#objectId').val());
                 pointsForId[$('#objectId').val()]= result.nodes;
+                initialPointsForId[$('#objectId').val()]= JSON.parse(JSON.stringify(result.nodes));
                 updateSelectList();
                 setGraphParas(allNodes, allEdges);
             }
@@ -141,6 +149,7 @@ $(function () {
             // dataType: "json",
             success: function (result) {
                 pointsForId[id]= result.nodes;
+                initialPointsForId[id]=JSON.parse(JSON.stringify(result.nodes));
                 allNodes = allNodes.concat(result.nodes);
                 allEdges = allEdges.concat(result.edges);
                 initialEdges = initialEdges.concat(result.edges);
@@ -216,8 +225,6 @@ $(function () {
                     allEdges.push({sourceID:pointsForId[id][insert-1].id,targetID:pointId});
                     allEdges.push({sourceID:pointId,targetID:pointsForId[id][insert+1].id});
                 }
-                console.log(allNodes);
-                console.log(allEdges);
                 updateSelectList();
                 setGraphParas(allNodes,allEdges);
 
@@ -336,7 +343,6 @@ function updateSelectList(){
         }
         line = line +"</optgroup>";
     }
-    console.log(line);
     $("#select1").html(line);
     $("#select1").selectpicker('refresh');
     $("#select2").html(line);
