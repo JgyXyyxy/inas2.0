@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <th:block th:include="fragments/head1 :: header"></th:block>
-    <h2>Search Result</h2>
+    <h2>查询结果</h2>
     <!--<div class="row text-center" th:if="${not #lists.isEmpty(entities)}">-->
         <!--<table class="table table-striped">-->
             <!--<tr th:each="entity : ${entities}">-->
@@ -32,8 +32,8 @@
                     <div class="panel-body">
                         <textarea id="rawinfo" name="rawinfo" th:text="${entity.rawInfo}" class="form-control" rows="5" readonly="readonly"></textarea>
                         <div class="text-right">
-                            <a th:href="@{'/rawinfo/'+${entity.objectId}}">Edit</a>
-                            <a th:href="@{'/extract/'+${entity.objectId}}">Analysis</a>
+                            <a th:href="@{'/rawinfo/'+${entity.objectId}}">编辑</a>
+                            <a th:href="@{'/extract/'+${entity.objectId}}">分析</a>
                         </div>
                     </div>
                 </form>
@@ -42,19 +42,19 @@
     </table>
     </div>
     <div class="container">
-        <a id="add">Add New Entity</a>
+        <a id="add">添加一个新实体</a>
     </div>
     <div class="row text-center" id="newentity" style="display:none">
         <div class="form-inline">
             <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">名字</label>
                 <input class="form-control" id="name" placeholder="Jane Doe"/>
             </div>
             <div class="form-group">
-                <label for="description">Description</label>
+                <label for="description">描述</label>
                 <input class="form-control" id="description" placeholder="clown"/>
             </div>
-            <button id="savenew" type="submit" class="btn btn-primary">Save to New Entity</button>
+            <button id="savenew" type="submit" class="btn btn-primary">保存</button>
         </div>
         <p></p><p></p><p></p>
     </div>

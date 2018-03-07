@@ -7,13 +7,17 @@ import com.sudu.inas.service.ObjectService;
 import com.sudu.inas.service.RawinfoService;
 import com.sudu.inas.service.TimelineService;
 import com.sudu.inas.util.CommonUtil;
+
+import org.apache.hadoop.mapreduce.ID;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.rmi.MarshalledObject;
 import java.util.*;
 
 
@@ -115,7 +119,7 @@ public class TestController {
                 if (conncetionListByTimePoint!= null){
                     for (Connection connection:conncetionListByTimePoint){
                         if (connection.getConnObjectId().equals(connId)) {
-                            Edge edge = new Edge(id, connId + connection.getConntimePoint());
+                            Edge edge = new Edge(id, connId + connection.getConntimePoint(),connection.getInfluence());
                             edges.add(edge);
                         }
 
@@ -128,7 +132,7 @@ public class TestController {
             String exid = idIter.next();
             while (idIter.hasNext()){
                 String id = idIter.next();
-                Edge edge = new Edge(exid, id);
+                Edge edge = new Edge(exid, id,"");
                 edges.add(edge);
                 exid = id;
             }
@@ -137,6 +141,37 @@ public class TestController {
         map.put("nodes", nodes);
         map.put("edges",edges);
         return map;
+    }
+
+    @RequestMapping(value = "/commit.do",method = RequestMethod.POST)
+    public @ResponseBody String commitEdit(String newNodes,String newEdges,String rawinfo){
+        try {
+            JSONArray nodeArray = new JSONArray(newNodes);
+            for (int i = 0;i<nodeArray.length();i++){
+                JSONObject node = (JSONObject) nodeArray.get(i);
+                DetailedInfo info = new DetailedInfo(node.getString("location"), node.getString("description"), "");
+                Timenode timenode = new Timenode(node.getString("timepoint"), info);
+                System.out.print(node.getString("id")+"  ");
+                System.out.println(timenode);
+//                timelineService.insetTimenode(node.getString("id"),timenode);
+            }
+            JSONArray edgeArray = new JSONArray(newEdges);
+            for (int i = 0;i<edgeArray.length();i++){
+                JSONObject edge = (JSONObject) edgeArray.get(i);
+                Connection connection = new Connection(edge.getString("targetID"), edge.getString("targetTime"), edge.getString("influence"));
+                System.out.print(edge.getString("sourceID")+" ");
+                System.out.print(edge.getString("sourceTime")+" ");
+                System.out.print(edge.getString("influence")+" ");
+                System.out.println(connection);
+//                connectionService.addConnection(edge.getString("sourceID"),edge.getString("sourceTime"),connection);
+            }
+
+            System.out.println(rawinfo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return "OK";
     }
 
     public static void main(String[] args) {

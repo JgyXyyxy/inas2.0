@@ -27,6 +27,18 @@ $(function () {
     $("#detail").click(function () {
         window.location.href="/object/"+$("#objectId").val();
     });
+    $("#commit").click(function () {
+        var raw = $('#rawinfo').val();
+        $.ajax({
+            type: "post",
+            url: "/commit.do",
+            data: {newNodes:JSON.stringify(newNodes),newEdges:JSON.stringify(newEdges),rawinfo:raw},
+            success: function (result) {
+                alert(result);
+                window.location.href="/search";
+            }
+        });
+    });
     $("#resetNode").click(function () {
         console.log(initialNodes);
         console.log(initialEdges);
@@ -213,7 +225,7 @@ $(function () {
                 allNodes = freshedNodes;
                 var a = pointsForId[id];
                 if (insert === (pointsForId[id].length-1)){
-                    allEdges.push({sourceID:pointsForId[id][insert-1].id,targetID:pointId})
+                    allEdges.push({sourceID:pointsForId[id][insert-1].id,targetID:pointId,note:""})
                 } else{
                     for (var i=0;i<allEdges.length;i++){
                         if ((allEdges[i].sourceID === pointsForId[id][insert-1].id)&&(allEdges[i].targetID === pointsForId[id][insert+1].id)){
@@ -222,8 +234,8 @@ $(function () {
                             allEdges.splice(i,1);
                         }
                     }
-                    allEdges.push({sourceID:pointsForId[id][insert-1].id,targetID:pointId});
-                    allEdges.push({sourceID:pointId,targetID:pointsForId[id][insert+1].id});
+                    allEdges.push({sourceID:pointsForId[id][insert-1].id,targetID:pointId,note:""});
+                    allEdges.push({sourceID:pointId,targetID:pointsForId[id][insert+1].id,note:""});
                 }
                 updateSelectList();
                 setGraphParas(allNodes,allEdges);
@@ -241,8 +253,9 @@ $(function () {
         var s2 = $('#select2 option:selected').text().split(":");
         var source = s1[0].concat(s1[1]);
         var target = s2[0].concat(s2[1]);
-        allEdges.push({sourceID:source,targetID:target});
-        newEdges.push({sourceID:s1[0],sourceTime:s1[1],targetID:s2[0],targetTime:s2[1]});
+        var note = $('#connType').val();
+        allEdges.push({sourceID:source,targetID:target,note:note});
+        newEdges.push({sourceID:s1[0],sourceTime:s1[1],targetID:s2[0],targetTime:s2[1],influence:note});
         setGraphParas(allNodes,allEdges);
     });
 });
@@ -376,6 +389,7 @@ function setGraphParas(nodes, edges) {
             {
                 type: 'graph',
                 layout: 'none',
+                edgeSymbol: ['circle', 'arrow'],
                 // progressiveThreshold: 700,
                 data: nodes.map(function (node) {
                     return {
@@ -394,7 +408,14 @@ function setGraphParas(nodes, edges) {
                 edges: edges.map(function (edge) {
                     return {
                         source: edge.sourceID,
-                        target: edge.targetID
+                        target: edge.targetID,
+                        name:   edge.note,
+                        label:{
+                            normal:{
+                                show:true,
+                                formatter:function(x){return x.data.name;}
+                            }
+                        },
                     };
                 }),
                 label: {

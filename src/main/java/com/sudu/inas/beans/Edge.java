@@ -11,12 +11,14 @@ public class Edge {
 
     private String sourceID;
     private String targetID;
+    private String note;
 
     public Edge() {
     }
 
-    public Edge(String sourceID, String targetID) {
+    public Edge(String sourceID, String targetID,String note) {
         this.sourceID = sourceID;
         this.targetID = targetID;
+        this.note = note;
     }
 }

@@ -29,7 +29,11 @@ public class SyntaxResult {
                 Action action = new Action();
                 Map.Entry<String, Timenode> timenodeEntry = entryIterator.next();
                 action.setEntityName(timenodeEntry.getKey());
-                action.setLocation(timenodeEntry.getValue().getInfo().getLocation());
+                if (timenodeEntry.getValue().getInfo().getLocation().equals("")){
+                    action.setLocation("未知");
+                }else {
+                    action.setLocation(timenodeEntry.getValue().getInfo().getLocation());
+                }
                 action.setTimepoint(timenodeEntry.getValue().getTimePoint());
                 action.setDescription(timenodeEntry.getValue().getInfo().getDescription());
                 actions.add(action);
