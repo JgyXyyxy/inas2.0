@@ -14,22 +14,35 @@ import java.util.concurrent.Future;
 public class LtpAPIConnection {
 
     private final Logger log = Logger.getLogger(LtpAPIConnection.class);
-    private final String prefix = "http://api.ltp-cloud.com/analysis/?";
+    private final String prefix = "http://192.168.11.210:8020/ltp";
 
-    private String api_key;
 
     private String text;
 
-    private String format;
+    private String x;
 
-    private String pattern;
+    private String t;
 
-    public LtpAPIConnection(String api_key, String text, String format,
-                            String pattern) {
-        this.api_key = api_key;
+    public LtpAPIConnection(String text, String x, String t) {
         this.text = text;
-        this.format = format;
-        this.pattern = pattern;
+        this.x = x;
+        this.t = t;
+    }
+
+    public String getX() {
+        return x;
+    }
+
+    public void setX(String x) {
+        this.x = x;
+    }
+
+    public String getT() {
+        return t;
+    }
+
+    public void setT(String t) {
+        this.t = t;
     }
 
     public String getText() {
@@ -40,31 +53,14 @@ public class LtpAPIConnection {
         this.text = text;
     }
 
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public String getPattern() {
-        return pattern;
-    }
-
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
-    }
-
     public String getPrefix() {
         return prefix;
     }
 
     public String toUrl() throws UnsupportedEncodingException {
-        return prefix + "api_key=" + api_key
-                + "&text=" + URLEncoder.encode(text, "utf-8")
-                + "&format=" + format
-                + "&pattern=" + pattern;
+        return prefix + "?s=" + URLEncoder.encode(text, "utf-8")
+                + "&x=" + x
+                + "&t=" + t;
     }
 
     //开启调用连接
@@ -91,12 +87,13 @@ public class LtpAPIConnection {
         public TransElement call() throws Exception {
             try {
                 HttpClient client = new HttpClient();
+                System.out.println(connection.toUrl());
                 GetMethod method = new GetMethod(connection.toUrl());
                 int statuscode = client.executeMethod(method);
                 if (statuscode == HttpStatus.SC_OK) {
                     byte[] m = method.getResponseBody();
                     log.info("open connection successful " + connection.getText());
-                    TransElement trans = new TransElement(connection.getText(), connection.getFormat(), new String(m, "utf-8"));
+                    TransElement trans = new TransElement(connection.getText(), connection.getT(), new String(m, "utf-8"));
                     log.info(Thread.currentThread().getName() + " get transElement invoke successful");
                     return trans;
                 }

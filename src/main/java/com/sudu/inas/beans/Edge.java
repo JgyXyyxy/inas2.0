@@ -13,6 +13,7 @@ public class Edge {
     private String targetID;
     private String note;
 
+
     public Edge() {
     }
 

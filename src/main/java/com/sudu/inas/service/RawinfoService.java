@@ -11,5 +11,7 @@ public interface RawinfoService {
 
     void addRealName(String realName,String objectId);
 
+    void insertRealName(String realName,String objectId);
+
     void addRawText(String rawText,String objectId);
 }

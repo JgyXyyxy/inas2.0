@@ -1,8 +1,11 @@
 package com.sudu.inas.service.impl;
 
 import com.sudu.inas.beans.DetailedInfo;
+import com.sudu.inas.beans.Event;
 import com.sudu.inas.beans.Timenode;
+import com.sudu.inas.repository.EventRepository;
 import com.sudu.inas.repository.HbaseDao;
+import com.sudu.inas.repository.RelevanceRepository;
 import com.sudu.inas.service.TimelineService;
 import com.sudu.inas.util.HbaseModelUtil;
 import com.sudu.inas.util.XStreamHandle;
@@ -21,11 +24,25 @@ public class TimelineServiceImpl implements TimelineService {
     @Autowired
     HbaseDao hbaseDao;
 
+    @Autowired
+    EventRepository eventRepository;
+
+    @Autowired
+    RelevanceRepository relevanceRepository;
+
+
+
 
     @Override
     public List<Timenode> findTimelineByObjectId(String objectId) {
         return null;
     }
+
+    @Override
+    public Event findEventByEventId(String eventId) {
+        return eventRepository.queryEventByEventId(eventId);
+    }
+
 
     @Override
     public DetailedInfo findDetailinfoByTimepoint(String objectId, String timePoint) {
@@ -45,7 +62,25 @@ public class TimelineServiceImpl implements TimelineService {
     }
 
     @Override
+    public void insertEvent(String objectId, Event event) {
+        hbaseDao.insertData(HbaseModelUtil.BASIC_TABLE,objectId,HbaseModelUtil.BASIC_EVENT,event.getTs(),event.getEventId(),null);
+        hbaseDao.insertData(HbaseModelUtil.EVENTS_TABLE,event.getEventId(),HbaseModelUtil.EVENTS_PARAMS,"ts",event.getTs(),null);
+        hbaseDao.insertData(HbaseModelUtil.EVENTS_TABLE,event.getEventId(),HbaseModelUtil.EVENTS_PARAMS,"site",event.getSite(),null);
+        hbaseDao.insertData(HbaseModelUtil.EVENTS_TABLE,event.getEventId(),HbaseModelUtil.EVENTS_PARAMS,"details",event.getDetails(),null);
+        hbaseDao.insertData(HbaseModelUtil.EVENTS_TABLE,event.getEventId(),HbaseModelUtil.EVENTS_PARAMS,"affect",event.getAffect(),null);
+        eventRepository.deleteEventByEventId(event.getEventId());
+        eventRepository.save(event);
+    }
+
+    @Override
     public void delTimenodeByTimepoint(String objectId, String timePoint) {
         hbaseDao.delColumnByQualifier(HbaseModelUtil.BASICTABLE,objectId,HbaseModelUtil.CF2,timePoint);
+    }
+
+    @Override
+    public void delEventByEventId(String eventId) {
+        eventRepository.deleteEventByEventId(eventId);
+        relevanceRepository.deleteRelevanceBySourceEventId(eventId);
+        relevanceRepository.deleteRelevanceByTargetEventId(eventId);
     }
 }

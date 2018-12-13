@@ -15,7 +15,7 @@ public class SyntaxResult {
     private List<Word> verbs = new ArrayList<>();
     private List<Integer> pos = new ArrayList<>();
     private List<Integer> nh = new ArrayList<>();
-    private List<String> relate = new ArrayList<>();
+//    private List<String> relate = new ArrayList<>();
 
     public SyntaxResult() {
     }
@@ -91,14 +91,15 @@ public class SyntaxResult {
 
         String s = transTimeStr(time.toString());
         time.setLength(0);
-        if ("Not Found".equals(s)) {
-            String timeInSem = findTimeInSem(verb.getId());
-            if (!"No timeTag".equals(timeInSem)) {
-                time.append(timeInSem);
-            }
-        } else {
-            time.append(s);
-        }
+        time.append(s);
+//        if ("Not Found".equals(s)) {
+//            String timeInSem = findTimeInSem(verb.getId());
+//            if (!"No timeTag".equals(timeInSem)) {
+//                time.append(timeInSem);
+//            }
+//        } else {
+//            time.append(s);
+//        }
 
         a1.add(verb.getId());
         Collections.sort(a1);

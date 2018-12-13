@@ -2,10 +2,7 @@ package com.sudu.inas.controller;
 
 
 import com.sudu.inas.beans.*;
-import com.sudu.inas.service.ConnectionService;
-import com.sudu.inas.service.ObjectService;
-import com.sudu.inas.service.RawinfoService;
-import com.sudu.inas.service.TimelineService;
+import com.sudu.inas.service.*;
 import com.sudu.inas.util.CommonUtil;
 
 import org.apache.hadoop.mapreduce.ID;
@@ -36,6 +33,8 @@ public class TestController {
     @Autowired
     TimelineService timelineService;
 
+    @Autowired
+    RelevanceService relevanceService;
 
     @RequestMapping(value = "/graphtest.do",method = RequestMethod.POST)
     public @ResponseBody
@@ -80,7 +79,7 @@ public class TestController {
         return desList;
     }
 
-    public Map<String, ArrayList> singLineGraphforId(String objectId,int num,String connId) throws Exception {
+    public Map<String, ArrayList> singLineGraphforId(String objectId,int num,String releTag) throws Exception {
         HashMap<String, ArrayList> map = new HashMap<>();
         ArrayList<Edge> edges = new ArrayList<>();
         ArrayList<Node> nodes = new ArrayList<>();
@@ -89,12 +88,13 @@ public class TestController {
         int yBegin = 5;
         int x = xBegin;
         int y = yBegin + num*5;
-        Entity entity = objectService.findObjectById(objectId);
-        if (null == entity){
+//        Entity entity = objectService.findObjectById(objectId);
+        RealEntity realEntity = objectService.findEntityByIdFromEs(objectId);
+        if (null == realEntity){
             return null;
         }
-        ArrayList<Timenode> timeLine = entity.getTimeLine();
-        for (Timenode timenode:timeLine){
+        ArrayList<Event> events = realEntity.getEvents();
+        for (Event event:events){
             Node node = new Node();
             if (num == 0){
                 node.setColor("red");
@@ -102,30 +102,29 @@ public class TestController {
                 node.setColor("blue");
             }
             node.setSize(20);
-            node.setLabel(timenode.getTimePoint()+timenode.getInfo());
-            if (timenode.getTimePoint().equals("0000-00-00")){
-                node.setLabel(entity.getRealName());
+            node.setLabel(event.toString());
+            if (event.getTs().equals("2050-01-01")){
+                node.setLabel(realEntity.getRealName());
             }
-            node.setSerial(CommonUtil.toDays(timenode.getTimePoint()));
-            String id = objectId+timenode.getTimePoint();
-            idList.add(id);
-            node.setId(objectId+timenode.getTimePoint());
+            node.setSerial(CommonUtil.toDays(event.getTs()));
+            idList.add(event.getEventId());
+            node.setId(event.getEventId());
             node.setY(y);
             x = x+10;
             node.setX(x);
             nodes.add(node);
-            if (connId!= null){
-                List<Connection> conncetionListByTimePoint = connectionService.findConncetionListByTimePoint(objectId, timenode.getTimePoint());
-                if (conncetionListByTimePoint!= null){
-                    for (Connection connection:conncetionListByTimePoint){
-                        if (connection.getConnObjectId().equals(connId)) {
-                            Edge edge = new Edge(id, connId + connection.getConntimePoint(),connection.getInfluence());
-                            edges.add(edge);
-                        }
-
-                    }
-                }
-            }
+//            if (connId!= null){
+//                List<Connection> conncetionListByTimePoint = connectionService.findConncetionListByTimePoint(objectId, timenode.getTimePoint());
+//                if (conncetionListByTimePoint!= null){
+//                    for (Connection connection:conncetionListByTimePoint){
+//                        if (connection.getConnObjectId().equals(connId)) {
+//                            Edge edge = new Edge(id, connId + connection.getConntimePoint(),connection.getInfluence());
+//                            edges.add(edge);
+//                        }
+//
+//                    }
+//                }
+//            }
         }
         if (idList.size()>1){
             Iterator<String> idIter = idList.iterator();
@@ -153,7 +152,6 @@ public class TestController {
                 Timenode timenode = new Timenode(node.getString("timepoint"), info);
                 System.out.print(node.getString("id")+"  ");
                 System.out.println(timenode);
-//                timelineService.insetTimenode(node.getString("id"),timenode);
             }
             JSONArray edgeArray = new JSONArray(newEdges);
             for (int i = 0;i<edgeArray.length();i++){
@@ -175,6 +173,16 @@ public class TestController {
     }
 
     public static void main(String[] args) {
+    }
+
+    @RequestMapping("/gggg")
+    public String getSingleGraph(){
+        return "singlegraph";
+    }
+
+    @RequestMapping("/demo")
+    public String getDemoGraph(){
+        return "demo";
     }
 
 

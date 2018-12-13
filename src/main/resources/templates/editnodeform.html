@@ -12,23 +12,23 @@
 
     <h2>TimeNode Details</h2>
     <div>
-        <form class="form-horizontal" th:object="${detail}"  method="post">
+        <form class="form-horizontal" th:object="${event}"  method="post">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Location</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" th:field="*{location}"/>
+                    <input type="text" class="form-control" th:field="*{site}"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Description:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" th:field="*{description}"/>
+                    <input type="text" class="form-control" th:field="*{details}"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Result</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" th:field="*{result}"/>
+                    <input type="text" class="form-control" th:field="*{affect}"/>
                 </div>
             </div>
             <div class="row">

@@ -10,7 +10,20 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 public class HbaseModelUtil {
 
-        public static final String BASICTABLE ="Object";
+    public static final String BASICTABLE ="Object";
+
+    public static final String BASIC_TABLE ="Object";
+
+    public static final String BASIC_RAW = "Rawinfo";
+
+    public static final String RAW_TEXT="Rawtext";
+
+    public static final String BASIC_EVENT = "Eventlist";
+
+    public static final String EVENTS_TABLE = "Event_Info";
+
+    public static final String EVENTS_PARAMS ="EventParam";
+
 
     public static final String CF1 = "rawinfo";
 
@@ -20,7 +33,18 @@ public class HbaseModelUtil {
 
     public static final String CF2 = "timeline";
 
+
+
     public static final String CONNTABLE = "Connection";
+
+    public static final String CONN_IN = "Inconn";
+
+    public static final String CONN_OUT = "Outconn";
+
+    public static final String RELEVANCES_TABLE = "Rele_Info";
+
+    public static final String RELEVANCES_PARAMS = "ReleParam";
+
 
     public static final String DEFAULT = "default";
 

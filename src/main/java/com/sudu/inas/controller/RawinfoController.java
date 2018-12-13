@@ -3,6 +3,7 @@ package com.sudu.inas.controller;
 
 import com.sudu.inas.beans.DetailedInfo;
 import com.sudu.inas.beans.Entity;
+import com.sudu.inas.beans.Event;
 import com.sudu.inas.beans.Timenode;
 import com.sudu.inas.service.ObjectService;
 import com.sudu.inas.service.RawinfoService;
@@ -20,10 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by J on  17-11-6.
@@ -42,16 +40,16 @@ public class RawinfoController {
     TimelineService timelineService;
 
 
-    @RequestMapping(value = "/rawinfo.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/rawinfo.do", method = RequestMethod.POST)
     public @ResponseBody
-    Map<String,List> findRawInfo(String keyWord) throws Exception {
+    Map<String, List> findRawInfo(String keyWord) throws Exception {
         CrawlerUtil crawlerUtil = new CrawlerUtil();
         List<String> linkList = crawlerUtil.crawlerLink(keyWord);
         ArrayList<String> paraList = new ArrayList<>();
-        for (String link:linkList) {
+        for (String link : linkList) {
             List<String> paras = crawlerUtil.parseBaike(link);
             StringBuilder builder = new StringBuilder();
-            for (String para:paras) {
+            for (String para : paras) {
                 builder.append(para);
                 builder.append("\n");
             }
@@ -59,20 +57,21 @@ public class RawinfoController {
         }
         ArrayList<String> descriptionList = new ArrayList<>();
         List<Entity> entityList = objectService.findObjectsByPrefix(keyWord);
-        for (Entity e:entityList) {
+        for (Entity e : entityList) {
             String stringBuilder = e.getObjectId() +
                     ":" +
                     e.getRealName();
             descriptionList.add(stringBuilder);
         }
         HashMap<String, List> map = new HashMap<>();
-        map.put("paras",paraList);
-        map.put("entitylist",descriptionList);
+        map.put("paras", paraList);
+        map.put("entitylist", descriptionList);
         return map;
     }
 
-    @RequestMapping(value = "/rawtext.do",method = RequestMethod.POST)
-    public @ResponseBody List<String> getRowText(String objectId){
+    @RequestMapping(value = "/rawtext.do", method = RequestMethod.POST)
+    public @ResponseBody
+    List<String> getRowText(String objectId) {
         String rawText = rawinfoService.findRawText(objectId);
         ArrayList<String> strings = new ArrayList<>();
         strings.add(rawText);
@@ -80,41 +79,48 @@ public class RawinfoController {
     }
 
 
-    @RequestMapping(value = "/saverawinfo.do",method = RequestMethod.POST)
-    public @ResponseBody String saveRawinfo(String textarea1,String select) {
-        if ("".equals(select)){
+    @RequestMapping(value = "/saverawinfo.do", method = RequestMethod.POST)
+    public @ResponseBody
+    String saveRawinfo(String textarea1, String select) {
+        if ("".equals(select)) {
             return "Please add new entity";
         }
         String[] strings = select.split(":");
         String objectId = strings[0];
         String descrip = strings[1];
-        rawinfoService.addRawText(textarea1,objectId);
+        rawinfoService.addRawText(textarea1, objectId);
         return "OK";
     }
 
-    @RequestMapping(value = "/savenew.do",method = RequestMethod.POST)
-    public @ResponseBody String saveNewWithRaw(String textarea1,String name,String description){
+    @RequestMapping(value = "/savenew.do", method = RequestMethod.POST)
+    public @ResponseBody
+    String saveNewWithRaw(String textarea1, String name, String description) {
         String objectId = name + CommonUtil.genRandomNum();
-        rawinfoService.addRawText(textarea1,objectId);
-        String realName = name+" "+description;
-        rawinfoService.addRealName(realName,objectId);
+        rawinfoService.addRawText(textarea1, objectId);
+        String realName = name + " " + description;
+        rawinfoService.addRealName(realName, objectId);
         return "OK";
     }
 
-    @RequestMapping(value = "/newentity.do",method = RequestMethod.POST)
-    public @ResponseBody String saveNewWithReal(String name,String description){
+    @RequestMapping(value = "/newentity.do", method = RequestMethod.POST)
+    public @ResponseBody
+    String saveNewWithReal(String name, String description) {
         String objectId = name + CommonUtil.genRandomNum();
-        String realName = name+" "+description;
-        rawinfoService.addRealName(realName,objectId);
-        timelineService.insetTimenode(objectId,new Timenode("0000-00-00",new DetailedInfo("",realName,"")));
+        String realName = name + " " + description;
+        rawinfoService.insertRealName(realName, objectId);
+//        timelineService.insetTimenode(objectId, new Timenode("0000-00-00", new DetailedInfo("", realName, "")));
+        UUID uuid=UUID.randomUUID();
+        String  eventId = uuid.toString();
+//        String eventId = str.replace("-", "");
+        timelineService.insertEvent(objectId,new Event(eventId,"2050-01-01","",realName,""));
         return "OK";
     }
 
-
-
-
-
-
+    public static void main(String[] args) {
+        UUID uuid=UUID.randomUUID();
+        String str = uuid.toString();
+        System.out.println(str);
+    }
 
 
 }

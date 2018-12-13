@@ -19,8 +19,12 @@ public class ResultCache extends LinkedBlockingQueue<TransElement> {
 
     public void putElement(TransElement e, String... params) {
         try {
-            this.put(e);
-            log.debug("receive element");
+            if (e!=null){
+                this.put(e);
+                log.debug("receive element");
+            }else {
+                log.debug("element is null");
+            }
         } catch (InterruptedException e1) {
             log.error(e1.getMessage());
         }

@@ -15,9 +15,8 @@ public class LtpAPIConnectionFactory {
     private static final int maxSize = 100;
 
     private static ArrayList<LtpAPIConnection> connections;
-    private static final String api_key = "p8D9P0V1rsbV3aBKCudxIVwgpyjb8GjGFXKwHxsV";
-    private static final String pattern = "all";
-    private static final String format = "xml";
+    private static final String x = "n";
+    private static final String t = "all";
 
     static {
         log.debug("-------- ltp connections init -------");
@@ -25,7 +24,7 @@ public class LtpAPIConnectionFactory {
             connections = new ArrayList<>();
         }
         for (int i = 0; i < maxSize; i++) {
-            connections.add(new LtpAPIConnection(api_key, null, format, pattern));
+            connections.add(new LtpAPIConnection(null, x, t));
         }
         log.debug("-------- ltp connections init successfully -------");
     }

@@ -20,7 +20,7 @@
         <p></p>
     </div>
     <h2>  TimeLine</h2>
-    <div th:if="${not #lists.isEmpty(timeline)}">
+    <div th:if="${not #lists.isEmpty(events)}">
 
         <table class="table table-striped">
             <tr>
@@ -32,14 +32,14 @@
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
-            <tr th:each="timenode : ${timeline}">
-                <td th:text="${timenode.timePoint}">Id</td>
-                <td th:text="${timenode.info.location}">Location</td>
-                <td th:text="${timenode.info.description}">Descirption</td>
-                <td th:text="${timenode.info.result}">Result</td>
-                <td><a th:href="${'/timenode/'+objectId+'plus'+timenode.timePoint}">View</a></td>
-                <td><a th:href="${'/edittimenode/'+objectId+'plus'+timenode.timePoint}">Edit</a></td>
-                <td><a th:href="${'/deletenode/'+objectId+'plus'+timenode.timePoint}" >Delete</a></td>
+            <tr th:each="event : ${events}">
+                <td th:text="${event.ts}">Id</td>
+                <td th:text="${event.site}">Location</td>
+                <td th:text="${event.details}">Descirption</td>
+                <td th:text="${event.affect}">Result</td>
+                <td><a th:href="${'/timenode/'+event.eventId}">View</a></td>
+                <td><a th:href="${'/edittimenode/'+event.eventId}">Edit</a></td>
+                <td><a th:href="${'/deletenode/'+event.eventId}" >Delete</a></td>
             </tr>
         </table>
 

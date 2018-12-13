@@ -1,8 +1,11 @@
 package com.sudu.inas.util;
 
+import com.sudu.inas.beans.Event;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.UUID;
 
 
 /**
@@ -35,6 +38,11 @@ public class CommonUtil {
         Calendar ca = Calendar.getInstance();
         ca.setTime(new Date(Integer.valueOf(strings[0]),Integer.valueOf(strings[1])-1,Integer.valueOf(strings[2])));
         return Integer.valueOf(strings[0])*365 + ca.get(Calendar.DAY_OF_YEAR);
+    }
+
+    public static String getUUID(){
+        UUID uuid=UUID.randomUUID();
+        return uuid.toString();
     }
 
     public static void main(String[] args) {

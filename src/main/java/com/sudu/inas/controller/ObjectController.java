@@ -2,6 +2,8 @@ package com.sudu.inas.controller;
 
 
 import com.sudu.inas.beans.Entity;
+import com.sudu.inas.beans.Event;
+import com.sudu.inas.beans.RealEntity;
 import com.sudu.inas.beans.Timenode;
 import com.sudu.inas.service.ObjectService;
 import com.sudu.inas.service.RawinfoService;
@@ -30,9 +32,9 @@ public class ObjectController {
 
     @RequestMapping(value = "/objectlist",method = RequestMethod.POST)
     public String getSimilarKey(String prefix, Model model){
-        List<Entity> entityList = null;
+        List<RealEntity> entityList = null;
         try {
-            entityList = objectService.findObjectsByPrefix(prefix);
+            entityList = objectService.findEntitiesByPrefix(prefix);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,26 +44,27 @@ public class ObjectController {
 
     @RequestMapping("/object/{objectId}")
     public String getDetailedInfo(@PathVariable String objectId, Model model){
-        Entity objectById = null;
+        RealEntity objectById = null;
         try {
-            objectById = objectService.findObjectById(objectId);
+//            objectById = objectService.findObjectById(objectId);
+            objectById = objectService.findEntityByIdFromEs(objectId);
             model.addAttribute("objectId",objectId);
-            ArrayList<Timenode> timeLine = objectById.getTimeLine();
-            model.addAttribute("timeline",timeLine);
+            ArrayList<Event> events = objectById.getEvents();
+            model.addAttribute("events",events);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String rawText = rawinfoService.findRawText(objectId);
+//        String rawText = rawinfoService.findRawText(objectId);
+        String rawText = objectById.getRawInfo();
         model.addAttribute("rawtext",rawText);
         return "showdetailed";
-
     }
 
     @RequestMapping(value = "/objects",method = RequestMethod.POST)
     public String getObjectDes(String prefix, Model model){
-        List<Entity> entityList = null;
+        List<RealEntity> entityList = null;
         try {
-            entityList = objectService.findObjectsByPrefix(prefix);
+            entityList = objectService.findEntitiesByPrefix(prefix);
         } catch (Exception e) {
             e.printStackTrace();
         }

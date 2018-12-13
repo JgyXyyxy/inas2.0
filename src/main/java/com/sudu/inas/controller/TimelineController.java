@@ -1,11 +1,10 @@
 package com.sudu.inas.controller;
 
-import com.sudu.inas.beans.Connection;
-import com.sudu.inas.beans.DetailedInfo;
-import com.sudu.inas.beans.Entity;
-import com.sudu.inas.beans.Timenode;
+import com.sudu.inas.beans.*;
 import com.sudu.inas.service.ConnectionService;
+import com.sudu.inas.service.RelevanceService;
 import com.sudu.inas.service.TimelineService;
+import com.sudu.inas.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,69 +28,56 @@ public class TimelineController {
     @Autowired
     ConnectionService connectionService;
 
-    @RequestMapping(value = "/timenode/{idPlusQua}",method = RequestMethod.GET)
-    public String getTimeNode(@PathVariable String idPlusQua, Model model)throws Exception{
-        String[] strings = idPlusQua.split("plus");
-        String objectId = strings[0];
-        String timePoint = strings[1];
-        DetailedInfo detailInfo = timelineService.findDetailinfoByTimepoint(objectId, timePoint);
-        model.addAttribute("detail",detailInfo);
-        List<Connection> conncetionList = connectionService.findConncetionListByTimePoint(objectId, timePoint);
-        model.addAttribute("connections",conncetionList);
-        model.addAttribute("objectId",objectId);
-        model.addAttribute("timePoint",timePoint);
+    @Autowired
+    RelevanceService relevanceService;
+
+    @RequestMapping(value = "/timenode/{eventId}",method = RequestMethod.GET)
+    public String getTimeNode(@PathVariable String eventId, Model model)throws Exception{
+
+        Event event = timelineService.findEventByEventId(eventId);
+        model.addAttribute("event",event);
+        List<Relevance> relevances = relevanceService.getRelevancesByEventId(eventId);
+        ArrayList<Event> reledEvents = new ArrayList<>();
+        for (Relevance relevance:relevances){
+            if (eventId.equals(relevance.getSourceEventId())){
+                reledEvents.add(timelineService.findEventByEventId(relevance.getTargetEventId()));
+            }else {
+                reledEvents.add(timelineService.findEventByEventId(relevance.getSourceEventId()));
+            }
+        }
+        model.addAttribute("reledEvents",reledEvents);
         return "showtimenode";
     }
 
-    @RequestMapping(value = "/edittimenode/{idPlusQua}",method = RequestMethod.GET)
-    public String editTimeNode(@PathVariable String idPlusQua, Model model){
-        String[] strings = idPlusQua.split("plus");
-        String objectId = strings[0];
-        String timePoint = strings[1];
-        DetailedInfo detailedInfo = null;
+    @RequestMapping(value = "/edittimenode/{eventId}",method = RequestMethod.GET)
+    public String editTimeNode(@PathVariable String eventId, Model model){
+        Event event = new Event();
         try {
-            detailedInfo = timelineService.findDetailinfoByTimepoint(objectId, timePoint);
+            event = timelineService.findEventByEventId(eventId);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        model.addAttribute("detail",detailedInfo);
+        model.addAttribute("event",event);
         return "editnodeform";
     }
 
-    @RequestMapping(value = "/edittimenode/{idPlusQua}",method = RequestMethod.POST)
-    public String saveEditedNode(@PathVariable String idPlusQua,DetailedInfo detailedInfo){
-        String[] strings = idPlusQua.split("plus");
-        String objectId = strings[0];
-        String qualifier = strings[1];
-        Timenode timenode = new Timenode();
-        timenode.setTimePoint(qualifier);
-        timenode.setInfo(detailedInfo);
-        timelineService.insetTimenode(objectId,timenode );
-        return "redirect:/object/"+objectId;
+    @RequestMapping(value = "/edittimenode/{eventId}",method = RequestMethod.POST)
+    public String saveEditedNode(@PathVariable String eventId, Event event){
+        Event oldEvent = timelineService.findEventByEventId(eventId);
+        oldEvent.setSite(event.getSite());
+        oldEvent.setDetails(event.getDetails());
+        oldEvent.setAffect(event.getAffect());
+        timelineService.insertEvent(event.getObjectId(),oldEvent);
+        return "redirect:/object/"+event.getObjectId();
     }
 
-    @RequestMapping("/deletenode/{idPlusQua}")
-    public String deleteTimeNode(@PathVariable String idPlusQua){
-        String[] strings = idPlusQua.split("plus");
-        String objectId = strings[0];
-        String timePoint = strings[1];
-        try {
-            List<Connection> connectionList = connectionService.findConncetionListByTimePoint(objectId, timePoint);
-            if (null != connectionList){
-                for (Connection c:connectionList) {
-                    String connObjectId = c.getConnObjectId();
-                    String conntimePoint = c.getConntimePoint();
-                    Connection attached = connectionService.findConnectionByIdAndTime(connObjectId, conntimePoint, objectId, timePoint);
-                    connectionService.delConnectionByConnNo(connObjectId,conntimePoint,attached.getConnNo());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @RequestMapping("/deletenode/{eventId}")
+    public String deleteTimeNode(@PathVariable String eventId){
 
-        timelineService.delTimenodeByTimepoint(objectId,timePoint);
-        connectionService.delConnectionListByTimePoint(objectId,timePoint);
-        return "redirect:/object/"+objectId;
+        Event event = timelineService.findEventByEventId(eventId);
+        timelineService.delEventByEventId(eventId);
+        return "redirect:/object/"+event.getObjectId();
+
     }
 
 
@@ -102,11 +89,14 @@ public class TimelineController {
 
     @RequestMapping(value = "/recons",method = RequestMethod.POST)
     public  String saveObjectTimenode(String objectId, String time,String location,String description,String result){
-        Entity entity = new Entity();
-        entity.setObjectId(objectId);
-        DetailedInfo detailedInfo = new DetailedInfo(location, description, result);
-        Timenode timenode = new Timenode(time, detailedInfo);
-        timelineService.insetTimenode(entity.getObjectId(), timenode);
+        Event event = new Event();
+        event.setObjectId(objectId);
+        event.setEventId(CommonUtil.getUUID());
+        event.setTs(time);
+        event.setSite(location);
+        event.setDetails(description);
+        event.setAffect(result);
+        timelineService.insertEvent(objectId,event);
         return "redirect:/object/"+objectId;
     }
 
