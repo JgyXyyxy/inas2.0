@@ -202,7 +202,10 @@ public class ObjectServiceImpl implements ObjectService {
             Event event = new Event();
             String eventId = hbaseModel.getValue();
             Event eventByEventId = eventRepository.queryEventByEventId(eventId);
-            eventList.add(eventByEventId);
+            if (eventByEventId!=null){
+                eventList.add(eventByEventId);
+            }
+
         }
         if (HbaseModelUtil.BASIC_RAW.equals(hbaseModel.getFamilyName())) {
             if (hbaseModel.getQualifier().equals(HbaseModelUtil.COLUMN2)) {

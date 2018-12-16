@@ -195,7 +195,8 @@ $(function () {
                 }
             }
             if (tag){
-                var pointId = id.concat(timePoint);
+                var uid = uuid();
+                var pointId = id.concat(":").concat(uuid());
                 var label = timePoint.concat(location,description);
                 var color = "blue";
                 if (id === $("#objectId").val()){
@@ -334,24 +335,21 @@ function createExtractTable(data) {
 }
 
 function updateSelectList(){
-    var idAndTime = {}
+    var idAndLabel = {}
     for (key in pointsForId){
-        var timelist = [];
+        var labellist = [];
         for (var i = 0;i<pointsForId[key].length;i++){
-            var id =  pointsForId[key][i].id;
-            var time= id.substring(key.length,id.length);
-            if (time !=="0000-00-00"){
-                timelist.push(time);
-            }
+            var label =  pointsForId[key][i].label;
+            labellist.push(label);
         }
-        idAndTime[key] = timelist;
+        idAndLabel[key] = labellist;
     }
     var line="";
-    for (key in idAndTime){
+    for (key in idAndLabel){
         var name = getNameFormId(key);
         line = line + "<optgroup label="+ name +"/>"
-        for (var i = 0;i<idAndTime[key].length;i++){
-            var combine = key.concat(":",idAndTime[key][i]);
+        for (var i = 0;i<idAndLabel[key].length;i++){
+            var combine = key.concat(":",idAndLabel[key][i]);
             line = line+"<option>"+ combine +"</option>";
         }
         line = line +"</optgroup>";
@@ -383,6 +381,11 @@ function setGraphParas(nodes, edges) {
         title: {
             text: '                                      Object Dependencies'
         },
+        tooltip: {
+            formatter: function (x) {
+                return x.data.label.split("||").join("<br/>");
+            }//设置提示框的内容和格式 节点和边都显示name属性
+        },
         animationDurationUpdate: 1500,
         animationEasingUpdate: 'quinticInOut',
         series: [
@@ -396,7 +399,7 @@ function setGraphParas(nodes, edges) {
                         x: node.x,
                         y: node.y,
                         id: node.id,
-                        name: node.label,
+                        label: node.label,
                         symbolSize: node.size,
                         itemStyle: {
                             normal: {
@@ -418,16 +421,16 @@ function setGraphParas(nodes, edges) {
                         },
                     };
                 }),
-                label: {
-                    // normal:{
-                    //   show:true,
-                    //   position:'bottom'
-                    // }
-                    emphasis: {
-                        position: 'bottom',
-                        show: true
-                    }
-                },
+                // label: {
+                //     // normal:{
+                //     //   show:true,
+                //     //   position:'bottom'
+                //     // }
+                //     emphasis: {
+                //         position: 'bottom',
+                //         show: true
+                //     }
+                // },
                 roam: true,
                 focusNodeAdjacency: true,
                 lineStyle: {
@@ -440,6 +443,20 @@ function setGraphParas(nodes, edges) {
             }
         ]
     }, true);
+}
+
+function uuid() {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
+
+    var uuid = s.join("");
+    return uuid;
 }
 
 function sortSerial(a,b){

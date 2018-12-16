@@ -112,7 +112,7 @@ public class RawinfoController {
         UUID uuid=UUID.randomUUID();
         String  eventId = uuid.toString();
 //        String eventId = str.replace("-", "");
-        timelineService.insertEvent(objectId,new Event(eventId,"2050-01-01","",realName,""));
+        timelineService.insertEvent(objectId,new Event(eventId,objectId,"2050-01-01","",realName,""));
         return "OK";
     }
 

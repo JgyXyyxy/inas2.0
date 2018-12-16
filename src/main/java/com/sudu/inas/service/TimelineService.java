@@ -24,6 +24,6 @@ public interface TimelineService {
 
     void delTimenodeByTimepoint(String objectId,String timePoint);
 
-    void delEventByEventId(String eventId);
+    void delEvent(Event event);
 
 }

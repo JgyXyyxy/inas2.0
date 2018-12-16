@@ -78,9 +78,10 @@ public class TimelineServiceImpl implements TimelineService {
     }
 
     @Override
-    public void delEventByEventId(String eventId) {
-        eventRepository.deleteEventByEventId(eventId);
-        relevanceRepository.deleteRelevanceBySourceEventId(eventId);
-        relevanceRepository.deleteRelevanceByTargetEventId(eventId);
+    public void delEvent(Event event) {
+        hbaseDao.delColumnByQualifier(HbaseModelUtil.BASIC_TABLE,event.getObjectId(),HbaseModelUtil.BASIC_EVENT,event.getTs());
+        eventRepository.deleteEventByEventId(event.getEventId());
+        relevanceRepository.deleteRelevanceBySourceEventId(event.getEventId());
+        relevanceRepository.deleteRelevanceByTargetEventId(event.getEventId());
     }
 }

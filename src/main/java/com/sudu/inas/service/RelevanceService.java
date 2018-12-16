@@ -7,8 +7,13 @@ import java.util.Map;
 
 public interface RelevanceService {
 
-        Relevance getRelevanceByReId(String reId);
-        Relevance addRelevance(Relevance relevance);
-        int delRelevance(String rId);
-        List<Relevance> getRelevancesByEventId(String EventId);
+    Relevance getRelevanceByReId(String reId);
+
+    Relevance addRelevance(Relevance relevance);
+
+    int delRelevance(String rId);
+
+    List<Relevance> getRelevancesByEventId(String EventId);
+
+    List<Relevance> getRelevancesByEntityIds(String sourceId, String targetId);
 }

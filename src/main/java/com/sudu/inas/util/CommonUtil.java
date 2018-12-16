@@ -36,7 +36,15 @@ public class CommonUtil {
     public static int toDays(String date){
         String[] strings = date.split("-");
         Calendar ca = Calendar.getInstance();
-        ca.setTime(new Date(Integer.valueOf(strings[0]),Integer.valueOf(strings[1])-1,Integer.valueOf(strings[2])));
+        if (strings.length == 3){
+            ca.setTime(new Date(Integer.valueOf(strings[0]),Integer.valueOf(strings[1])-1,Integer.valueOf(strings[2])));
+        }
+
+        if (strings.length == 2){
+            ca.setTime(new Date(Integer.valueOf(strings[0]),Integer.valueOf(strings[1])-1,1));
+        }else {
+            ca.setTime(new Date(Integer.valueOf(strings[0]),1,1));
+        }
         return Integer.valueOf(strings[0])*365 + ca.get(Calendar.DAY_OF_YEAR);
     }
 

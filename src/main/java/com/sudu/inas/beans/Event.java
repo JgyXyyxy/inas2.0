@@ -16,8 +16,9 @@ public class Event {
     private String details;
     private String affect;
 
-    public Event(String eventId, String ts, String site, String details, String affect) {
+    public Event(String eventId, String objectId,String ts, String site, String details, String affect) {
         this.eventId = eventId;
+        this.objectId = objectId;
         this.ts = ts;
         this.site = site;
         this.details = details;
@@ -84,5 +85,12 @@ public class Event {
                 .add("details", details)
                 .add("affect", affect)
                 .toString();
+    }
+
+    public java.lang.String packEventLabel(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("时间: "+ts+"  地点: "+site+"||");
+        sb.append("详情: "+details+"||");
+        return sb.toString();
     }
 }
