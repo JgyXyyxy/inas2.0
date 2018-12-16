@@ -8,6 +8,7 @@ var newEdges = [];
 var selected = {}
 var deslist = {}
 var pointsForId = {}
+var desForId={}
 var initialPointsForId = {}
 var selectedNum = 0;
 var pre = "dd";
@@ -249,11 +250,13 @@ $(function () {
             alert("时间格式错误");
         }
     });
+
+
     $("#addConn").click(function () {
         var s1 = $('#select1 option:selected').text().split(":");
         var s2 = $('#select2 option:selected').text().split(":");
-        var source = s1[0].concat(s1[1]);
-        var target = s2[0].concat(s2[1]);
+        var source = s1[0].concat(":",desForId[s1[1]]);
+        var target = s2[0].concat(":",desForId[s2[1]]);
         var note = $('#connType').val();
         allEdges.push({sourceID:source,targetID:target,note:note});
         newEdges.push({sourceID:s1[0],sourceTime:s1[1],targetID:s2[0],targetTime:s2[1],influence:note});
@@ -336,10 +339,14 @@ function createExtractTable(data) {
 
 function updateSelectList(){
     var idAndLabel = {}
+    desForId = {};
     for (key in pointsForId){
         var labellist = [];
         for (var i = 0;i<pointsForId[key].length;i++){
             var label =  pointsForId[key][i].label;
+            var id =  pointsForId[key][i].id;
+            var combine = id.split(":");
+            desForId[label] = combine[1];
             labellist.push(label);
         }
         idAndLabel[key] = labellist;
