@@ -40,18 +40,22 @@ public class RelevanceServiceImpl implements RelevanceService {
     }
 
     @Override
-    public int delRelevance(String rId) {
-        return 0;
+    public void delRelevance(String rId) {
+        relevanceRepository.delete(rId);
     }
 
     @Override
     public List<Relevance> getRelevancesByEventId(String EventId) {
         List<Relevance> outRelevances = relevanceRepository.queryEventsBySourceEventId(EventId);
         List<Relevance> inRelevances = relevanceRepository.queryRelevancesByTargetEventId(EventId);
+        ArrayList<Relevance> relevances = new ArrayList<>();
         if (inRelevances.size()!=0){
-            outRelevances.addAll(inRelevances);
+            relevances.addAll(inRelevances);
         }
-        return outRelevances;
+        if (outRelevances.size()!=0){
+            relevances.addAll(outRelevances);
+        }
+        return relevances;
 
     }
 

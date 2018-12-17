@@ -26,4 +26,5 @@ public interface ConnectionService {
     void delConnectionListByTimePoint(String objectId,String timePoint);
 
     void delConnectionByConnNo(String objectId,String timePoint,int connNo);
+
 }

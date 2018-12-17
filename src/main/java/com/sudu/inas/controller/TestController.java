@@ -69,13 +69,17 @@ public class TestController {
     @RequestMapping(value = "/saveNewEntitytest.do", method = RequestMethod.POST)
     public @ResponseBody
     Map<String, String> saveNewEntity(String name, String description, String prefix) throws Exception {
+
         String objectId = name + CommonUtil.genRandomNum();
         String realName = name + " " + description;
-        rawinfoService.addRealName(realName, objectId);
-        timelineService.insetTimenode(objectId, new Timenode("0000-00-00", new DetailedInfo("", realName, "")));
+        rawinfoService.insertRealName(realName, objectId);
+        UUID uuid=UUID.randomUUID();
+        String  eventId = uuid.toString();
+        timelineService.insertEvent(objectId,new Event(eventId,objectId,"2050-01-01","",realName,""));
+
         HashMap<String, String> desList = new HashMap<>();
-        List<Entity> objectsByPrefix = objectService.findObjectsByPrefix(prefix);
-        for (Entity entity : objectsByPrefix) {
+        List<RealEntity> objectsByPrefix = objectService.findEntitiesByPrefix(prefix);
+        for (RealEntity entity : objectsByPrefix) {
             desList.put(entity.getObjectId(), entity.getRealName());
         }
         return desList;
@@ -109,7 +113,7 @@ public class TestController {
                 node.setSerial(0);
             }
 
-            node.setId(objectId+":"+ event.getEventId());
+            node.setId(objectId + ":" + event.getEventId());
             nodes.add(node);
         }
 
@@ -138,22 +142,22 @@ public class TestController {
             }
         }
 
-        if (reEntityId!=null){
+        if (reEntityId != null) {
             List<Relevance> outRele = relevanceService.getRelevancesByEntityIds(objectId, reEntityId);
-            for (Relevance relevance:outRele){
-                if (relevance!=null){
-                    String source = objectId+":"+relevance.getSourceEventId();
-                    String target = reEntityId+":"+relevance.getTargetEventId();
+            for (Relevance relevance : outRele) {
+                if (relevance != null) {
+                    String source = objectId + ":" + relevance.getSourceEventId();
+                    String target = reEntityId + ":" + relevance.getTargetEventId();
                     Edge edge = new Edge(source, target, relevance.getDescription());
                     edges.add(edge);
                 }
             }
 
             List<Relevance> inRele = relevanceService.getRelevancesByEntityIds(reEntityId, objectId);
-            for (Relevance relevance:inRele){
-                if (relevance!=null){
-                    String source = reEntityId+":"+relevance.getSourceEventId();
-                    String target = objectId+":"+relevance.getTargetEventId();
+            for (Relevance relevance : inRele) {
+                if (relevance != null) {
+                    String source = reEntityId + ":" + relevance.getSourceEventId();
+                    String target = objectId + ":" + relevance.getTargetEventId();
                     Edge edge = new Edge(source, target, relevance.getDescription());
                     edges.add(edge);
                 }
@@ -172,20 +176,29 @@ public class TestController {
             JSONArray nodeArray = new JSONArray(newNodes);
             for (int i = 0; i < nodeArray.length(); i++) {
                 JSONObject node = (JSONObject) nodeArray.get(i);
-                DetailedInfo info = new DetailedInfo(node.getString("location"), node.getString("description"), "");
-                Timenode timenode = new Timenode(node.getString("timepoint"), info);
-                System.out.print(node.getString("id") + "  ");
-                System.out.println(timenode);
+                String pointId = node.getString("id");
+                String[] ids = pointId.split(":");
+                String objectId = ids[0];
+                String eventId = ids[1];
+                Event event = new Event(eventId, objectId, node.getString("timepoint"), node.getString("location"), node.getString("description"), "");
+                System.out.println(event);
+                timelineService.insertEvent(objectId, event);
             }
             JSONArray edgeArray = new JSONArray(newEdges);
             for (int i = 0; i < edgeArray.length(); i++) {
                 JSONObject edge = (JSONObject) edgeArray.get(i);
-                Connection connection = new Connection(edge.getString("targetID"), edge.getString("targetTime"), edge.getString("influence"));
-                System.out.print(edge.getString("sourceID") + " ");
-                System.out.print(edge.getString("sourceTime") + " ");
-                System.out.print(edge.getString("influence") + " ");
-                System.out.println(connection);
-//                connectionService.addConnection(edge.getString("sourceID"),edge.getString("sourceTime"),connection);
+                String sourceID = edge.getString("sourceID");
+                String[] sids = sourceID.split(":");
+                String sourceObjectId = sids[0];
+                String sourceEventId = sids[1];
+                String targetID = edge.getString("targetID");
+                String[] tids = targetID.split(":");
+                String targetObjectId = tids[0];
+                String targetEventId = tids[1];
+                Relevance relevance = new Relevance(CommonUtil.getUUID(), "", edge.getString("note"), sourceEventId, sourceObjectId, targetEventId, targetObjectId);
+                System.out.println(relevance);
+                relevanceService.addRelevance(relevance);
+
             }
 
             System.out.println(rawinfo);

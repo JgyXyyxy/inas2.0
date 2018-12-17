@@ -89,8 +89,8 @@ public class Event {
 
     public java.lang.String packEventLabel(){
         StringBuilder sb = new StringBuilder();
-        sb.append("时间: "+ts+"  地点: "+site+"||");
-        sb.append("详情: "+details+"||");
+        sb.append("时间 "+ts+"  地点 "+site+"||");
+        sb.append("详情 "+details+"||");
         return sb.toString();
     }
 }

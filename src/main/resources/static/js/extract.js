@@ -197,14 +197,14 @@ $(function () {
             }
             if (tag){
                 var uid = uuid();
-                var pointId = id.concat(":").concat(uuid());
+                var pointId = id.concat(":").concat(uid);
                 var label = timePoint.concat(location,description);
                 var color = "blue";
                 if (id === $("#objectId").val()){
                     color = "red"
                 }
                 pointsForId[id].push({x:1,y:1,id:pointId,label:label,size:20,color:color,serial:days})
-                newNodes.push({id:id,timepoint:timePoint,location:location,description:description})
+                newNodes.push({id:pointId,timepoint:timePoint,location:location,description:description})
                 pointsForId[id].sort(sortSerial);
                 var insert = 0;
                 for (var i=0; i<pointsForId[id].length;i++){
@@ -259,7 +259,7 @@ $(function () {
         var target = s2[0].concat(":",desForId[s2[1]]);
         var note = $('#connType').val();
         allEdges.push({sourceID:source,targetID:target,note:note});
-        newEdges.push({sourceID:s1[0],sourceTime:s1[1],targetID:s2[0],targetTime:s2[1],influence:note});
+        newEdges.push({sourceID:source,targetID:target,note:note});
         setGraphParas(allNodes,allEdges);
     });
 });

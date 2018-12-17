@@ -5,6 +5,7 @@ import com.sudu.inas.beans.Connection;
 import com.sudu.inas.beans.DetailedInfo;
 import com.sudu.inas.beans.Timenode;
 import com.sudu.inas.service.ConnectionService;
+import com.sudu.inas.service.RelevanceService;
 import com.sudu.inas.service.TimelineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,9 @@ public class ConnectionController {
 
     @Autowired
     TimelineService timelineService;
+
+    @Autowired
+    RelevanceService relevanceService;
 
     @RequestMapping(value = "/editconnection/{idPlusQua}",method = RequestMethod.GET)
     public String editConnection(@PathVariable String idPlusQua, Model model){
@@ -89,18 +93,26 @@ public class ConnectionController {
         return "redirect:/timenode/"+objectId+"plus"+timePoint;
     }
 
-    @RequestMapping("/deleteconnection/{idPlusQua}")
-    public String deleteConnection(@PathVariable String idPlusQua) throws Exception {
-        String[] strings = idPlusQua.split("plus");
-        String objectId = strings[0];
-        String timePoint = strings[1];
-        String connNo = strings[2];
-        Connection conncetion = connectionService.findConncetionByConnNo(objectId, timePoint, Integer.parseInt(connNo));
-        Connection attached = connectionService.findConnectionByIdAndTime(conncetion.getConnObjectId(), conncetion.getConntimePoint(), objectId, timePoint);
-        connectionService.delConnectionByConnNo(conncetion.getConnObjectId(),conncetion.getConntimePoint(),attached.getConnNo());
-        connectionService.delConnectionByConnNo(objectId,timePoint,Integer.parseInt(connNo));
-        return "redirect:/timenode/"+objectId+"plus"+timePoint;
-    }
+//    @RequestMapping("/deleteconnection/{idPlusQua}")
+//    public String deleteConnection(@PathVariable String idPlusQua) throws Exception {
+//        String[] strings = idPlusQua.split("plus");
+//        String objectId = strings[0];
+//        String timePoint = strings[1];
+//        String connNo = strings[2];
+//        Connection conncetion = connectionService.findConncetionByConnNo(objectId, timePoint, Integer.parseInt(connNo));
+//        Connection attached = connectionService.findConnectionByIdAndTime(conncetion.getConnObjectId(), conncetion.getConntimePoint(), objectId, timePoint);
+//        connectionService.delConnectionByConnNo(conncetion.getConnObjectId(),conncetion.getConntimePoint(),attached.getConnNo());
+//        connectionService.delConnectionByConnNo(objectId,timePoint,Integer.parseInt(connNo));
+//
+//    }
 
+    @RequestMapping("/deleterele/{id}")
+    public String deleteRelevance(@PathVariable String id) throws Exception {
+        String[] split = id.split(":");
+        String eventId = split[0];
+        String rId = split[1];
+        relevanceService.delRelevance(rId);
+        return "redirect:/timenode/"+eventId;
+    }
 
 }

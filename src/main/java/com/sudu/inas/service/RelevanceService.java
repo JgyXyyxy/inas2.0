@@ -11,9 +11,10 @@ public interface RelevanceService {
 
     Relevance addRelevance(Relevance relevance);
 
-    int delRelevance(String rId);
+    void delRelevance(String rId);
 
     List<Relevance> getRelevancesByEventId(String EventId);
 
     List<Relevance> getRelevancesByEntityIds(String sourceId, String targetId);
+
 }

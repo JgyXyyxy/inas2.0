@@ -42,9 +42,13 @@ public class TimelineController {
         ArrayList<Event> reledEvents = new ArrayList<>();
         for (Relevance relevance : relevances) {
             if (eventId.equals(relevance.getSourceEventId())) {
-                reledEvents.add(timelineService.findEventByEventId(relevance.getTargetEventId()));
+                Event event1 = timelineService.findEventByEventId(relevance.getTargetEventId());
+                event1.setEventId(relevance.getrId());
+                reledEvents.add(event1);
             } else {
-                reledEvents.add(timelineService.findEventByEventId(relevance.getSourceEventId()));
+                Event event1 = timelineService.findEventByEventId(relevance.getSourceEventId());
+                event1.setEventId(relevance.getrId());
+                reledEvents.add(event1);
             }
         }
         model.addAttribute("reledEvents", reledEvents);

@@ -33,25 +33,23 @@
         </form>
     </div>
 
-    <h3>Connection List</h3>
+    <h3>相关事件列表</h3>
     <div th:if="${not #lists.isEmpty(reledEvents)}">
         <table class="table table-striped">
             <tr>
-                <th>No.</th>
-                <th>ConnectedId</th>
-                <th>TimePoint</th>
-                <th>Influence</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th>相关实体</th>
+                <th>时间</th>
+                <th>详情</th>
+                <!--<th>影响</th>-->
+                <th>删除</th>
             </tr>
             <tr th:each="reledEvent : ${reledEvents}">
-                <td th:text="${reledEvent.eventId}">No</td>
                 <td th:text="${reledEvent.objectId}">相关实体</td>
                 <td th:text="${reledEvent.ts}">时间</td>
                 <td th:text="${reledEvent.details}">详细描述</td>
-                <td th:text="${reledEvent.affect}">影响</td>
-                <td><a th:href="${'/timenode/'+reledEvent.eventId}">Edit</a></td>
-                <td><a th:href="${'/delete/'+reledEvent.eventId}">Delete</a></td>
+                <!--<td th:text="${reledEvent.affect}">影响</td>-->
+                <!--<td><a th:href="${'/timenode/'+reledEvent.eventId}">Edit</a></td>-->
+                <td><a th:href="${'/deleterele/'+event.eventId+':'+reledEvent.eventId}">Delete</a></td>
             </tr>
         </table>
 

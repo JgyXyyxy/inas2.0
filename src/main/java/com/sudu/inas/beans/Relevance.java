@@ -1,5 +1,6 @@
 package com.sudu.inas.beans;
 
+import com.google.common.base.MoreObjects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -16,8 +17,21 @@ public class Relevance {
     private String targetEventId;
     private String targetEntityId;
 
+    public Relevance() {
+    }
+
     public Relevance(String rId) {
         this.rId = rId;
+    }
+
+    public Relevance(String rId, String type, String description, String sourceEventId, String sourceEntityId, String targetEventId, String targetEntityId) {
+        this.rId = rId;
+        this.type = type;
+        this.description = description;
+        this.sourceEventId = sourceEventId;
+        this.sourceEntityId = sourceEntityId;
+        this.targetEventId = targetEventId;
+        this.targetEntityId = targetEntityId;
     }
 
     public String getrId() {
@@ -85,5 +99,18 @@ public class Relevance {
             case "targetEventId":return getTargetEventId();
             default:return "error in get";
         }
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("rId", rId)
+                .add("type", type)
+                .add("description", description)
+                .add("sourceEventId", sourceEventId)
+                .add("sourceEntityId", sourceEntityId)
+                .add("targetEventId", targetEventId)
+                .add("targetEntityId", targetEntityId)
+                .toString();
     }
 }
