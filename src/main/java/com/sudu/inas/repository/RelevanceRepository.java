@@ -10,6 +10,8 @@ public interface RelevanceRepository extends ElasticsearchRepository<Relevance,S
     Relevance queryRelevanceByRId(String rId);
     List<Relevance> queryEventsBySourceEventId(String source);
     List<Relevance> queryRelevancesByTargetEventId(String target);
+    List<Relevance> queryRelevancesBySourceEntityId(String sourceEntityId);
+    List<Relevance> queryRelevancesByTargetEntityId(String targetEntityId);
     List<Relevance> queryRelevancesBySourceEntityIdAndTargetEntityId(String sourceId,String targetId);
     void deleteRelevanceByTargetEventId(String target);
     void deleteRelevanceBySourceEventId(String source);

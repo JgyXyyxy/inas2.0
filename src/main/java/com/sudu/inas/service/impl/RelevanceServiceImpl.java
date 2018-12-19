@@ -64,6 +64,16 @@ public class RelevanceServiceImpl implements RelevanceService {
         return relevanceRepository.queryRelevancesBySourceEntityIdAndTargetEntityId(sourceId, targetId);
     }
 
+    @Override
+    public List<Relevance> getActiveRelevancesForEntity(String objectId) {
+        return relevanceRepository.queryRelevancesBySourceEntityId(objectId);
+    }
+
+    @Override
+    public List<Relevance> getPassiveRelevancesForEntity(String objectId) {
+        return relevanceRepository.queryRelevancesByTargetEntityId(objectId);
+    }
+
     public static void main(String[] args) {
         Relevance ddddd = new Relevance("ddddd");
         Field[] declaredFields = ddddd.getClass().getDeclaredFields();

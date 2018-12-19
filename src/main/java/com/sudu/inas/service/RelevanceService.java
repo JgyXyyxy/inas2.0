@@ -17,4 +17,8 @@ public interface RelevanceService {
 
     List<Relevance> getRelevancesByEntityIds(String sourceId, String targetId);
 
+    List<Relevance> getActiveRelevancesForEntity(String objectId);
+
+    List<Relevance> getPassiveRelevancesForEntity(String objectId);
+
 }
