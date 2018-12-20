@@ -50,6 +50,11 @@ public class ObjectController {
             objectById = objectService.findEntityByIdFromEs(objectId);
             model.addAttribute("objectId",objectId);
             ArrayList<Event> events = objectById.getEvents();
+            for (int i = 0;i<events.size();i++){
+                if ("2050-01-01".equals(events.get(i).getTs())){
+                    events.remove(i);
+                }
+            }
             model.addAttribute("events",events);
         } catch (Exception e) {
             e.printStackTrace();

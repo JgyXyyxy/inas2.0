@@ -10,29 +10,29 @@
 <div class="container">
     <th:block th:include="fragments/head1 :: header"></th:block>
 
-    <h2>TimeNode Details</h2>
+    <h2>时间节点详情</h2>
     <div>
         <form class="form-horizontal" th:object="${event}"  method="post">
             <div class="form-group">
-                <label class="col-sm-2 control-label">Location</label>
+                <label class="col-sm-2 control-label">地点</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{site}"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Description:</label>
+                <label class="col-sm-2 control-label">详情:</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{details}"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Result</label>
+                <label class="col-sm-2 control-label">结果</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{affect}"/>
                 </div>
             </div>
             <div class="row">
-                <button type="submit" class="btn btn-primary">Modify</button>
+                <button type="submit" class="btn btn-primary">修改</button>
             </div>
         </form>
     </div>

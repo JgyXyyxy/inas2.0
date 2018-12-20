@@ -180,8 +180,7 @@ $(function () {
         var timePoint = single[1].firstChild.value;
         var location = single[2].firstChild.value;
         var description = single[3].firstChild.value;
-        var r = new RegExp("^[1-2]\\d{3}-(0?[1-9]||1[0-2])-(0?[1-9]||[1-2][1-9]||3[0-1])$");
-        var bool = r.test(timePoint);
+
         if (bool){
             var time = timePoint.split("-");
             var day = getDays(time[0],time[1],time[2]);
@@ -247,7 +246,7 @@ $(function () {
             }
 
         }else {
-            alert("时间格式错误");
+            alert("时间格式错误(YYYY-MM-DD),例：2018-09-01");
         }
     });
 
@@ -307,10 +306,10 @@ function createDesTable(result) {
 
 function createExtractTable(data) {
     var addnew = "<tr>" +
-        "<td><a id=\"addNewLine\">Add New Line</a></td>" +
+        "<td><a id=\"addNewLine\">添加新的一行</a></td>" +
         "</tr>";
     var panelStr = " <div class=\"panel panel-success\" >\n" +
-        "<div class=\"panel-heading\">Extract Result</div>\n" +
+        "<div class=\"panel-heading\">智能抽取结果</div>\n" +
         "<form>\n" +
         "<div class=\"panel-body\">\n";
     var tableStr = panelStr + "<table class=\"table table-striped\" id=\"resultTable\">";
@@ -386,7 +385,7 @@ function getNameFormId(id) {
 function setGraphParas(nodes, edges) {
     myChart.setOption({
         title: {
-            text: '                                      Object Dependencies'
+            text: '                                      实体演化关联图示'
         },
         tooltip: {
             formatter: function (x) {

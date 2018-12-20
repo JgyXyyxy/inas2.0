@@ -13,6 +13,7 @@
         <table class="table table-striped">
             <tr th:each="entity : ${entities}">
                 <td th:text="${entity.objectId}">Id</td>
+                <td th:text="${entity.realName}">realName</td>
                 <td><a th:href="${ '/object/'+entity.objectId}">Detailed</a></td>
             </tr>
         </table>

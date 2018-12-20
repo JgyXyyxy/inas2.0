@@ -11,7 +11,7 @@
     <th:block th:include="fragments/head1 :: header"></th:block>
     <h2 th:text="${objectId}"></h2>
     <input id="objectId" th:value="${objectId}" type="hidden"/>
-    <h2>  RawInfo </h2>
+    <h2>  原始信息 </h2>
     <div class="container">
         <a id="show"> show</a>
     </div>
@@ -19,21 +19,21 @@
         <textarea  id="textarea1" name = "news_content" rows = "20" cols = "160">... </textarea>
         <p></p>
     </div>
-    <h2>  TimeLine</h2>
+    <h2> 实体时间线 </h2>
     <div th:if="${not #lists.isEmpty(events)}">
 
         <table class="table table-striped">
             <tr>
-                <th>Time</th>
-                <th>location</th>
-                <th>Description</th>
-                <th>Result</th>
+                <th>时间</th>
+                <th>位置</th>
+                <th>详情</th>
+                <th>结果</th>
                 <th>View</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
             <tr th:each="event : ${events}">
-                <td th:text="${event.ts}">Id</td>
+                <td th:text="${event.ts}" >ts</td>
                 <td th:text="${event.site}">Location</td>
                 <td th:text="${event.details}">Descirption</td>
                 <td th:text="${event.affect}">Result</td>
@@ -45,37 +45,37 @@
 
     </div>
     <div class="container">
-        <a id="add">Add New Timnode</a>
+        <a id="add">添加一个新的时间节点</a>
     </div>
     <div id="newtimenode" style="display: none">
-        <form class="form-horizontal" th:action="@{/recons}" method="post">
+        <form class="form-horizontal" th:action="@{/recons}" method="post" onsubmit="return verifytime()">
             <input name="objectId" type="hidden" th:value="${objectId}"/>
             <div class="form-group">
-                <label for="inputTime" class="col-sm-2 control-label">Time</label>
+                <label for="inputTime" class="col-sm-2 control-label">时间</label>
                 <div class="col-sm-2">
-                    <input name="time" type="text" class="form-control" id="inputTime" placeholder="Mc"/>
+                    <input name="time"  type="text" class="form-control" id="inputTime" placeholder="2018-05-20"/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputLocation" class="col-sm-2 control-label">Location</label>
+                <label for="inputLocation" class="col-sm-2 control-label">地点</label>
                 <div class="col-sm-2">
                     <input name="location" type="text" class="form-control" id="inputLocation" placeholder="Beijing"/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+                <label for="inputDescription" class="col-sm-2 control-label">详情</label>
                 <div class="col-sm-10">
                     <input name="description" type="text" class="form-control" id="inputDescription" placeholder="description"/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputResult" class="col-sm-2 control-label">Result</label>
+                <label for="inputResult" class="col-sm-2 control-label">结果</label>
                 <div class="col-sm-10">
                     <input name="result" type="text" class="form-control" id="inputResult" placeholder="result"/>
                 </div>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary">添加</button>
             </div>
         </form>
     </div>
