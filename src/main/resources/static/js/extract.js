@@ -30,10 +30,11 @@ $(function () {
     });
     $("#commit").click(function () {
         var raw = $('#rawinfo').val();
+        var id = $('#objectId').val();
         $.ajax({
             type: "post",
             url: "/commit.do",
-            data: {newNodes:JSON.stringify(newNodes),newEdges:JSON.stringify(newEdges),rawinfo:raw},
+            data: {newNodes:JSON.stringify(newNodes),newEdges:JSON.stringify(newEdges),rawinfo:raw,id:id },
             success: function (result) {
                 alert(result);
                 window.location.href="/search";

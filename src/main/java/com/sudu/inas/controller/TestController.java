@@ -171,7 +171,7 @@ public class TestController {
 
     @RequestMapping(value = "/commit.do", method = RequestMethod.POST)
     public @ResponseBody
-    String commitEdit(String newNodes, String newEdges, String rawinfo) {
+    String commitEdit(String newNodes, String newEdges, String rawinfo,String id) {
         try {
             JSONArray nodeArray = new JSONArray(newNodes);
             for (int i = 0; i < nodeArray.length(); i++) {
@@ -201,6 +201,9 @@ public class TestController {
 
             }
 
+//            String rawText = rawinfoService.findRawText(id);
+//            rawinfoService.addRawText(rawText+rawinfo,id);
+            System.out.println(id);
             System.out.println(rawinfo);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -41,7 +41,7 @@ public class RawInfoServiceImpl implements RawinfoService{
 
     @Override
     public void addRawText(String rawText, String objectId) {
-        hbaseDao.insertData(HbaseModelUtil.BASICTABLE,objectId, HbaseModelUtil.CF1,HbaseModelUtil.COLUMN2,rawText,null);
+        hbaseDao.insertData(HbaseModelUtil.BASIC_TABLE,objectId, HbaseModelUtil.BASIC_RAW,HbaseModelUtil.RAW_TEXT,rawText,null);
 
     }
 }
