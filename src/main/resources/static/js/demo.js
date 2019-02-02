@@ -34,87 +34,75 @@ option = {
                 id: 'O1',
                 label:'',
                 x: 300,
-                y: 400
+                y: 300
             }, {
                 id: 'O2',
                 label:'',
                 x: 500,
                 y: 300
             }, {
-                name: 'B',
-                label:'time point: AD 200 || description: Captive Guan Yu and generous treatment.',
+                name: 'A',
+                label:'时间: 公元200年 ||地点：未知  || 描述: 俘虏并善待关羽 ',
                 x: 700,
                 y: 300
             },{
-                id: 'O4',
-                label:'',
+                name: 'B',
+                label:'时间: 公元200年10月 || 地点: 官渡 || 描述: 获得了官渡之战的胜利 || 影响: 为统一北方奠定了基础 \n',
                 x: 900,
                 y: 300
             },{
-                id: 'B1',
+                id: 'O3',
+                label:'',
+                x: 1100,
+                y: 300
+            },{
+                id: 'E1',
                 label:'',
                 x: 300,
-                y: 600,
-                itemStyle: {
-                    color: 'blue'
-                }
+                y: 600
+
             },{
-                id: 'B2',
-                label:'',
+                name: 'N',
+                label:'时间: 公元200年 || 描述: 被迫投向于曹操',
                 x: 500,
                 y: 600
             },{
-                name: 'A',
-                label:'time point: AD 200 || description: Forced to surrender to Cao Cao',
+                name: 'M',
+                label:'时间: 公元208年10月 || 地点: 华容道 || 描述: 私下放走了曹操',
                 x: 700,
                 y: 600
             }, {
-                name: 'C',
-                label:'time point: October, AD 208 || place: Huarong Road || description: took the initiative to let Cao Cao escape',
+                id: 'E2',
+                label:'',
                 x: 900,
                 y: 600
-            },{
-                name: 'Node 1',
-                label:'',
-                x: 300,
-                y: 1000
-            },{
-                name: 'Node m',
-                label:'time point: October, AD 200 || place: Guandu || description: The victory of the battle of Guandu || results and impact: Laid the foundation for the reunification \n' +
-                '\t\tof the north\n',
-                x: 500,
-                y: 1000
-            },{
-                name: 'Node n',
-                label:'',
-                x: 700,
-                y: 1000
-            },
-
-            ],
+            }],
             // links: [],
             links: [{
                 source: 'O1',
                 target: 'O2'
             }, {
                 source: 'O2',
-                target: 'B'
-            },{
-                source: 'B',
-                target: 'O4'
-            }, {
-                source: 'B1',
-                target: 'B2'
-            },{
-                source: 'B2',
                 target: 'A'
-            }, {
-                source: 'A',
-                target: 'C'
             },{
-                source: 'O1',
-                label:'association type: Positive impact',
-                target: 'C',
+                source: 'A',
+                target: 'B'
+            }, {
+                source: 'B',
+                target: 'O3'
+            },{
+                source: 'E1',
+                target: 'N'
+            }, {
+                source: 'N',
+                target: 'M'
+            }, {
+                source: 'M',
+                target: 'E2'
+            },{
+                source: 'A',
+                label:'关联描述：积极作用',
+                target: 'M',
                 lineStyle: {
                     normal: {
                         width: 5,
@@ -122,12 +110,6 @@ option = {
                     }
                 }
 
-            },{
-                source:'Node 1',
-                target:'Node m'
-            },{
-                source:'Node m',
-                target:'Node n'
             }
             ]
 

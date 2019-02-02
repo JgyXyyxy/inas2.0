@@ -2,12 +2,12 @@ var myChart = echarts.init(document.getElementById('select_area'));
 var webkitDep = {
     categories:[{name: "核心词"},       //关系网类别
         {name: "属性组"}],
-    nodes:[{category: 0, name: "Cao Cao",symbolSize: 40, value: 5, id: 0},  //展示的节点 //category与关系网类别索引对应 //我的源数据中没有id属性，这里放出来的是目标数据，id是自动生成的
-        {category: 1, name: "Dynasty: the Eastern Han Dynasty", value: 3, id: 1},
-        {category: 1, name: "Nationality: Han", value: 1, id: 2},
-        {category: 1, name: "Official position: prime minister", value: 1, id: 3},
-        {category: 1, name: "Birthplace: Bozhou, Anhui province", value: 1, id: 4},
-        {category: 1, name: "Name: Mengde", value: 1, id: 5}
+    nodes:[{category: 0, name: "曹操",symbolSize: 40, value: 5, id: 0},  //展示的节点 //category与关系网类别索引对应 //我的源数据中没有id属性，这里放出来的是目标数据，id是自动生成的
+        {category: 1, name: "朝代: 东汉", value: 3, id: 1},
+        {category: 1, name: "民族: 汉族", value: 1, id: 2},
+        {category: 1, name: "官职: 丞相", value: 1, id: 3},
+        {category: 1, name: "出生地: 安徽亳州", value: 1, id: 4},
+        {category: 1, name: "字号: 孟德", value: 1, id: 5}
         ],
 
 

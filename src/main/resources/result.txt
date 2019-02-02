@@ -1,0 +1,21 @@
+[
+   [
+      [
+         { "arg" : [],"cont" : "2008年", "id" : 0,"ne" : "O", "parent" : 2,"pos" : "nt","relate" : "ATT"},
+         { "arg" : [],"cont" : "11月","id" : 1,"ne" : "O","parent" : 2,"pos" : "nt","relate" : "ATT"},
+         { "arg" : [], "cont" : "4日","id" : 2,"ne" : "O","parent" : 6,"pos" : "nt", "relate" : "ADV" },
+         { "arg" : [],"cont" : "，","id" : 3, "ne" : "O","parent" : 2,"pos" : "wp", "relate" : "WP"},
+         { "arg" : [],"cont" : "奥巴马", "id" : 4,"ne" : "S-Nh","parent" : 6,"pos" : "nh","relate" : "SBV"},
+         { "arg" : [], "cont" : "正式","id" : 5,"ne" : "O","parent" : 6,"pos" : "a","relate" : "ADV"},
+         { "arg" : [
+               { "beg" : 0,"end" : 3,"id" : 0,"type" : "TMP" },
+               { "beg" : 4,"end" : 4,"id" : 1,"type" : "A0" },
+               { "beg" : 5,"end" : 5, "id" : 2, "type" : "ADV"},
+               { "beg" : 7,"end" : 8,"id" : 3,"type" : "A1"}
+            ],"cont" : "当选", "id" : 6,"ne" : "O","parent" : -1,"pos" : "v","relate" : "HED"},
+         { "arg" : [],"cont" : "美国","id" : 7,"ne" : "S-Ns","parent" : 8,"pos" : "ns", "relate" : "ATT"},
+         { "arg" : [],"cont" : "总统","id" : 8,"ne" : "O","parent" : 6,"pos" : "n","relate" : "VOB"},
+         { "arg" : [],"cont" : "。", "id" : 9,"ne" : "O","parent" : 6, "pos" : "wp","relate" : "WP" }
+      ]
+   ]
+]
