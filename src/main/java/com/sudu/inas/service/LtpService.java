@@ -129,9 +129,6 @@ public class LtpService {
         }
 
 
-
-
-
         SyntaxResult syntaxResult = new SyntaxResult();
         syntaxResult.setNh(nh);
         syntaxResult.setPos(position);

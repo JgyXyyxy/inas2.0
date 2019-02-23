@@ -1,10 +1,7 @@
 package com.sudu.inas.controller;
 
 
-import com.sudu.inas.beans.DetailedInfo;
-import com.sudu.inas.beans.Entity;
-import com.sudu.inas.beans.Event;
-import com.sudu.inas.beans.Timenode;
+import com.sudu.inas.beans.*;
 import com.sudu.inas.service.ObjectService;
 import com.sudu.inas.service.RawinfoService;
 import com.sudu.inas.service.TimelineService;
@@ -15,6 +12,7 @@ import com.sun.tools.corba.se.idl.StringGen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -92,6 +90,13 @@ public class RawinfoController {
         return "OK";
     }
 
+    @RequestMapping(value = "/saveraw.do", method = RequestMethod.POST)
+    public @ResponseBody
+    String saveRaw(String textarea1, String objectId) {
+        rawinfoService.addRawinfo(objectId,textarea1);
+        return "OK";
+    }
+
     @RequestMapping(value = "/savenew.do", method = RequestMethod.POST)
     public @ResponseBody
     String saveNewWithRaw(String textarea1, String name, String description) {
@@ -120,6 +125,23 @@ public class RawinfoController {
         UUID uuid=UUID.randomUUID();
         String str = uuid.toString();
         System.out.println(str);
+    }
+
+    @RequestMapping("/rawinfo/{objectId}")
+    public String getDetailedInfo(@PathVariable String objectId, Model model){
+
+        String realname="";
+        try {
+            RealEntity entity = objectService.findEntityByIdFromEs(objectId);
+            realname = entity.getRealName();
+        } catch (Exception e) {
+            
+        }
+        String rawinfo = rawinfoService.getRawinfo(objectId);
+        model.addAttribute("objectId",objectId);
+        model.addAttribute("realName",realname);
+        model.addAttribute("rawinfo",rawinfo);
+        return "rawinfo";
     }
 
 

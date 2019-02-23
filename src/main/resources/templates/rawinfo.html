@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html" charset="UTF-8"/>
+    <title>INAS</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div class="container">
+    <th:block th:include="fragments/head1 :: header"></th:block>
+    <input id="objectId" th:value="${objectId}" type="hidden"/>
+    <h2 th:text="${realName}"></h2>
+</div>
+
+
+<div>
+    <div class="row text-center" >
+        <textarea id="textarea1" name = "news_content" rows = "20" cols = "160" th:text="${rawinfo}">... </textarea>
+    </div>
+    <div class="row text-center">
+            <button id="save" class="btn btn-primary">save</button>
+    </div>
+</div>
+
+
+
+</body>
+<script type="text/javascript" src="/js/echarts.min.js"></script>
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="/js/raw.js"></script>
+</html>

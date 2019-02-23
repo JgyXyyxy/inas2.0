@@ -182,11 +182,23 @@ $(function () {
         var location = single[2].firstChild.value;
         var description = single[3].firstChild.value;
         var r = new RegExp("(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)");
-        var bool = r.test(timePoint);
+        var r_1 = new RegExp("([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})");
+        var r_2 = new RegExp("(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-([0-9]{2}))");
+        var ym = r_2.test(timePoint);
+        var yy = r_1.test(timePoint);
+        var bool = r.test(timePoint)||ym||yy;
+
 
         if (bool){
             var time = timePoint.split("-");
-            var day = getDays(time[0],time[1],time[2]);
+            var day = 0;
+            if (yy){
+                day = 0;
+            }else if (ym){
+                day = getDays(time[0],time[1],1)-1;
+            }else {
+                day = getDays(time[0],time[1],time[2]);
+            }
             var days = time[0]*365+day;
             var tag = false;
             var id;
@@ -200,7 +212,7 @@ $(function () {
             if (tag){
                 var uid = uuid();
                 var pointId = id.concat(":").concat(uid);
-                var label = timePoint.concat(location,description);
+                var label = ("时间 ").concat(timePoint).concat(" 地点 ").concat(location).concat("||").concat("详情 ").concat(description);
                 var color = "blue";
                 if (id === $("#objectId").val()){
                     color = "red"

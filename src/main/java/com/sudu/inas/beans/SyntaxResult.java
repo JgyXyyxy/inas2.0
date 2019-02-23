@@ -127,7 +127,6 @@ public class SyntaxResult {
                 System.out.println(node.getKey()+node.getValue());
             }
 
-
         }
 
         return nodeMap;
