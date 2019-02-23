@@ -26,6 +26,7 @@ $(function () {
                                     y: node.y,
                                     id: node.id,
                                     name: node.label,
+                                    label:node.label,
                                     symbolSize: node.size,
                                     itemStyle: {
                                         normal: {
@@ -41,10 +42,10 @@ $(function () {
                                 };
                             }),
                             label: {
-                                // normal:{
-                                //   show:true,
-                                //   position:'bottom'
-                                // }
+                                normal:{
+                                  show:true,
+                                  position:'bottom'
+                                },
                                 emphasis: {
                                     position: 'bottom',
                                     show: true

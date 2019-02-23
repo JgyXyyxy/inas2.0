@@ -135,7 +135,7 @@ public class GraphicController {
     public Node transEvent2Node(String objectId, Event event) {
         Node node = new Node();
         node.setId(objectId + ":" + event.getEventId());
-        node.setLabel(event.packEventLabel());
+        node.setLabel(event.pack());
         node.setSize(20);
         return node;
     }
@@ -257,7 +257,7 @@ public class GraphicController {
                 Node node = new Node();
                 node.setSize(20);
                 node.setSerial(reletedIds.size());
-                node.setLabel(event.packEventLabel());
+                node.setLabel(event.pack());
                 node.setId(objectId + ":" + event.getEventId());
                 nodes.add(node);
             }
@@ -280,7 +280,7 @@ public class GraphicController {
                 Node node = new Node();
                 node.setSize(20);
                 node.setSerial(reletedIds.indexOf(relevance.getTargetEntityId()));
-                node.setLabel(event.packEventLabel());
+                node.setLabel(event.pack());
                 node.setId(relevance.getTargetEntityId() + ":" + event.getEventId());
                 if (!nodes.contains(node)){
                     nodes.add(node);
@@ -292,7 +292,7 @@ public class GraphicController {
                 Node node = new Node();
                 node.setSize(20);
                 node.setSerial(reletedIds.indexOf(relevance.getSourceEntityId()));
-                node.setLabel(event.packEventLabel());
+                node.setLabel(event.pack());
                 node.setId(relevance.getSourceEntityId() + ":" + event.getEventId());
                 if (!nodes.contains(node)){
                     nodes.add(node);

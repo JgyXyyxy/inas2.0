@@ -65,6 +65,19 @@ public class ObjectController {
         return "showdetailed";
     }
 
+    @RequestMapping("/param/{objectId}")
+    public String getParams(@PathVariable String objectId, Model model){
+        try {
+            RealEntity entity = objectService.findEntityByIdFromEs(objectId);
+            String realname = entity.getRealName();
+            model.addAttribute("objectId",objectId);
+            model.addAttribute("realName",realname);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "param";
+    }
+
     @RequestMapping(value = "/objects",method = RequestMethod.POST)
     public String getObjectDes(String prefix, Model model){
         List<RealEntity> entityList = null;

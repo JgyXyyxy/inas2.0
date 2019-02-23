@@ -28,6 +28,9 @@ $(function () {
     $("#detail").click(function () {
         window.location.href="/object/"+$("#objectId").val();
     });
+    $("#params").click(function () {
+        window.location.href="/param/"+$("#objectId").val();
+    });
     $("#commit").click(function () {
         var raw = $('#rawinfo').val();
         var id = $('#objectId').val();

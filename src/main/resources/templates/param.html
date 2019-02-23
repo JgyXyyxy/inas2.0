@@ -1,10 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <title>Extraction</title>
+    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{../css/bootstrap-select.min.css}"/>
+    <link rel="stylesheet" th:href="@{../css/extract.css}"/>
 </head>
 <body>
+<div class="container">
+    <div th:fragment="header">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
+                    <ul class="nav navbar-nav">
+                        <!--<li><a href="#" th:href="@{/rawinfo}">Search raw info</a></li>-->
+                        <li><a href="#" th:href="@{/searchbyprefix}">库内信息操作</a></li>
+                        <li><a href="#" th:href="@{/searchgraph}">实体时间线展示图</a></li>
+                        <li><a href="#" th:href="@{/search}">原始信息事件抽取</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
 
+    <h2 id="realName" th:text="${realName}+'   '"></h2>
+    <input id="objectId" th:value="${objectId}" type="hidden"/>
+    <p></p>
+
+    <div id="select_area" style="width: 800px;height: 200px"></div>
+
+    <div id="extractresult" class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">智能抽取结果</div>
+            <form>
+                <div class="panel-body">
+                    <table class="table table-striped" id="resultTable">
+                        <tr>
+                            <th>属性名</th>
+                            <th>属性值</th>
+                        </tr>
+                        <tr>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                            <td class="col-md-2"><input class="form-control"/></td>
+                        </tr>
+                    </table>
+                    <tr>
+                        <td><a id="addNewLine">添加新的属性组</a></td>
+                        <td><button id="commit" type="" class="btn btn-success">提交</button></td>
+                    </tr>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
+<script type="text/javascript" src="/js/echarts.min.js"></script>
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="/js/param.js"></script>
 </html>

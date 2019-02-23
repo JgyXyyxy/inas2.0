@@ -93,4 +93,9 @@ public class Event {
         sb.append("详情 "+details+"||");
         return sb.toString();
     }
+    public java.lang.String pack(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(ts+" "+details);
+        return sb.toString();
+    }
 }
