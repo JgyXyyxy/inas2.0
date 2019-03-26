@@ -10,7 +10,7 @@ $(function () {
             success: function (result) {
                 myChart.setOption({
                     title: {
-                        text: '                                      Object Dependencies'
+                        text: '                                      实体导向关联网络'
                     },
                     animationDurationUpdate: 1500,
                     animationEasingUpdate: 'quinticInOut',

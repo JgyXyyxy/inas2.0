@@ -107,7 +107,7 @@ public class TestController {
             }
             node.setSize(20);
             node.setSerial(CommonUtil.toDays(event.getTs()));
-            node.setLabel(event.packEventLabel());
+            node.setLabel(event.pack());
             if (event.getTs().equals("2050-01-01")) {
                 node.setLabel(realEntity.getRealName());
                 node.setSerial(0);

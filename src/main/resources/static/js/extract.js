@@ -215,7 +215,7 @@ $(function () {
             if (tag){
                 var uid = uuid();
                 var pointId = id.concat(":").concat(uid);
-                var label = ("时间 ").concat(timePoint).concat(" 地点 ").concat(location).concat("||").concat("详情 ").concat(description);
+                var label = timePoint.concat(" ").concat(description);
                 var color = "blue";
                 if (id === $("#objectId").val()){
                     color = "red"
@@ -424,6 +424,7 @@ function setGraphParas(nodes, edges) {
                         y: node.y,
                         id: node.id,
                         label: node.label,
+                        name:node.label,
                         symbolSize: node.size,
                         itemStyle: {
                             normal: {
@@ -445,16 +446,22 @@ function setGraphParas(nodes, edges) {
                         },
                     };
                 }),
-                // label: {
-                //     // normal:{
-                //     //   show:true,
-                //     //   position:'bottom'
-                //     // }
-                //     emphasis: {
-                //         position: 'bottom',
-                //         show: true
-                //     }
-                // },
+                label: {
+                    normal:{
+                      show:true,
+                      position:'bottom',
+                      formatter:function(x){
+                          if ((x.data.x/5)%2==0)
+                              return x.data.label;
+                          else return "\n"+x.data.label;
+                      }
+
+                    },
+                    emphasis: {
+                        position: 'bottom',
+                        show: true
+                    }
+                },
                 roam: true,
                 focusNodeAdjacency: true,
                 lineStyle: {

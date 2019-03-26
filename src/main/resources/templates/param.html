@@ -31,48 +31,87 @@
 
     <div id="select_area" style="width: 800px;height: 200px"></div>
 
-    <div id="extractresult" class="col-md-4">
-        <div class="panel panel-info">
-            <div class="panel-heading">智能抽取结果</div>
-            <form>
-                <div class="panel-body">
-                    <table class="table table-striped" id="resultTable">
-                        <tr>
-                            <th>属性名</th>
-                            <th>属性值</th>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                            <td class="col-md-2"><input class="form-control"/></td>
-                        </tr>
-                    </table>
-                    <tr>
-                        <td><a id="addNewLine">添加新的属性组</a></td>
-                        <td><button id="commit" type="" class="btn btn-success">提交</button></td>
-                    </tr>
+    <!--<div id="extractresult" class="col-md-4">-->
+        <!--<div class="panel panel-info">-->
+            <!--<div class="panel-heading">智能抽取结果</div>-->
+            <!--<form>-->
+                <!--<div class="panel-body">-->
+                    <!--<table class="table table-striped" id="resultTable">-->
+                        <!--<tr>-->
+                            <!--<th>属性名</th>-->
+                            <!--<th>属性值</th>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                            <!--<td class="col-md-2"><input class="form-control"/></td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                    <!--<tr>-->
+                        <!--<td><a id="addNewLine">添加新的属性组</a></td>-->
+                        <!--<td><button id="commit" type="" class="btn btn-success">提交</button></td>-->
+                    <!--</tr>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div th:if="${not #lists.isEmpty(allParams)}">
+
+        <table class="table table-striped">
+            <tr>
+                <th>属性名</th>
+                <th>属性值</th>
+                <th>删除</th>
+            </tr>
+            <tr th:each="tuple : ${allParams}">
+                <td th:text="${tuple.key}" >key</td>
+                <td th:text="${tuple.value}">value</td>
+                <td><a th:href="${'/deleteparam/'+tuple.key}" >Delete</a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="container">
+        <a id="add">添加一个新属性</a>
+    </div>
+    <div id="newparam" style="display: none">
+        <form class="form-horizontal" th:action="@{/reconsparam}" method="post">
+            <input name="objectId" type="hidden" th:value="${objectId}"/>
+            <div class="form-group">
+                <label for="inputKey" class="col-sm-2 control-label">属性名</label>
+                <div class="col-sm-2">
+                    <input name="key"  type="text" class="form-control" id="inputKey" placeholder="别名"/>
                 </div>
-            </form>
-        </div>
+            </div>
+            <div class="form-group">
+                <label for="inputValue" class="col-sm-2 control-label">属性值</label>
+                <div class="col-sm-2">
+                    <input name="value" type="text" class="form-control" id="inputValue" placeholder="豆豆豆芽"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">添加</button>
+            </div>
+        </form>
     </div>
 </div>
 </body>
