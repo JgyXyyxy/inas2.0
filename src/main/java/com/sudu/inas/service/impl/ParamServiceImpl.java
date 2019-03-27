@@ -42,8 +42,12 @@ public class ParamServiceImpl implements ParamService {
 
     private void packParam(HbaseModel hbaseModel, ArrayList<Tuple> params) {
         if (HbaseModelUtil.BASIC_RAW.equals(hbaseModel.getFamilyName())){
-            Tuple tuple = new Tuple(hbaseModel.getQualifier(), hbaseModel.getValue());
-            params.add(tuple);
+            if (!HbaseModelUtil.COLUMN2.equals(hbaseModel.getQualifier())){
+                if (!HbaseModelUtil.COLUMN1.equals(hbaseModel.getQualifier())){
+                    Tuple tuple = new Tuple(hbaseModel.getQualifier(), hbaseModel.getValue());
+                    params.add(tuple);
+                }
+            }
         }
     }
 }
