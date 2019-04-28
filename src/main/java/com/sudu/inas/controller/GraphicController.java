@@ -126,16 +126,22 @@ public class GraphicController {
 
 
         HashMap<String, ArrayList> map = new HashMap<>();
+
         map.put("nodes", nodes);
         map.put("edges", edges);
         return map;
 
     }
 
-    public Node transEvent2Node(String objectId, Event event) {
+    public Node transEvent2Node(int change, String objectId, Event event) {
         Node node = new Node();
         node.setId(objectId + ":" + event.getEventId());
-        node.setLabel(event.pack());
+
+        if (!(change % 2 == 0)) {
+            node.setLabel("\n" + event.pack());
+        }else {
+            node.setLabel(event.pack());
+        }
         node.setSize(20);
         return node;
     }
@@ -163,9 +169,11 @@ public class GraphicController {
         Node exNode = null;
         Node firstNode = null;
         Node nameNode = new Node();
+        int no =2;
         for (Event event : events) {
             if (!"2050-01-01".equals(event.getTs())) {
-                Node node = transEvent2Node(objectId, event);
+                Node node = transEvent2Node(no, objectId, event);
+                no++;
                 if (tag) {
                     node.setColor("red");
                 } else {
@@ -186,7 +194,7 @@ public class GraphicController {
             } else {
 
                 nameNode.setId(objectId + ":" + event.getEventId());
-                nameNode.setLabel(event.getDetails());
+                nameNode.setLabel("\n" + event.getDetails());
                 nameNode.setSize(20);
                 if (tag) {
                     nameNode.setColor("red");
@@ -274,27 +282,27 @@ public class GraphicController {
             }
         }
 
-        for (Relevance relevance:relevances){
-            if (!relevance.getTargetEntityId().equals(objectId)){
+        for (Relevance relevance : relevances) {
+            if (!relevance.getTargetEntityId().equals(objectId)) {
                 Event event = timelineService.findEventByEventId(relevance.getTargetEventId());
                 Node node = new Node();
                 node.setSize(20);
                 node.setSerial(reletedIds.indexOf(relevance.getTargetEntityId()));
                 node.setLabel(event.pack());
                 node.setId(relevance.getTargetEntityId() + ":" + event.getEventId());
-                if (!nodes.contains(node)){
+                if (!nodes.contains(node)) {
                     nodes.add(node);
                 }
 
             }
-            if (!relevance.getSourceEntityId().equals(objectId)){
+            if (!relevance.getSourceEntityId().equals(objectId)) {
                 Event event = timelineService.findEventByEventId(relevance.getSourceEventId());
                 Node node = new Node();
                 node.setSize(20);
                 node.setSerial(reletedIds.indexOf(relevance.getSourceEntityId()));
                 node.setLabel(event.pack());
                 node.setId(relevance.getSourceEntityId() + ":" + event.getEventId());
-                if (!nodes.contains(node)){
+                if (!nodes.contains(node)) {
                     nodes.add(node);
                 }
 

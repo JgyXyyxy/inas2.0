@@ -7,7 +7,6 @@ import com.sudu.inas.conn.LtpAPIConnectionFactory;
 import com.sudu.inas.conn.ResultCache;
 import com.sudu.inas.util.ParseXml;
 import org.apache.log4j.Logger;
-import org.dom4j.DocumentException;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -60,7 +59,7 @@ public class SRLService {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                } catch (DocumentException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

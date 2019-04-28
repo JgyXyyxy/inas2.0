@@ -10,7 +10,7 @@ $(function () {
             success: function (result) {
                 myChart.setOption({
                     title: {
-                        text: '                                      实体导向关联网络'
+                        text: '                                    Entity-oriented Association Network'
                     },
                     animationDurationUpdate: 1500,
                     animationEasingUpdate: 'quinticInOut',
@@ -38,7 +38,16 @@ $(function () {
                             edges: result.edges.map(function (edge) {
                                 return {
                                     source: edge.sourceID,
-                                    target: edge.targetID
+                                    target: edge.targetID,
+                                    name: edge.note,
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                            formatter: function (x) {
+                                                return x.data.name;
+                                            }
+                                        }
+                                    },
                                 };
                             }),
                             label: {
@@ -122,7 +131,16 @@ $(function () {
                             edges: result.edges.map(function (edge) {
                                 return {
                                     source: edge.sourceID,
-                                    target: edge.targetID
+                                    target: edge.targetID,
+                                    name: edge.note,
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                            formatter: function (x) {
+                                                return x.data.name;
+                                            }
+                                        }
+                                    },
                                 };
                             }),
                             roam: true,

@@ -8,7 +8,7 @@ var newEdges = [];
 var selected = {}
 var deslist = {}
 var pointsForId = {}
-var desForId={}
+var desForId = {}
 var initialPointsForId = {}
 var selectedNum = 0;
 var pre = "dd";
@@ -26,10 +26,10 @@ $(function () {
         });
     });
     $("#detail").click(function () {
-        window.location.href="/object/"+$("#objectId").val();
+        window.location.href = "/object/" + $("#objectId").val();
     });
     $("#params").click(function () {
-        window.location.href="/param/"+$("#objectId").val();
+        window.location.href = "/param/" + $("#objectId").val();
     });
     $("#commit").click(function () {
         var raw = $('#rawinfo').val();
@@ -37,23 +37,23 @@ $(function () {
         $.ajax({
             type: "post",
             url: "/commit.do",
-            data: {newNodes:JSON.stringify(newNodes),newEdges:JSON.stringify(newEdges),rawinfo:raw,id:id },
+            data: {newNodes: JSON.stringify(newNodes), newEdges: JSON.stringify(newEdges), rawinfo: raw, id: id},
             success: function (result) {
                 alert(result);
-                window.location.href="/search";
+                window.location.href = "/search";
             }
         });
     });
     $("#resetNode").click(function () {
         console.log(initialNodes);
         console.log(initialEdges);
-        newNodes=[];
-        newEdges=[];
-        allNodes=JSON.parse(JSON.stringify(initialNodes));
-        allEdges=JSON.parse(JSON.stringify(initialEdges));
+        newNodes = [];
+        newEdges = [];
+        allNodes = JSON.parse(JSON.stringify(initialNodes));
+        allEdges = JSON.parse(JSON.stringify(initialEdges));
         pointsForId = JSON.parse(JSON.stringify(initialPointsForId));
         updateSelectList();
-        setGraphParas(allNodes,allEdges);
+        setGraphParas(allNodes, allEdges);
     });
     $("#showGraph").click(function () {
         $.ajax({
@@ -69,8 +69,8 @@ $(function () {
                 initialNodes = JSON.parse(JSON.stringify(result.nodes));
                 initialEdges = JSON.parse(JSON.stringify(result.edges));
                 selectlist.push($('#objectId').val());
-                pointsForId[$('#objectId').val()]= result.nodes;
-                initialPointsForId[$('#objectId').val()]= JSON.parse(JSON.stringify(result.nodes));
+                pointsForId[$('#objectId').val()] = result.nodes;
+                initialPointsForId[$('#objectId').val()] = JSON.parse(JSON.stringify(result.nodes));
                 updateSelectList();
                 setGraphParas(allNodes, allEdges);
             }
@@ -96,7 +96,7 @@ $(function () {
             + "<td class=\"col-md-2\">" + "<input  class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-1\">" + "<input  class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-6\">" + "<input  class=\"form-control\"/>" + "</td>"
-            + "<td class=\"col-md-2\">" + "<button type=\"button\" class=\"addNewNode\">添加</button>" + "</td>"
+            + "<td class=\"col-md-2\">" + "<button type=\"button\" class=\"addNewNode\">Add</button>" + "</td>"
             + "</tr>";
         $("#resultTable").append(line);
     });
@@ -165,8 +165,8 @@ $(function () {
             data: {objectId: $("#objectId").val(), selectedId: id, num: selectedNum},
             // dataType: "json",
             success: function (result) {
-                pointsForId[id]= result.nodes;
-                initialPointsForId[id]=JSON.parse(JSON.stringify(result.nodes));
+                pointsForId[id] = result.nodes;
+                initialPointsForId[id] = JSON.parse(JSON.stringify(result.nodes));
                 allNodes = allNodes.concat(result.nodes);
                 allEdges = allEdges.concat(result.edges);
                 initialEdges = initialEdges.concat(result.edges);
@@ -189,81 +189,81 @@ $(function () {
         var r_2 = new RegExp("(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-([0-9]{2}))");
         var ym = r_2.test(timePoint);
         var yy = r_1.test(timePoint);
-        var bool = r.test(timePoint)||ym||yy;
+        var bool = r.test(timePoint) || ym || yy;
 
 
-        if (bool){
+        if (bool) {
             var time = timePoint.split("-");
             var day = 0;
-            if (yy){
+            if (yy) {
                 day = 0;
-            }else if (ym){
-                day = getDays(time[0],time[1],1)-1;
-            }else {
-                day = getDays(time[0],time[1],time[2]);
+            } else if (ym) {
+                day = getDays(time[0], time[1], 1) - 1;
+            } else {
+                day = getDays(time[0], time[1], time[2]);
             }
-            var days = time[0]*365+day;
+            var days = time[0] * 365 + day;
             var tag = false;
             var id;
-            for (var i=0;i<selectlist.length;i++){
-                if (entityName === getNameFormId(selectlist[i])){
+            for (var i = 0; i < selectlist.length; i++) {
+                if (entityName === getNameFormId(selectlist[i])) {
                     tag = true
                     id = selectlist[i];
                     break;
                 }
             }
-            if (tag){
+            if (tag) {
                 var uid = uuid();
                 var pointId = id.concat(":").concat(uid);
                 var label = timePoint.concat(" ").concat(description);
                 var color = "blue";
-                if (id === $("#objectId").val()){
+                if (id === $("#objectId").val()) {
                     color = "red"
                 }
-                pointsForId[id].push({x:1,y:1,id:pointId,label:label,size:20,color:color,serial:days})
-                newNodes.push({id:pointId,timepoint:timePoint,location:location,description:description})
+                pointsForId[id].push({x: 1, y: 1, id: pointId, label: label, size: 20, color: color, serial: days})
+                newNodes.push({id: pointId, timepoint: timePoint, location: location, description: description})
                 pointsForId[id].sort(sortSerial);
                 var insert = 0;
-                for (var i=0; i<pointsForId[id].length;i++){
-                    if (pointsForId[id][i].x === 1){
+                for (var i = 0; i < pointsForId[id].length; i++) {
+                    if (pointsForId[id][i].x === 1) {
                         insert = i;
                     }
                 }
 
-                var x1 = pointsForId[id][insert-1].x;
-                var y1 = pointsForId[id][insert-1].y;
-                for (var i=insert; i<pointsForId[id].length;i++){
+                var x1 = pointsForId[id][insert - 1].x;
+                var y1 = pointsForId[id][insert - 1].y;
+                for (var i = insert; i < pointsForId[id].length; i++) {
                     pointsForId[id][i].x = x1 + 10;
                     pointsForId[id][i].y = y1;
                     x1 = x1 + 10;
                 }
                 var freshedNodes = [];
-                for (key in pointsForId){
+                for (key in pointsForId) {
                     freshedNodes = freshedNodes.concat(pointsForId[key]);
                 }
                 allNodes = freshedNodes;
                 var a = pointsForId[id];
-                if (insert === (pointsForId[id].length-1)){
-                    allEdges.push({sourceID:pointsForId[id][insert-1].id,targetID:pointId,note:""})
-                } else{
-                    for (var i=0;i<allEdges.length;i++){
-                        if ((allEdges[i].sourceID === pointsForId[id][insert-1].id)&&(allEdges[i].targetID === pointsForId[id][insert+1].id)){
-                            allEdges.splice(i,1);
-                        }else if ((allEdges[i].targetID === pointsForId[id][insert-1].id)&&(allEdges[i].sourceID === pointsForId[id][insert+1].id)){
-                            allEdges.splice(i,1);
+                if (insert === (pointsForId[id].length - 1)) {
+                    allEdges.push({sourceID: pointsForId[id][insert - 1].id, targetID: pointId, note: ""})
+                } else {
+                    for (var i = 0; i < allEdges.length; i++) {
+                        if ((allEdges[i].sourceID === pointsForId[id][insert - 1].id) && (allEdges[i].targetID === pointsForId[id][insert + 1].id)) {
+                            allEdges.splice(i, 1);
+                        } else if ((allEdges[i].targetID === pointsForId[id][insert - 1].id) && (allEdges[i].sourceID === pointsForId[id][insert + 1].id)) {
+                            allEdges.splice(i, 1);
                         }
                     }
-                    allEdges.push({sourceID:pointsForId[id][insert-1].id,targetID:pointId,note:""});
-                    allEdges.push({sourceID:pointId,targetID:pointsForId[id][insert+1].id,note:""});
+                    allEdges.push({sourceID: pointsForId[id][insert - 1].id, targetID: pointId, note: ""});
+                    allEdges.push({sourceID: pointId, targetID: pointsForId[id][insert + 1].id, note: ""});
                 }
                 updateSelectList();
-                setGraphParas(allNodes,allEdges);
+                setGraphParas(allNodes, allEdges);
 
-            }else {
+            } else {
                 alert("未加载或添加相应实体");
             }
 
-        }else {
+        } else {
             alert("时间格式错误(YYYY-MM-DD),例：2018-09-01");
         }
     });
@@ -272,12 +272,12 @@ $(function () {
     $("#addConn").click(function () {
         var s1 = $('#select1 option:selected').text().split(":");
         var s2 = $('#select2 option:selected').text().split(":");
-        var source = s1[0].concat(":",desForId[s1[1]]);
-        var target = s2[0].concat(":",desForId[s2[1]]);
+        var source = s1[0].concat(":", desForId[s1[1]]);
+        var target = s2[0].concat(":", desForId[s2[1]]);
         var note = $('#connType').val();
-        allEdges.push({sourceID:source,targetID:target,note:note});
-        newEdges.push({sourceID:source,targetID:target,note:note});
-        setGraphParas(allNodes,allEdges);
+        allEdges.push({sourceID: source, targetID: target, note: note});
+        newEdges.push({sourceID: source, targetID: target, note: note});
+        setGraphParas(allNodes, allEdges);
     });
 });
 
@@ -324,20 +324,20 @@ function createDesTable(result) {
 
 function createExtractTable(data) {
     var addnew = "<tr>" +
-        "<td><a id=\"addNewLine\">添加新的一行</a></td>" +
+        "<td><a id=\"addNewLine\">Add a new line</a></td>" +
         "</tr>";
     var panelStr = " <div class=\"panel panel-success\" >\n" +
-        "<div class=\"panel-heading\">智能抽取结果</div>\n" +
+        "<div class=\"panel-heading\">Extract Resuult</div>\n" +
         "<form>\n" +
         "<div class=\"panel-body\">\n";
     var tableStr = panelStr + "<table class=\"table table-striped\" id=\"resultTable\">";
     tableStr = tableStr
         + "<tr>"
-        + "<th>实体名</th>"
-        + "<th>时间点</th>"
-        + "<th>地点</th>"
-        + "<th>描述</th>"
-        + "<th>添加</th>"
+        + "<th>Entity Name</th>"
+        + "<th>Time</th>"
+        + "<th>Location</th>"
+        + "<th>Detail</th>"
+        + "<th>Add</th>"
         + "</tr>";
     var len = data.length;
     for (var i = 0; i < len; i++) {
@@ -346,7 +346,7 @@ function createExtractTable(data) {
             + "<td class=\"col-md-2\">" + "<input value=" + data[i].timepoint + " class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-1\">" + "<input value=" + data[i].location + " class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-6\">" + "<input value=" + data[i].description + " class=\"form-control\"/>" + "</td>"
-            + "<td class=\"col-md-2\">" + "<button type=\"button\" class=\"addNewNode\">添加</button>" + "</td>"
+            + "<td class=\"col-md-2\">" + "<button type=\"button\" class=\"addNewNode\">Add</button>" + "</td>"
             + "</tr>";
     }
     tableStr = tableStr + "</table>" + addnew + "</div>" + "</form>" + "</div>";
@@ -354,29 +354,29 @@ function createExtractTable(data) {
     $("#extractresult").html(tableStr);
 }
 
-function updateSelectList(){
+function updateSelectList() {
     var idAndLabel = {}
     desForId = {};
-    for (key in pointsForId){
+    for (key in pointsForId) {
         var labellist = [];
-        for (var i = 0;i<pointsForId[key].length;i++){
-            var label =  pointsForId[key][i].label;
-            var id =  pointsForId[key][i].id;
+        for (var i = 0; i < pointsForId[key].length; i++) {
+            var label = pointsForId[key][i].label;
+            var id = pointsForId[key][i].id;
             var combine = id.split(":");
             desForId[label] = combine[1];
             labellist.push(label);
         }
         idAndLabel[key] = labellist;
     }
-    var line="";
-    for (key in idAndLabel){
+    var line = "";
+    for (key in idAndLabel) {
         var name = getNameFormId(key);
-        line = line + "<optgroup label="+ name +"/>"
-        for (var i = 0;i<idAndLabel[key].length;i++){
-            var combine = key.concat(":",idAndLabel[key][i]);
-            line = line+"<option>"+ combine +"</option>";
+        line = line + "<optgroup label=" + name + "/>"
+        for (var i = 0; i < idAndLabel[key].length; i++) {
+            var combine = key.concat(":", idAndLabel[key][i]);
+            line = line + "<option>" + combine + "</option>";
         }
-        line = line +"</optgroup>";
+        line = line + "</optgroup>";
     }
     $("#select1").html(line);
     $("#select1").selectpicker('refresh');
@@ -386,7 +386,7 @@ function updateSelectList(){
 
 function getDays(year, month, day) {
     // 构造1月1日
-    var date = new Date(year,month-1,day);
+    var date = new Date(year, month - 1, day);
     var lastDay = new Date(year, month, day);
     lastDay.setMonth(0);
     lastDay.setDate(1);
@@ -397,13 +397,13 @@ function getDays(year, month, day) {
 }
 
 function getNameFormId(id) {
-    return id.substring(0,id.length-8);
+    return id.substring(0, id.length - 8);
 }
 
 function setGraphParas(nodes, edges) {
     myChart.setOption({
         title: {
-            text: '                                      实体演化关联图示'
+            text: '                               Entity Evolution Association Diagram'
         },
         tooltip: {
             formatter: function (x) {
@@ -424,7 +424,7 @@ function setGraphParas(nodes, edges) {
                         y: node.y,
                         id: node.id,
                         label: node.label,
-                        name:node.label,
+                        name: node.label,
                         symbolSize: node.size,
                         itemStyle: {
                             normal: {
@@ -437,25 +437,21 @@ function setGraphParas(nodes, edges) {
                     return {
                         source: edge.sourceID,
                         target: edge.targetID,
-                        name:   edge.note,
-                        label:{
-                            normal:{
-                                show:true,
-                                formatter:function(x){return x.data.name;}
+                        name: edge.note,
+                        label: {
+                            normal: {
+                                show: true,
+                                formatter: function (x) {
+                                    return x.data.name;
+                                }
                             }
                         },
                     };
                 }),
                 label: {
-                    normal:{
-                      show:true,
-                      position:'bottom',
-                      formatter:function(x){
-                          if ((x.data.x/5)%2==0)
-                              return x.data.label;
-                          else return "\n"+x.data.label;
-                      }
-
+                    normal: {
+                        show: true,
+                        position: 'bottom',
                     },
                     emphasis: {
                         position: 'bottom',
@@ -490,6 +486,6 @@ function uuid() {
     return uuid;
 }
 
-function sortSerial(a,b){
-    return a.serial-b.serial
+function sortSerial(a, b) {
+    return a.serial - b.serial
 }

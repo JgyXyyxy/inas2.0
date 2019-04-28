@@ -98,6 +98,7 @@ public class TestController {
             return null;
         }
         ArrayList<Event> events = realEntity.getEvents();
+        int change = 2;
         for (Event event : events) {
             Node node = new Node();
             if (num == 0) {
@@ -107,9 +108,15 @@ public class TestController {
             }
             node.setSize(20);
             node.setSerial(CommonUtil.toDays(event.getTs()));
-            node.setLabel(event.pack());
+            if (!(change % 2 == 0)) {
+                node.setLabel("\n" + event.pack());
+            }else {
+                node.setLabel(event.pack());
+            }
+            change++;
+//            node.setLabel(event.pack());
             if (event.getTs().equals("2050-01-01")) {
-                node.setLabel(realEntity.getRealName());
+                node.setLabel("\n"+realEntity.getRealName());
                 node.setSerial(0);
             }
 
