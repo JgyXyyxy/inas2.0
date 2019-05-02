@@ -16,8 +16,8 @@
                     <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
                     <ul class="nav navbar-nav">
                         <!--<li><a href="#" th:href="@{/rawinfo}">Search raw info</a></li>-->
-                        <li><a href="#" th:href="@{/searchbyprefix}">Database Information</a></li>
-                        <li><a href="#" th:href="@{/searchgraph}">Correlation Network</a></li>
+                        <!--<li><a href="#" th:href="@{/searchbyprefix}">Database Information</a></li>-->
+                        <!--<li><a href="#" th:href="@{/searchgraph}">Correlation Network</a></li>-->
                         <li><a href="#" th:href="@{/search}">Reconstruction Region</a></li>
                     </ul>
                 </div>
@@ -26,9 +26,10 @@
     </div>
 
     <h2 id="realName" th:text="${realName}+'   '"></h2>
-    <button type="button" class="btn btn-primary" id="showGraph" th:align="right">Load</button>
-    <button type="button" class="btn btn-success" id="detail" th:align="right">Detail</button>
-    <button type="button" class="btn btn-info" id="params" th:align="right">Attribute</button>
+    <button type="button" class="btn btn-primary" id="showGraph" th:align="right">加载</button>
+    <button type="button" class="btn btn-success" id="detail" th:align="right">详情</button>
+    <button type="button" class="btn btn-info" id="params" th:align="right">属性组</button>
+    <button type="button" class="btn btn-info" id="net" th:align="right">关系网</button>
     <input id="objectId" th:value="${objectId}" type="hidden"/>
     <p></p>
 

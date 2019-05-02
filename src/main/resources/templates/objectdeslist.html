@@ -32,8 +32,8 @@
                     <div class="panel-body">
                         <textarea id="rawinfo" name="rawinfo" th:text="${entity.rawInfo}" class="form-control" rows="5" readonly="readonly"></textarea>
                         <div class="text-right">
-                            <a th:href="@{'/rawinfo/'+${entity.objectId}}">Edit</a>
-                            <a th:href="@{'/extract/'+${entity.objectId}}">Analysis</a>
+                            <a th:href="@{'/rawinfo/'+${entity.objectId}}">编辑原始资料</a>
+                            <a th:href="@{'/extract/'+${entity.objectId}}">进入信息重构</a>
                         </div>
                     </div>
                 </form>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html" charset="UTF-8"/>
+    <title>INAS</title>
+    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div class="container">
+    <th:block th:include="fragments/head1 :: header"></th:block>
+</div>
+
+<div class="row text-center">
+    <!--<div class="form-inline">-->
+        <!--<label for="objectId">Entity ID</label>-->
+        <!--<input name="objectId" type="text" class="form-control" id="objectId" placeholder="Michael Jackson"/>-->
+        <!--<button id="search" type="" class="btn btn-primary">Search</button>-->
+        <!--<br/>-->
+        <!--<div class="container" id="transc" style="display: none">-->
+            <!--<a id="trans">Switching to Event Orientation</a>-->
+        <!--</div>-->
+    <!--</div>-->
+    <input id="objectId" th:value="${objectId}" type="hidden"/>
+    <p></p>
+</div>
+
+<br/>
+<br/>
+<br/>
+
+<div id="select_area" style="width: 1500px;height: 800px"></div>
+<div class="row text-center">
+    <div class="form-inline">
+        <br/>
+        <div class="container" id="transc" >
+            <a id="trans">Switching to Event Orientation</a>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script type="text/javascript" src="/js/echarts.min.js"></script>
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/js/net.js"></script>
+</html>

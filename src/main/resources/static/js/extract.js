@@ -31,6 +31,9 @@ $(function () {
     $("#params").click(function () {
         window.location.href = "/param/" + $("#objectId").val();
     });
+    $("#net").click(function () {
+        window.location.href = "/net/" + $("#objectId").val();
+    });
     $("#commit").click(function () {
         var raw = $('#rawinfo').val();
         var id = $('#objectId').val();

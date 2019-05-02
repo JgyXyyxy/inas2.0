@@ -9,6 +9,8 @@ import com.sudu.inas.util.CommonUtil;
 import com.sun.tools.javap.TypeAnnotationWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -131,6 +133,13 @@ public class GraphicController {
         map.put("edges", edges);
         return map;
 
+    }
+
+
+    @RequestMapping("/net/{objectId}")
+    public String getParams(@PathVariable String objectId, Model model){
+        model.addAttribute("objectId",objectId);
+        return "netshow";
     }
 
     public Node transEvent2Node(int change, String objectId, Event event) {
