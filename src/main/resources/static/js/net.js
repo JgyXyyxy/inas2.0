@@ -9,7 +9,11 @@ $(function () {
             data: {objectId: $('#objectId').val()},
             dataType: "json",
             success: function (result) {
+                $("#trans").html("");
                 myChart.setOption({
+                    title: {
+                        text: '                                    事件导向关联网络'
+                    },
                     legend: {
                         x: 'center',//图例位置
                         //图例的名称
@@ -91,7 +95,7 @@ window.onload = function() {
         success: function (result) {
             myChart.setOption({
                 title: {
-                    text: '                                    Entity-oriented Association Network'
+                    text: '                                    实体导向关联网络'
                 },
                 animationDurationUpdate: 1500,
                 animationEasingUpdate: 'quinticInOut',

@@ -8,7 +8,46 @@
 <body>
 
 <div class="container">
-    <th:block th:include="fragments/head1 :: header"></th:block>
+    <div th:fragment="header">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" th:href="@{/}">主页</a>
+                    <ul class="nav navbar-nav">
+                        <!--<li><a href="#" th:href="@{/rawinfo}">Search raw info</a></li>-->
+                        <!--<li><a href="#" th:href="@{/searchbyprefix}">Database Information</a></li>-->
+                        <!--<li><a href="#" th:href="@{/searchgraph}">Correlation Network</a></li>-->
+                        <!--<li><a href="#" th:href="@{/search}">信息重构服务</a></li>-->
+                    </ul>
+                    <a class="navbar-brand" href="#" th:href="@{/search}">信息重构服务</a>
+                </div>
+            </div>
+        </nav>
+        <div class="jumbotron" id="photo" style="display: block">
+            <div class="row text-center">
+                <div class="">
+                    <h2>INRECS 信息重构平台</h2>
+                </div>
+            </div>
+            <div class="row text-center">
+                <img src="../../static/images/title.png" width="1000"
+                     th:src="@{/images/title.png}"/>
+            </div>
+        </div>
+
+        <div class="jumbotron" id="introduction" style="display: block">
+            <p>信息重构平台使用说明：</p>
+            <p>1.在标题栏中选择“信息重构服务”，输入想要重构的信息对象名称</p>
+            <p>2.在返回的库内已存在的实体列表中进行选择，在不存在意向实体的情况可以在界面下方选择新建信息对象</p>
+            <p>3.点击进入“信息重构”进入主功能界面，部分按键说明如下：</p>
+            <pre>    (1)"加载"按钮用于加载该实体已重构且持久化存储后的的事件节点</pre>
+            <pre>    (2)"详情"按钮用于跳转至该实体的事件演进详情表</pre>
+            <pre>    (3)"属性组"按钮用于跳转至该实体的属性组重构页面</pre>
+            <pre>    (4)"关系网"按钮用于跳转至该实体的关联网络检索页面</pre>
+            <p th:align="right">icat 2019.5.5</p>
+        </div>
+
+    </div>
 </div>
 
 </body>

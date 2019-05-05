@@ -99,22 +99,25 @@ $(function () {
             + "<td class=\"col-md-2\">" + "<input  class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-1\">" + "<input  class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-6\">" + "<input  class=\"form-control\"/>" + "</td>"
-            + "<td class=\"col-md-2\">" + "<button type=\"button\" class=\"addNewNode\">Add</button>" + "</td>"
+            + "<td class=\"col-md-2\">" + "<button type=\"button\" class=\"addNewNode\">添加</button>" + "</td>"
             + "</tr>";
         $("#resultTable").append(line);
     });
     $("#modelBody").on("click", "#addNewEntity", function () {
         var line = "<div id=\"newform\" class=\"form-inline\">\n" +
             "        <div class=\"form-group\">\n" +
-            "            <label for=\"name\">Name</label>\n" +
-            "            <input class=\"form-control\" id=\"name\" placeholder=\"Jane Doe\"/>\n" +
+            "            <label for=\"name\">名称</label>\n" +
+            "            <input class=\"form-control\" id=\"name\" placeholder=\"名称\"/>\n" +
             "        </div>\n" +
             "        <div class=\"form-group\">\n" +
-            "            <label for=\"description\">Description</label>\n" +
-            "            <input class=\"form-control\" id=\"description\" placeholder=\"clown\"/>\n" +
+            "            <label for=\"description\">描述</label>\n" +
+            "            <input class=\"form-control\" id=\"description\" placeholder=\"实体描述\"/>\n" +
             "        </div>\n" +
-            "    </div>" +
-            "        <button id=\"savenew\"  class=\"btn btn-primary\">Add</button>\n";
+            "        <div class=\"form-group\">\n" +
+            "        <button id=\"savenew\"  class=\"btn btn-primary\">添加</button>\n" +
+            "        </div>\n" +
+            "    </div>";
+            // "        <button id=\"savenew\"  class=\"btn btn-primary\">添加</button>\n";
         $("#modelBody").append(line);
     });
     $("#modelBody").on("click", "#savenew", function () {
@@ -303,7 +306,7 @@ function createSelectedTable() {
 
 function createDesTable(result) {
     var tableStr = "<table class=\"table table-striped\">";
-    var add = "<a id=\"addNewEntity\" class=\"text-right\">Create a new Entity</a>"
+    var add = "<a id=\"addNewEntity\" class=\"text-right\">添加一个新实体</a>"
     tableStr = tableStr
         + "<tr>"
         + "<th>ID</th>"
@@ -320,27 +323,28 @@ function createDesTable(result) {
     tableStr = tableStr + "</table>";
     $("#modelBody").html(tableStr);
     $("#modelBody").append(add);
-    var line = "<button id=\"select\"  class=\"btn btn-primary\">Add</button>";
+    var line = "<button id=\"select\"  class=\"btn btn-primary\">引入</button>";
+    line = line + "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>";
     $("#modelFooter").html(line);
 
 }
 
 function createExtractTable(data) {
     var addnew = "<tr>" +
-        "<td><a id=\"addNewLine\">Add a new line</a></td>" +
+        "<td><a id=\"addNewLine\">添加新的事件节点</a></td>" +
         "</tr>";
     var panelStr = " <div class=\"panel panel-success\" >\n" +
-        "<div class=\"panel-heading\">Extract Resuult</div>\n" +
+        "<div class=\"panel-heading\">LTP事件抽取结果</div>\n" +
         "<form>\n" +
         "<div class=\"panel-body\">\n";
     var tableStr = panelStr + "<table class=\"table table-striped\" id=\"resultTable\">";
     tableStr = tableStr
         + "<tr>"
-        + "<th>Entity Name</th>"
-        + "<th>Time</th>"
-        + "<th>Location</th>"
-        + "<th>Detail</th>"
-        + "<th>Add</th>"
+        + "<th>实体名称</th>"
+        + "<th>时间</th>"
+        + "<th>地点</th>"
+        + "<th>详情</th>"
+        + "<th>添加</th>"
         + "</tr>";
     var len = data.length;
     for (var i = 0; i < len; i++) {
@@ -349,7 +353,7 @@ function createExtractTable(data) {
             + "<td class=\"col-md-2\">" + "<input value=" + data[i].timepoint + " class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-1\">" + "<input value=" + data[i].location + " class=\"form-control\"/>" + "</td>"
             + "<td class=\"col-md-6\">" + "<input value=" + data[i].description + " class=\"form-control\"/>" + "</td>"
-            + "<td class=\"col-md-2\">" + "<button type=\"button\" class=\"addNewNode\">Add</button>" + "</td>"
+            + "<td class=\"col-md-2\">" + "<button type=\"button\" class=\"addNewNode\">添加</button>" + "</td>"
             + "</tr>";
     }
     tableStr = tableStr + "</table>" + addnew + "</div>" + "</form>" + "</div>";
@@ -406,7 +410,7 @@ function getNameFormId(id) {
 function setGraphParas(nodes, edges) {
     myChart.setOption({
         title: {
-            text: '                               Entity Evolution Association Diagram'
+            text: '                               时间演进与关联网络示意图'
         },
         tooltip: {
             formatter: function (x) {

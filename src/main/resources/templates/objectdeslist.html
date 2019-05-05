@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <th:block th:include="fragments/head1 :: header"></th:block>
-    <h2>Search Result</h2>
+    <h2>实体库内检索结果</h2>
     <!--<div class="row text-center" th:if="${not #lists.isEmpty(entities)}">-->
         <!--<table class="table table-striped">-->
             <!--<tr th:each="entity : ${entities}">-->
@@ -42,19 +42,19 @@
     </table>
     </div>
     <div class="container">
-        <a id="add">Create a new entity</a>
+        <a id="add">创建一个新实体</a>
     </div>
     <div class="row text-center" id="newentity" style="display:none">
         <div class="form-inline">
             <div class="form-group">
-                <label for="name">Name</label>
-                <input class="form-control" id="name" placeholder="Jane Doe"/>
+                <label for="name">实体名称</label>
+                <input class="form-control" id="name" placeholder="名称"/>
             </div>
             <div class="form-group">
-                <label for="description">Description</label>
-                <input class="form-control" id="description" placeholder="clown"/>
+                <label for="description">实体描述</label>
+                <input class="form-control" id="description" placeholder="描述实体，如三国政治家"/>
             </div>
-            <button id="savenew" type="submit" class="btn btn-primary">Save</button>
+            <button id="savenew" type="submit" class="btn btn-primary">添加</button>
         </div>
         <p></p><p></p><p></p>
     </div>

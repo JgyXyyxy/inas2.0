@@ -13,13 +13,14 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
+                    <a class="navbar-brand" href="#" th:href="@{/}">主页</a>
                     <ul class="nav navbar-nav">
                         <!--<li><a href="#" th:href="@{/rawinfo}">Search raw info</a></li>-->
                         <!--<li><a href="#" th:href="@{/searchbyprefix}">Database Information</a></li>-->
                         <!--<li><a href="#" th:href="@{/searchgraph}">Correlation Network</a></li>-->
-                        <li><a href="#" th:href="@{/search}">Reconstruction Region</a></li>
+                        <!--<li><a href="#" th:href="@{/search}">Reconstruction Region</a></li>-->
                     </ul>
+                    <a class="navbar-brand" href="#" th:href="@{/search}">信息重构服务</a>
                 </div>
             </div>
         </nav>
@@ -34,12 +35,12 @@
     <p></p>
 
     <div class="panel panel-info">
-        <div class="panel-heading">Origin Information</div>
+        <div class="panel-heading">输入该实体的文本数据</div>
         <div class="panel-body">
             <textarea id="rawinfo" name="rawinfo" class="form-control" rows="5"></textarea>
             <p></p>
             <div class="text-right">
-                <button id="analysis" type="" class="btn btn-primary">Analysis</button>
+                <button id="analysis" type="" class="btn btn-primary">提交LTP分析</button>
             </div>
         </div>
     </div>
@@ -49,20 +50,20 @@
     <div id="select_area" style="width: 1200px;height: 600px"></div>
     <div class="container" id="buttonGroup" style="display: none">
         <div class="text-right">
-            <button id="resetNode" type="" class="btn btn-danger">Reset</button>
-            <button id="commit" type="" class="btn btn-success">submit</button>
+            <button id="resetNode" type="" class="btn btn-danger">重置</button>
+            <button id="commit" type="" class="btn btn-success">提交</button>
         </div>
     </div>
     <P></P>
     <div class="container" id="edit" style="display: none">
         <div id="edit1" class="panel panel-info">
-            <div class="panel-heading">Add related Entity</div>
+            <div class="panel-heading">引入相关实体</div>
             <div class="panel-body">
                 <div id="search">
-                    <H5 id="searchLabel">Search and add related entity</H5>
+                    <H5 id="searchLabel">在实体库中搜索相关实体</H5>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                        Search In Database
+                        Search
                     </button>
                     <!-- Modal -->
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -76,8 +77,8 @@
                                 <div class="modal-body" id="modelBody">
                                     <form class="form-inline">
                                         <div class="form-group">
-                                            <label for="prefix">Keyword</label>
-                                            <input name="prefix" class="form-control" id="prefix" placeholder="Michael Jackson"/>
+                                            <label for="prefix">实体名称</label>
+                                            <input name="prefix" class="form-control" id="prefix" placeholder="关羽"/>
                                         </div>
                                     </form>
                                 </div>
@@ -90,14 +91,14 @@
                     </div>
                 </div>
                 <div>
-                    Added Entities：
+                    已引入实体：
                 </div>
                 <p></p>
                 <div id="selectedEntities">
                     <table class="table table-striped">
                         <tr>
-                            <th>No.</th>
-                            <th>Description</th>
+                            <th>序号</th>
+                            <th>描述</th>
                         </tr>
                     </table>
                 </div>
@@ -105,23 +106,23 @@
         </div>
         <div id="blank"></div>
         <div id="edit2" class="panel panel-info">
-            <div class="panel-heading">Add Association</div>
+            <div class="panel-heading">添加关联</div>
             <div class="panel-body">
-                <h5>Launch</h5>
+                <h5>发起事件</h5>
                 <div class="text-center">
                     <select id="select1" class="form-control selectpicker" data-live-search="true"></select>
                 </div>
-                <h5>Destination</h5>
+                <h5>影响事件</h5>
                 <div class="text-center">
                     <select id="select2" class="form-control selectpicker" data-live-search="true"></select>
                 </div>
-                <h5>Association Type</h5>
+                <h5>关联描述</h5>
                 <div class="text-center">
-                    <input class="form-control" id="connType" placeholder="promote"/>
+                    <input class="form-control" id="connType" placeholder="直接原因"/>
                 </div>
                 <P></P>
                 <div class="text-right">
-                    <button id="addConn" type="" class="btn btn-primary">Add</button>
+                    <button id="addConn" type="" class="btn btn-primary">增加</button>
                 </div>
             </div>
         </div>
